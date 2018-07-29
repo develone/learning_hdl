@@ -1,9 +1,14 @@
 # Learning Hardware Description Language HDL
+# For several years I have tried to learn Hardware Description Language HDL.
+# The two major versions of HDL are Verilog and VHDL.  At this point I am focusing on Verilog
 # Goals 
   - FSM Finite State Machine
   - UART Universal Asynchronous Receiver-Transmitter
   - SDRAM 
   - SPI
+  - Parallel data transfer
+  - SOC
+  - Simulation test bench
 # Requirements
 * FPGA Field Programmable Gate Array
     - Zedboard
@@ -20,8 +25,8 @@
       - ISE
       - Vivado
     - RPi3B+
-For several years I have tried to learn Hardware Description Language HDL.
-The two major versions of HDL are Verilog and VHDL.  At this point I am focusing on Verilog.
+
+.
 # There are many tools that are required to write and simulate HDL.
 * MyHDL Jan Decaluwe
     - Takes Python and creates Verilog or VHDL
@@ -35,7 +40,7 @@ The two major versions of HDL are Verilog and VHDL.  At this point I am focusing
       - Converts Verilog to C
       - C simulation
 * GTKWAVE Displays Value Change Dump VCD files generated with simulation
-  - Yosys Open Synthesis Suite Clifford Wolf
+* Yosys Open Synthesis Suite Clifford Wolf
     - yosys
     - icestorm 
     - arachne-pnr
