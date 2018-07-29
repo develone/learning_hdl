@@ -15,7 +15,7 @@
     - Python
     - Perl
     
-*Developement Hardware
+* Developement Hardware
     - Xilinx  Ubuntu high development system 
       - ISE
       - Vivado
