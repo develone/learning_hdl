@@ -1,29 +1,28 @@
-from myhdl import block, always, Signal, instance, delay, Simulation, intbv
-
+from myhdl import block, always, Signal, instance, delay, Simulation, intbv, enum
+t_state_tx = enum('TX_IDLE', 'TX_START_BIT', 'TX_DATA_BITS', 'TX_STOP_BIT', 'TX_CLEANUP')
 @block
-def uart_tx(i_Clock,i_TX_DV,i_TX_Byte,o_TX_Active,o_TX_Serial,o_TX_Done,CLKS_PER_BIT=None):
+def uart_tx(i_Clock,i_TX_DV,i_TX_Byte,o_TX_Active,o_TX_Serial,o_TX_Done,state_tx,CLKS_PER_BIT=None):
 	r_TX_Done = Signal(bool(0))
 	r_TX_Active = Signal(bool(0))
 	r_Clock_Count = Signal(intbv(0)[12:])
 	r_TX_data = Signal(intbv(0)[8:])
 	r_Bit_Index = Signal(intbv(0)[3:])
-	
+	"""
 	r_SM_Main = Signal(intbv(0)[3:])
-	TX_START_BIT = Signal(intbv(0)[3:])
-	TX_DATA_BITS = Signal(intbv(0)[3:])
-	TX_STOP_BIT = Signal(intbv(0)[3:])
 	
-	IDLE = Signal(intbv(0)[3:])
-	CLEANUP = Signal(intbv(0)[3:])
-	IDLE = 0
-	TX_START_BIT = 1
+	TX_IDLE = Signal(intbv(0)[3:])
+	TX_CLEANUP = Signal(intbv(0)[3:])
+	
+	TX_IDLE = 0
+	TX_TX_START_BIT = 1
 	TX_DATA_BITS = 2
 	TX_STOP_BIT = 3
-	CLEANUP = 4
+	TX_CLEANUP = 4
+	"""
 	@always(i_Clock.posedge)
 	def send():
-		if(r_SM_Main==IDLE):
-			"""Drive Line High for IDLE"""
+		if(state_tx==t_state_tx.TX_IDLE):
+			"""Drive Line High for TX_IDLE"""
 		
 			o_TX_Serial.next = 1
 			r_TX_Done.next = 0
@@ -32,47 +31,62 @@ def uart_tx(i_Clock,i_TX_DV,i_TX_Byte,o_TX_Active,o_TX_Serial,o_TX_Done,CLKS_PER
 			if(i_TX_DV == 1):
 				r_TX_Active.next = 1
 				r_TX_data.next = i_TX_Byte
-				r_SM_Main.next = TX_START_BIT
+				state_tx.next = t_state_tx.TX_START_BIT
 			else:
-				r_SM_Main.next = IDLE 
-				"""End of IDLE"""
-		elif (r_SM_Main==TX_START_BIT):
+				state_tx.next = t_state_tx.TX_IDLE 
+				"""
+				End of TX TX_IDLE state
+				Start of TX TX_START_BIT state
+				"""
+		elif (state_tx==t_state_tx.TX_START_BIT):
 			o_TX_Serial.next = 0
 			if (r_Clock_Count < CLKS_PER_BIT -1):
 				r_Clock_Count.next = r_Clock_Count + 1
-				r_SM_Main.next = TX_START_BIT
+				state_tx.next = t_state_tx.TX_START_BIT
 			else:
 				r_Clock_Count.next = 0
-				r_SM_Main.next = TX_DATA_BITS
-		elif (r_SM_Main==TX_DATA_BITS):
+				state_tx.next = t_state_tx.TX_DATA_BITS
+				"""
+				End of TX TX_START_BIT state_tx
+				Start of TX TX_DATA_BITS state_tx
+				"""
+		elif (state_tx==t_state_tx.TX_DATA_BITS):
 			o_TX_Serial.next = r_TX_data[r_Bit_Index]
 			if (r_Clock_Count < CLKS_PER_BIT -1):
 				r_Clock_Count.next = r_Clock_Count + 1
-				r_SM_Main.next = TX_DATA_BITS
+				state_tx.next = t_state_tx.TX_DATA_BITS
 			else:
 				r_Clock_Count.next = 0
 				if (r_Bit_Index < 7):
 					r_Bit_Index.next = r_Bit_Index + 1
-					r_SM_Main.next = TX_DATA_BITS
+					state_tx.next = t_state_tx.TX_DATA_BITS
 				else:
 					r_Bit_Index.next = 0
-					r_SM_Main.next = TX_STOP_BIT
+					state_tx.next = t_state_tx.TX_STOP_BIT
+				"""
+				End of TX TX_DATA_BITS state_tx
+				Start of TX TX_STOP_BIT state_tx
+				"""
 					
-		elif (r_SM_Main==TX_STOP_BIT):
+		elif (state_tx==t_state_tx.TX_STOP_BIT):
 			o_TX_Serial.next = 1
 			if (r_Clock_Count < CLKS_PER_BIT -1):
 				r_Clock_Count.next = r_Clock_Count + 1
-				r_SM_Main.next = TX_STOP_BIT
+				state_tx.next = t_state_tx.TX_STOP_BIT
 			else:
 				r_TX_Done.next = 1
 				r_Clock_Count.next = 0
-				r_SM_Main.next = CLEANUP
+				state_tx.next = t_state_tx.TX_CLEANUP
 				r_TX_Active.next = 0
-		elif (r_SM_Main==CLEANUP):
+				"""
+				End of TX TX_STOP_BIT state_tx
+				Start of TX TX_CLEANUP state_tx
+				"""
+		elif (state_tx==t_state_tx.TX_CLEANUP):
 			r_TX_Done.next = 1
-			r_SM_Main.next = IDLE
+			state_tx.next = t_state_tx.TX_IDLE
 		else:
-			r_SM_Main.next = IDLE
+			state_tx.next = t_state_tx.TX_IDLE
 		o_TX_Active.next = r_TX_Active
 		o_TX_Done.next = r_TX_Done
 				
@@ -95,6 +109,7 @@ def convert_uart(hdl):
 	#o_uart_tx = Signal(bool(0))
 	i_Clock  = Signal(bool(0))
 	i_TX_Byte = Signal(intbv(0)[8:])
-	uart_tx_inst = uart_tx(i_Clock,i_TX_DV,i_TX_Byte,o_TX_Active,o_TX_Serial,o_TX_Done,CLKS_PER_BIT=868)
+	state_tx = Signal(t_state_tx.TX_IDLE)
+	uart_tx_inst = uart_tx(i_Clock,i_TX_DV,i_TX_Byte,o_TX_Active,o_TX_Serial,o_TX_Done,state_tx,CLKS_PER_BIT=868)
         uart_tx_inst.convert(hdl=hdl)
 convert_uart(hdl='Verilog')
