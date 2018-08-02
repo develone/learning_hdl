@@ -1,6 +1,6 @@
 import myhdl
 from myhdl import block, always, instance, Signal, ResetSignal, intbv, delay,StopSimulation
-from uart_rx import uart_rx, t_state_rx
+from uart_rx import uart_rx
 ACTIVE_LOW = 0
 @block
 def testbench():
@@ -9,8 +9,8 @@ def testbench():
 	#i_uart_rx = Signal(bool(0))
 	i_Clock  = Signal(bool(0))
 	o_RX_Byte = Signal(intbv(0)[8:])
-	state_rx = Signal(t_state_rx.RX_IDLE)
-	uart_rx_0 = uart_rx(i_Clock,i_RX_Serial,o_RX_DV,o_RX_Byte,state_rx,CLKS_PER_BIT=868)
+	 
+	uart_rx_0 = uart_rx(i_Clock,i_RX_Serial,o_RX_DV,o_RX_Byte,CLKS_PER_BIT=868)
 	@always(delay(10))
 	def clkgen():
 		i_Clock.next = not i_Clock
