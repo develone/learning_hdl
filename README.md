@@ -33,7 +33,7 @@
       - Vivado
     - RPi3B+
       - Software versions as 07/29/18
-      - MyHDL a311468f
+      - MyHDL 160719dd
       - yosys e060375f
       - icestorm f0299751
       - arachne-pnr 5d830dd9
