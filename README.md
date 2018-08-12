@@ -32,10 +32,10 @@
       - ISE
       - Vivado
     - RPi3B+
-      - Software versions as 08/06/18
+      - Software versions as 08/12/18
       - MyHDL 160719dd
       - yosys e275692e
-      - icestorm 45822021
+      - icestorm 8cac6c58
       - arachne-pnr 5d830dd9
       - icozip 9dcbacfe
       - autofpga 2f443503
