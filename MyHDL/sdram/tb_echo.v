@@ -1,12 +1,12 @@
 module tb_echo;
 
-reg i_Clk;
+reg master_clk_i;
 reg i_uart_rx;
 wire o_uart_tx;
 
 initial begin
     $from_myhdl(
-        i_Clk,
+        master_clk_i,
         i_uart_rx
     );
     $to_myhdl(
@@ -15,7 +15,7 @@ initial begin
 end
 
 echo dut(
-    i_Clk,
+    master_clk_i,
     i_uart_rx,
     o_uart_tx
 );

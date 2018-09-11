@@ -34,15 +34,17 @@ from rand_gen import uniform_rand_gen
 
 from SDRAM_Controller.uart_tx import uart_tx, t_state_tx
 from SDRAM_Controller.forceHi import forceHi
- 
+from SDRAM_Controller.clkdiv import divclkby2 
 
 @block
-def memory_test(clk_i, reset_i, status_o, led_status, host_intf, w_TX_Byte, w_TX_DV,w_TX_Active):
+def memory_test(clk_i, reset_i, status_o, led_status, host_intf, w_TX_Byte, w_TX_DV,w_TX_Active, w_TX_Serial,w_TX_Done):
 
 	#MAX_ADDRESS = 0x000FF
 	#for simulation the is made smaller
 	MAX_ADDRESS = 0xFFFFFF
+	WRRD_ADDRESS = 0x0000EB + 1
 	address = Signal(intbv(0)[len(host_intf.addr_i)+3:])
+	address_wrrd = Signal(intbv(0)[len(host_intf.addr_i)+3:])
 	wr_enable = Signal(bool(0))
 	rd_enable = Signal(bool(0))
 	rand_enable = Signal(bool(0))
@@ -50,12 +52,28 @@ def memory_test(clk_i, reset_i, status_o, led_status, host_intf, w_TX_Byte, w_TX
 	rand_seed = 42
 	rand_val = Signal(intbv(0)[len(host_intf.data_i):])
 	data2sd = Signal(intbv(0)[len(host_intf.data_i):])
+	data2sd_hi = Signal(intbv(0)[8:])
+	data2sd_lo = Signal(intbv(0)[8:])
+	data2sd_hi_hi = Signal(intbv(0)[4:])
+	data2sd_hi_lo = Signal(intbv(0)[4:])
+	data2sd_lo_hi = Signal(intbv(0)[4:])
+	data2sd_lo_lo = Signal(intbv(0)[4:])
+	
+	datafrsd = Signal(intbv(0)[len(host_intf.data_i):])
+	datafrsd_hi = Signal(intbv(0)[8:])
+	datafrsd_lo = Signal(intbv(0)[8:])
+	datafrsd_hi_hi = Signal(intbv(0)[4:])
+	datafrsd_hi_lo = Signal(intbv(0)[4:])
+	datafrsd_lo_hi = Signal(intbv(0)[4:])
+	datafrsd_lo_lo = Signal(intbv(0)[4:])
+	char2xmit = Signal(intbv(0)[5:])
+	tmpascii = Signal(intbv(0)[8:])
 	error = Signal(bool(False))
 	endoftest = Signal(bool(False))
 	addrset = Signal(bool(False))
 	testState = enum('INIT', 'WRITE', 'VERIFY', 'SHOW_RESULT')
 	test_state = Signal(testState.INIT)
-
+	
 	rand_gen = uniform_rand_gen(clk_i, rand_enable, rand_load, rand_seed, rand_val)
 
 	@always_seq(clk_i.posedge, reset=None)
@@ -67,23 +85,28 @@ def memory_test(clk_i, reset_i, status_o, led_status, host_intf, w_TX_Byte, w_TX
 				test_state.next = testState.WRITE
 				status_o.next = intbv(ord("1"),0,256)
 				w_TX_Byte.next = 49
+				"""
 				if (w_TX_Active == 0):
 				    w_TX_DV.next = 1
 				else:
 				    w_TX_DV.next = 0
+				"""
 				led_status.next = intbv('0001')[4:0]
 				address.next = 0
 				rand_load.next = 1
+				char2xmit.next = 0
 		elif test_state == testState.WRITE:
 				rand_load.next = 0
 				rand_enable.next = 0
 				status_o.next = intbv(ord("2"),0,256)
 				w_TX_Byte.next = 50
-				if (w_TX_Active == 0):
+				
+				"""
+				if ((w_TX_Active == 0)&(o_TX_Done == 1)):
 				    w_TX_DV.next = 1
 				else:
 				    w_TX_DV.next = 0
-
+				"""
 				led_status.next = intbv('0010')[4:0]
 				if host_intf.done_o == False:
 				    wr_enable.next = True
@@ -91,6 +114,16 @@ def memory_test(clk_i, reset_i, status_o, led_status, host_intf, w_TX_Byte, w_TX
 				    wr_enable.next = False
 				    rand_enable.next = 1
 				    address.next = address + 1
+				    if address == WRRD_ADDRESS:
+						address_wrrd.next = address
+						data2sd.next = rand_val
+						data2sd_hi.next = rand_val[15:8]
+						data2sd_lo.next = rand_val[8:0]
+						data2sd_hi_hi.next = rand_val[15:12]
+						data2sd_hi_lo.next = rand_val[12:8]						
+						data2sd_lo_hi.next = rand_val[8:4]
+						data2sd_lo_lo.next = rand_val[4:0]
+						char2xmit.next = char2xmit + 4	
 				    if address == MAX_ADDRESS:
 				        test_state.next = testState.VERIFY
 				        address.next = 0
@@ -101,17 +134,28 @@ def memory_test(clk_i, reset_i, status_o, led_status, host_intf, w_TX_Byte, w_TX
 				rand_enable.next = 0
 				status_o.next = intbv(ord("3"),0,256)
 				w_TX_Byte.next = 51
-				if (w_TX_Active == 0):
+				"""
+				if ((w_TX_Active == 0)&(o_TX_Done == 1)):
 				    w_TX_DV.next = 1
 				else:
 				    w_TX_DV.next = 0
-				
+				"""
 				led_status.next = intbv('0100')[4:0]
 				if host_intf.done_o == False:
 				    rd_enable.next = True
 				else:
 				    rd_enable.next = False
 				    rand_enable.next = 1
+				    if address == WRRD_ADDRESS:
+						datafrsd.next = host_intf.data_o
+						datafrsd_hi.next = rand_val[15:8]
+						datafrsd_lo.next = rand_val[8:0]
+						datafrsd_hi_hi.next = rand_val[15:12]
+						datafrsd_hi_lo.next = rand_val[12:8]						
+						datafrsd_lo_hi.next = rand_val[8:4]
+						datafrsd_lo_lo.next = rand_val[4:0]
+						char2xmit.next = char2xmit + 13
+						
 				    address.next = address + 1
 				    if rand_val != host_intf.data_o:
 				        error.next = True
@@ -133,23 +177,116 @@ def memory_test(clk_i, reset_i, status_o, led_status, host_intf, w_TX_Byte, w_TX
 					led_status.next = intbv('1111')[4:0]
 					if endoftest == False:
 						w_TX_Byte.next = 79
-						if (w_TX_Active == 0):
+						endoftest.next = True
+						"""
+						if ((w_TX_Active == 0)&(o_TX_Done == 1)):
 							w_TX_DV.next = 1
 							
 						else:
 							w_TX_DV.next = 0
-							#endoftest.next = True
-					"""
-					if endoftest == True:
-				
-						address.next = 50
-						addrset.next = 1
-						if addrset == 1:
-							data2sd.next = 21930
-							
-						if host_intf.done_o == False:
-							rd_enable.next = True
-					"""
+						if (o_TX_Done == 1):
+							endoftest.next = True
+						"""
+					
+					if (endoftest):
+						if (char2xmit == 17):
+							if (data2sd_hi_hi <= 9):
+								w_TX_Byte.next = data2sd_hi_hi + 48 
+							else:
+								w_TX_Byte.next = data2sd_hi_hi + 55
+							if (w_TX_Active == 0):
+								w_TX_DV.next = 1							
+							else:
+								w_TX_DV.next = 0					
+						elif (char2xmit == 15):
+							if (data2sd_hi_lo <= 9):
+								w_TX_Byte.next = data2sd_hi_lo + 48
+							else:
+								w_TX_Byte.next = data2sd_hi_lo + 55
+							if (w_TX_Active == 0):
+								w_TX_DV.next = 1							
+							else:
+								w_TX_DV.next = 0		
+	 					elif (char2xmit == 13):
+							if (data2sd_lo_hi <= 9):
+								w_TX_Byte.next = data2sd_lo_hi + 48
+							else:
+								w_TX_Byte.next = data2sd_lo_hi + 55
+							if (w_TX_Active == 0):
+								w_TX_DV.next = 1							
+							else:
+								w_TX_DV.next = 0
+	 					elif (char2xmit == 11):
+							if (data2sd_lo_lo <= 9):
+								w_TX_Byte.next = data2sd_lo_lo + 48
+							else:
+								w_TX_Byte.next = data2sd_lo_lo + 55
+							if (w_TX_Active == 0):
+								w_TX_DV.next = 1							
+							else:
+								w_TX_DV.next = 0	
+						elif (char2xmit == 9):
+							w_TX_Byte.next = 32
+							if (w_TX_Active == 0):
+								w_TX_DV.next = 1							
+							else:
+								w_TX_DV.next = 0
+						elif (char2xmit == 7):
+							if (datafrsd_hi_hi <= 9):
+								w_TX_Byte.next = datafrsd_hi_hi + 48
+							else:
+								w_TX_Byte.next = datafrsd_hi_hi + 55
+							if (w_TX_Active == 0):
+								w_TX_DV.next = 1							
+							else:
+								w_TX_DV.next = 0
+							"""
+							if((o_TX_Done == 1)&(char2xmit==7)):
+								char2xmit.next = char2xmit - 1
+							"""	
+	
+						elif (char2xmit == 5):
+							if (datafrsd_hi_lo <= 9):
+								w_TX_Byte.next = datafrsd_hi_lo + 48
+							else:
+								w_TX_Byte.next = datafrsd_hi_lo + 55
+							if (w_TX_Active == 0):
+								w_TX_DV.next = 1							
+							else:
+								w_TX_DV.next = 0
+							"""
+							if((o_TX_Done == 1)&(char2xmit==7)):
+								char2xmit.next = char2xmit - 1
+							"""
+						elif (char2xmit == 3):
+							if (datafrsd_lo_hi <= 9):
+								w_TX_Byte.next = datafrsd_lo_hi + 48
+							else:
+								w_TX_Byte.next = datafrsd_lo_hi + 55
+							if (w_TX_Active == 0):
+								w_TX_DV.next = 1							
+							else:
+								w_TX_DV.next = 0	
+						elif(char2xmit == 1):
+							if (datafrsd_lo_lo <= 9):
+								w_TX_Byte.next = datafrsd_lo_lo + 48
+							else:
+								w_TX_Byte.next = datafrsd_lo_lo + 55
+							if (w_TX_Active == 0):
+								w_TX_DV.next = 1							
+							else:
+								w_TX_DV.next = 0
+								endoftest.next = False
+						if(w_TX_Done == 1):
+							char2xmit.next = char2xmit - 1
+								
+							"""
+							if((o_TX_Done == 1)&(char2xmit==7)):
+								char2xmit.next = char2xmit - 1
+							"""					
+					
+
+						
 						 
 						
 				            
@@ -168,7 +305,7 @@ def memory_test(clk_i, reset_i, status_o, led_status, host_intf, w_TX_Byte, w_TX
 	return instances()
 
 @block
-def sdram_test(master_clk_i, sdram_clk_o, sdram_clk_i,led_status, i_uart_rx, o_uart_tx, pb_i, sd_intf):
+def sdram_test(master_clk_i, sdram_clk_o, sdram_clk_i,led_status, o_uart_tx, pb_i, sd_intf):
 	clk50MHz = Signal(bool(0))
 	w_TX_Serial = Signal(bool(0))
 	w_TX_Active = Signal(bool(0))
@@ -176,7 +313,7 @@ def sdram_test(master_clk_i, sdram_clk_o, sdram_clk_i,led_status, i_uart_rx, o_u
 	w_TX_DV = Signal(bool(0))
 	w_TX_Byte = Signal(intbv(0)[8:])
 	
-	o_TX_Done = Signal(bool(0))
+	w_TX_Done = Signal(bool(0))
 	state_tx = Signal(t_state_tx.TX_IDLE)
 	#state_rx = Signal(t_state_rx.RX_IDLE)
  
@@ -184,10 +321,12 @@ def sdram_test(master_clk_i, sdram_clk_o, sdram_clk_i,led_status, i_uart_rx, o_u
  
 				     
  
-	
+	"""
 	@always(master_clk_i.posedge)
 	def div2():
 		clk50MHz.next = not clk50MHz
+	"""
+	divclkby2_0 = divclkby2(master_clk_i,clk50MHz)
 	
 
 
@@ -233,7 +372,7 @@ def sdram_test(master_clk_i, sdram_clk_o, sdram_clk_i,led_status, i_uart_rx, o_u
 
 	test_status = Signal(intbv(0)[8:])
 	host_intf_inst = host_intf()
-	memory_test_inst = memory_test(clk, reset, test_status, led_status, host_intf_inst, w_TX_Byte, w_TX_DV, w_TX_Active)
+	memory_test_inst = memory_test(clk, reset, test_status, led_status, host_intf_inst, w_TX_Byte, w_TX_DV, w_TX_Active, w_TX_Serial,w_TX_Done)
 	
 	sdramCntl_inst = SdramCntl(clk, host_intf_inst, sd_intf)
 	"""
@@ -248,7 +387,7 @@ def sdram_test(master_clk_i, sdram_clk_o, sdram_clk_i,led_status, i_uart_rx, o_u
 	
 	"""
 	#uart_rx_inst = uart_rx(sdram_clk_o,i_uart_rx,w_RX_DV,w_RX_Byte,state_rx,CLKS_PER_BIT=434)
-	uart_tx_inst = uart_tx(sdram_clk_o,w_TX_DV,w_TX_Byte,w_TX_Active,w_TX_Serial,o_TX_Done,state_tx,CLKS_PER_BIT=50)
+	uart_tx_inst = uart_tx(sdram_clk_o,w_TX_DV,w_TX_Byte,w_TX_Active,w_TX_Serial,w_TX_Done,state_tx,CLKS_PER_BIT=50)
 	forceHi_inst = forceHi(w_TX_Serial,w_TX_Active,o_uart_tx)
 	
 	return instances()
@@ -267,7 +406,7 @@ def sdram_test_tb():
 	pb = Signal(bool(1))
 	sd_intf_inst = sd_intf()
 	sdram_inst = sdram(sdram_clk, sd_intf_inst, show_command=False)
-	dut = sdram_test(clk, sdram_clk, sdram_return_clk, led_status, i_uart_rx, o_uart_tx, pb, sd_intf_inst)
+	dut = sdram_test(clk, sdram_clk, sdram_return_clk, led_status, o_uart_tx, pb, sd_intf_inst)
 
 	@instance
 	def clk_gen():
@@ -281,7 +420,7 @@ def sdram_test_tb():
 				yield delay(1)
 		pb.next = 1
 
-		for _ in range(6000):
+		for _ in range(26000):
 				clk.next = not clk
 				yield delay(1)
 		raise StopSimulation
@@ -296,17 +435,22 @@ if __name__ == '__main__':
  
 	led_status = Signal(intbv(0,0,16))
 	pb = Signal(bool(1))
-	i_uart_rx = Signal(bool(0))
+
 	o_uart_tx = Signal(bool(0))
 	sd_intf_inst = sd_intf()
 	
-	sdram_test_inst = sdram_test(clk, sdram_clk, sdram_return_clk, led_status, i_uart_rx, o_uart_tx, pb, sd_intf_inst)
+	sdram_test_inst = sdram_test(clk, sdram_clk, sdram_return_clk, led_status, o_uart_tx, pb, sd_intf_inst)
 	sdram_test_inst.convert(hdl="Verilog", initial_values=False)
 	"""
 	tb = sdram_test_tb()
 	tb.config_sim(trace=True)
 	tb.run_sim()
 	"""
+	
+	
+	
+	
+	
 	
 	
 

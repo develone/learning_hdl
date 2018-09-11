@@ -4,7 +4,6 @@ reg master_clk_i;
 wire sdram_clk_o;
 reg sdram_clk_i;
 wire [3:0] led_status;
-reg i_uart_rx;
 wire o_uart_tx;
 reg pb_i;
 wire SdramCntl0_sd_intf_cke;
@@ -22,7 +21,6 @@ initial begin
     $from_myhdl(
         master_clk_i,
         sdram_clk_i,
-        i_uart_rx,
         pb_i
     );
     $to_myhdl(
@@ -47,7 +45,6 @@ sdram_test dut(
     sdram_clk_o,
     sdram_clk_i,
     led_status,
-    i_uart_rx,
     o_uart_tx,
     pb_i,
     SdramCntl0_sd_intf_cke,
