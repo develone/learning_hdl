@@ -36,7 +36,7 @@
 ################################################################################
 ##
 ##
-all: sdram_test echo
+all: sdram_test echo top
 
 # GNU Make automatic variables (since I can never remember these ...)
 # $@	- name of the target
@@ -54,9 +54,10 @@ all: sdram_test echo
 .PHONY: sdram_test
 sdram_test:   sdram_test.bin
 echo: echo.bin
-
+top: top.bin
 sdram_test.blif:   sdram_test 
 echo.blif:    echo.v  
+top.blif:    top.v  
 
 
 .PHONY: clean
