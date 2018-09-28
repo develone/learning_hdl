@@ -2,7 +2,7 @@
 
 #define	NBANKS	4
 #define	POWERED_UP_STATE	6
-#define	CLK_RATE_HZ		100000000 // = 100 MHz = 100 * 10^6
+#define	CLK_RATE_HZ		50000000 // = 100 MHz = 100 * 10^6
 #define	PWRUP_WAIT_CKS		((int)(.000200 * CLK_RATE_HZ))
 #define	MAX_BANKOPEN_TIME	((int)(.000100 * CLK_RATE_HZ))
 #define	MAX_REFRESH_TIME	((int)(.064 * CLK_RATE_HZ))
