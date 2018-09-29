@@ -48,11 +48,9 @@ all:	data install
 #
 DATA := global.txt bkram.txt buserr.txt clock50.txt		\
 	pic.txt pwrcount.txt version.txt			\
-	hbconsole.txt gpio.txt dlyarbiter.txt zipbones.txt	\
-	spixpress.txt sdramdev.txt spixscope.txt
+	hbconsole.txt gpio.txt dlyarbiter.txt zipbones.txt sdramdev.txt
 	# nodelay.txt
-	# Not used: rtclite.txt watchdog.txt
-	# Scopes, pick only one: spixscope sramscope dbgscope
+	# Not used: flash.txt rtclite.txt watchdog.txt
 
 AUTOFPGA := autofpga
 .PHONY: data
@@ -61,8 +59,8 @@ data: $(DATA)
 
 .PHONY: install
 install: data
-	$(call notify-on-change,toplevel.v,../rtl/icozip)
-	$(call notify-on-change,main.v,../rtl/icozip)
+	$(call notify-on-change,toplevel.v,../rtl/catzip)
+	$(call notify-on-change,main.v,../rtl/catzip)
 	$(call notify-on-change,regdefs.h,../sw/host/)
 	$(call notify-on-change,regdefs.cpp,../sw/host/)
 	$(call notify-on-change,board.h,../sw/board/)

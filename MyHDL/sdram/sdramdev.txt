@@ -48,42 +48,73 @@
 @SLAVE.BUS=wb
 @LD.PERM=wx
 @TOP.PORTLIST=
-    sdram_clk_o,
-    sdram_clk_i,
-    led_status,
-    pb_i,
-    i_wb_cyc,
-    i_wb_stb,
-    i_wb_we,
-    i_wb_addr,
-    i_wb_data,
-    o_wb_ack,
-    o_wb_stall,
-    o_wb_data,
-    i_wb_sel,
-    SdramCntl0_0_sd_intf_cke,
-    SdramCntl0_0_sd_intf_we,
-    SdramCntl0_0_sd_intf_addr,
-    SdramCntl0_0_sd_intf_dqml,
-    SdramCntl0_0_sd_intf_cas,
-    SdramCntl0_0_sd_intf_dqmh,
-    SdramCntl0_0_sd_intf_ras,
-    SdramCntl0_0_sd_intf_bs,
-    SdramCntl0_0_sd_intf_cs,
-    SdramCntl0_0_sd_intf_dq,
-    SdramCntl0_0_host_intf_wr_i,
-    SdramCntl0_0_host_intf_done_o,
-    SdramCntl0_0_host_intf_rdPending_o,
-    sdramdevfsm0_0_host_intf_rst_i,
-    SdramCntl0_0_host_intf_data_i,
-    SdramCntl0_0_host_intf_data_o,
-    SdramCntl0_0_host_intf_rd_i,
-    SdramCntl0_0_host_intf_addr_i
+  
+    sdram_clk,
+    sdram_return_clk,
+    pb,
+    sdramdev_SdramCntl0_sd_intf_cke,
+    sdramdev_SdramCntl0_sd_intf_we,
+    sdramdev_SdramCntl0_sd_intf_addr,
+    sdramdev_SdramCntl0_sd_intf_dqml,
+    sdramdev_SdramCntl0_sd_intf_cas,
+    sdramdev_SdramCntl0_sd_intf_dqmh,
+    sdramdev_SdramCntl0_sd_intf_ras,
+    sdramdev_SdramCntl0_sd_intf_bs,
+    sdramdev_SdramCntl0_sd_intf_cs,
+    sdramdev_SdramCntl0_sd_intf_dq,
+    sdramdev_SdramCntl0_host_intf_wr_i,
+    sdramdev_SdramCntl0_host_intf_done_o,
+    sdramdev_SdramCntl0_host_intf_rdPending_o,
+    sdramdev_sdramdevfsm0_host_intf_rst_i,
+    sdramdev_SdramCntl0_host_intf_data_i,
+    sdramdev_SdramCntl0_host_intf_data_o,
+    sdramdev_SdramCntl0_host_intf_rd_i,
+    sdramdev_SdramCntl0_host_intf_addr_i
+
 @TOP.IODECL=
-	output	wire	o_ram_ce_n, o_ram_oe_n, o_ram_we_n;
-	output	wire	[15:0]	o_ram_addr;
-	output	wire	[1:0]	o_ram_sel;
-	inout	wire	[15:0]io_ram_data;
+    output sdram_clk,
+    wire sdram_clk,
+    input sdram_return_clk,
+    input sdram_return_clk,
+    input  pb,
+    output sdramdev_SdramCntl0_sd_intf_cke,
+    reg  sdramdev_SdramCntl0_sd_intf_cke,
+    output sdramdev_SdramCntl0_sd_intf_we,
+    reg sdramdev_SdramCntl0_sd_intf_we,
+    output [12:0] sdramdev_SdramCntl0_sd_intf_addr,
+    reg [12:0] sdramdev_SdramCntl0_sd_intf_addr,
+    output wire sdramdev_SdramCntl0_sd_intf_dqml,
+    reg sdramdev_SdramCntl0_sd_intf_dqml,
+    output sdramdev_SdramCntl0_sd_intf_cas,
+    reg sdramdev_SdramCntl0_sd_intf_cas,
+    output sdramdev_SdramCntl0_sd_intf_dqmh,
+    reg sdramdev_SdramCntl0_sd_intf_dqmh,
+    output sdramdev_SdramCntl0_sd_intf_ras,
+    reg sdramdev_SdramCntl0_sd_intf_ras,
+    output [1:0] sdramdev_SdramCntl0_sd_intf_bs,
+    reg [1:0] sdramdev_SdramCntl0_sd_intf_bs,
+    output sdramdev_SdramCntl0_sd_intf_cs,
+    reg sdramdev_SdramCntl0_sd_intf_cs,
+    inout [15:0] sdramdev_SdramCntl0_sd_intf_dq,
+    wire [15:0] sdramdev_SdramCntl0_sd_intf_dq,
+    output sdramdev_SdramCntl0_sd_intf_wr_i,
+    wire sdramdev_SdramCntl0_sd_intf_wr_i,
+    output sdramdev_SdramCntl0_sd_intf_done_o,
+    wire sdramdev_SdramCntl0_sd_intf_done_o,
+    output sdramdev_SdramCntl0_host_intf_rdPending_o,
+    wire sdramdev_SdramCntl0_host_intf_rdPending_o,
+    output sdramdev_SdramCntl0_sd_intf_rst_i,
+    wire sdramdev_SdramCntl0_sd_intf_rst_i,
+    output [15:0] sdramdev_SdramCntl0_host_intf_data_i,
+    wire [15:0] sdramdev_SdramCntl0_host_intf_data_i,
+    output [15:0] sdramdev_SdramCntl0_host_intf_data_o,
+    wire [15:0] sdramdev_SdramCntl0_host_intf_data_o,
+    output sdramdev_SdramCntl0_sd_intf_rd_i,
+    wire sdramdev_SdramCntl0_sd_intf_rd_i,
+    output [23:0] xsdramdev_SdramCntl0_host_intf_addr_i
+    wire [23:0] sdramdev_SdramCntl0_host_intf_addr_i
+
+
 @TOP.INSERT=
 	//
 	// SDRAM Interface
@@ -96,14 +127,12 @@
 
 
 @TOP.DEFNS=
-	wire	[15:0]		i_ram_data, o_ram_data;
+	//wire	[15:0]		i_ram_data, o_ram_data;
 
 @TOP.MAIN=
-		o_ram_ce_n, o_ram_oe_n, o_ram_we_n, o_ram_addr, o_ram_sel, 
-			o_ram_data, i_ram_data
 @MAIN.PORTLIST=
-		o_ram_ce_n, o_ram_oe_n, o_ram_we_n, o_ram_addr, o_ram_sel, 
-			o_ram_data, i_ram_data
+		//o_ram_ce_n, o_ram_oe_n, o_ram_we_n, o_ram_addr, o_ram_sel, 
+			//o_ram_data, i_ram_data
 @MAIN.IODECL=
 	output	wire		o_ram_ce_n, o_ram_oe_n, o_ram_we_n;
 	output	wire	[15:0]	o_ram_addr;
@@ -111,7 +140,7 @@
 	output	wire	[15:0]	o_ram_data;
 	input	wire	[15:0]	i_ram_data;
 @MAIN.INSERT=
-	sramdev #(.WBADDR(@$LGMEMSZ-2))
+	sdramdev #(.WBADDR(@$LGMEMSZ-2))
 		@$(PREFIX)i(i_clk,
 			(wb_cyc), (wb_stb)&&(@$(PREFIX)_sel), wb_we,
 				wb_addr[(@$LGMEMSZ-3):0], wb_data, wb_sel,
@@ -131,13 +160,13 @@
 @LDSCRIPT.DEF=
 _@$(MEM.NAME) = ORIGIN(@$(MEM.NAME))
 @RTL.MAKE.GROUP= @$(DEVID)
-@RTL.MAKE.FILES= sramdev.v
+@RTL.MAKE.FILES= sdramdev.v
 @$BASEHX = @$REGBASE
 @BASEHX.FORMAT= 0x%08x
 @$NADDRHX = @$NADDR
 @NADDRHX.FORMAT= 0x%x
 @SIM.INCLUDE=
-#include "sramsim.h"
+#include "sdramsim.h"
 @SIM.DEFNS=
 #ifdef	@$(ACCESS)
 	SRAMSIM		*m_@$(MEM.NAME);
