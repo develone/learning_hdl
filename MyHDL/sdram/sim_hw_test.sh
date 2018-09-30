@@ -4,21 +4,21 @@
 echo "The date built"
 ./arm-wbregs version
 sleep 2
-./arm-wbregs 0x700 0x10000001
+./arm-wbregs 0x800000 0x10000001
 sleep 2 
-./arm-wbregs 0x704 0x10000002
+./arm-wbregs 0x800004 0x10000002
 sleep 2
-./arm-wbregs 0x708 0x10000003
+./arm-wbregs 0x800008 0x10000003
 sleep 2
-./arm-wbregs 0x70c 0x10000004
+./arm-wbregs 0x80000c 0x10000004
 sleep 2
-./arm-wbregs 0x700 
+./arm-wbregs 0x800000 
 sleep 2
-./arm-wbregs 0x704 
+./arm-wbregs 0x800004 
 sleep 2
-./arm-wbregs 0x708 
+./arm-wbregs 0x800008 
 sleep 2
-./arm-wbregs 0x70c
+./arm-wbregs 0x80000c
 sleep 2 
 echo "Turning on the 4th led "
 ./arm-wbregs gpio 0x00010001

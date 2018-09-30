@@ -29,53 +29,11 @@ from SDRAM_Controller.sd_intf import *
 from rand_gen import uniform_rand_gen
 from data_del import data_delay
 from SDRAM_Controller.clkdiv import divclkby2 
-"""
-	icozip sramdev module
-	input	wire		i_clk;
-	// Wishbone
-	//  inputs
-	input	wire			i_wb_cyc, i_wb_stb, i_wb_we;
-	input	wire	[(WBADDR-1):0]	i_wb_addr;
-	input	wire	[31:0]		i_wb_data;
-	input	wire	[3:0]		i_wb_sel;
-	//  and outputs
-	output	reg			o_wb_ack, o_wb_stall;
-	output	reg	[31:0]		o_wb_data;
-sdramdev 
-input clk_i;
-input reset_i;
-input i_wb_cyc;
-input i_wb_stb;
-input o_wb_ack;
-input o_wb_stall;
-input [31:0] i_wb_addr;
-input [31:0] i_wb_data;
-input i_wb_we;
-output [31:0] o_wb_data;
-reg [31:0] o_wb_data;
-output host_intf_wr_i;
-wire host_intf_wr_i;
-input host_intf_done_o;
-input host_intf_rdPending_o;
-output host_intf_rst_i;
-wire host_intf_rst_i;
-output [15:0] host_intf_data_i;
-wire [15:0] host_intf_data_i;
-input [15:0] host_intf_data_o;
-output host_intf_rd_i;
-wire host_intf_rd_i;
-output [23:0] host_intf_addr_i;
-wire [23:0] host_intf_addr_i;
-
-"""
+ 
 @block
 def sdramdevfsm(clk_i, reset_i,sd_intf, host_intf, i_wb_cyc, i_wb_stb, i_wb_we, \
 	i_wb_addr, i_wb_data, o_wb_ack, o_wb_stall, o_wb_data, i_wb_sel ):
-	
-	#MAX_ADDRESS = 0x000FF
-	#for simulation the is made smaller
-	#0 to 16777215 2^24 - 1
-	MAX_ADDRESS = 0x0
+ 
 	address = Signal(intbv(0)[len(host_intf.addr_i)+3:])
 	wr_enable = Signal(bool(0))
 	rd_enable = Signal(bool(0))
@@ -93,7 +51,7 @@ def sdramdevfsm(clk_i, reset_i,sd_intf, host_intf, i_wb_cyc, i_wb_stb, i_wb_we, 
 	data_delay_inst = data_delay(clk_i, rand_enable, rand_load, i_wb_data, rand_val)
 
 	@always_seq(clk_i.posedge, reset=None)
-	def sdram_tester():
+	def sdram_fsm():
 		if reset_i == True:
 			error.next = False
  			test_state.next = testState.WRITE
@@ -170,6 +128,9 @@ def sdramdevfsm(clk_i, reset_i,sd_intf, host_intf, i_wb_cyc, i_wb_stb, i_wb_we, 
  
 	@always_comb
 	def host_connections():
+		"""
+		In this section data is transferred to host_intf
+		"""
 		host_intf.rst_i.next = reset_i
 		host_intf.wr_i.next = wr_enable and not host_intf.done_o
 		host_intf.rd_i.next = rd_enable and not host_intf.done_o
@@ -181,11 +142,9 @@ def sdramdevfsm(clk_i, reset_i,sd_intf, host_intf, i_wb_cyc, i_wb_stb, i_wb_we, 
 
 
 @block
-
-def sdramdev(master_clk_i, sdram_clk_o, sdram_clk_i, pb_i, \
-sd_intf, host_intf, i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, o_wb_ack, \
+def topsdcntl(master_clk_i, sdram_clk_o, sdram_clk_i, pb_i, \
+sd_intf, host_intf_inst, i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, o_wb_ack, \
 o_wb_stall, o_wb_data, i_wb_sel):	
-	
 	clk = Signal(bool(0))
  	
 	@always_comb
@@ -228,15 +187,13 @@ o_wb_stall, o_wb_data, i_wb_sel):
 		reset.next = not initialized or not pb_debounced
 
 	test_status = Signal(intbv(0)[8:])
-	#host_intf_inst = host_intf()
-	#memory_test_inst = memory_test(clk, reset, test_status, led_status, host_intf_inst)
-	#i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, i_wb_sel, o_wb_ack, o_wb_stall, o_wb_data,
-	sdramdevfsm_inst = sdramdevfsm(clk, reset, sd_intf_inst, host_intf_inst, \
+ 	sdramdevfsm_inst = sdramdevfsm(clk, reset, sd_intf_inst, host_intf_inst, \
 	i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, o_wb_ack, \
 	o_wb_stall, o_wb_data , i_wb_sel)
-	#sdramdevfsm_inst.convert()
+ 
 	sdramCntl_inst = SdramCntl(clk, host_intf_inst, sd_intf)
-	#sdramdevfsm_inst.convert()
+	#sdramCntl_inst.convert()
+ 
 	"""
 	50MHz 20 nsec
 	during a read
@@ -252,7 +209,7 @@ o_wb_stall, o_wb_data, i_wb_sel):
 	return instances()
 
 @block    
-def sdramdev_tb():
+def topsdcntl_tb():
 	clk, sdram_clk, sdram_return_clk  = [Signal(bool(0)) for _ in range(3)]
 	i_wb_cyc, i_wb_stb, i_wb_we,o_wb_ack, o_wb_stall = [Signal(bool(0)) for _ in range(5)]
 	i_wb_data = Signal(intbv(0)[16:])
@@ -269,7 +226,7 @@ def sdramdev_tb():
 	host_intf_inst = host_intf()
 	sd_intf_inst = sd_intf()
 	sdram_inst = sdram(sdram_clk, sd_intf_inst, show_command=False)
- 	dut = sdramdev(clk, sdram_clk, sdram_return_clk,  \
+ 	dut = topsdcntl(clk, sdram_clk, sdram_return_clk,  \
  	pb, sd_intf_inst,host_intf_inst,i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, \
  	i_wb_data, o_wb_ack, o_wb_stall, o_wb_data, i_wb_sel)
 
@@ -354,22 +311,32 @@ def sdramdev_tb():
 	return instances()
 
 @block
-def top(clk100MHz, sdram_clk, sdram_return_clk,  pb, sd_intf_inst,host_int_inst):
+def top(clk100MHz, sdram_clk, sdram_return_clk,  pb, sd_intf_inst):
+#def top(clk100MHz, sdram_clk, sdram_return_clk,  pb, sd_intf_inst,host_int_inst):
 	clk50MHz = Signal(bool(0))
 	reset = Signal(bool(False))
 	divclkby2_0 = divclkby2(clk100MHz,clk50MHz)
 	
  	test_status = Signal(intbv(0)[8:])
-	#host_intf_inst = host_intf()
+	host_intf_inst = host_intf()
 	i_wb_cyc, i_wb_stb, i_wb_we,o_wb_ack, o_wb_stall = [Signal(bool(0)) for _ in range(5)]
 	i_wb_data = Signal(intbv(0)[16:])
 	o_wb_data = Signal(intbv(0)[16:])
 	i_wb_addr = Signal(intbv(0)[32:])
 	i_wb_sel = Signal(intbv(0)[4:])
-  	sdramdev_inst = sdramdev(clk50MHz, sdram_clk, sdram_return_clk, pb, \
+	
+  	topsdcntl_inst = topsdcntl(clk50MHz, sdram_clk, sdram_return_clk, pb, \
  	sd_intf_inst, host_intf_inst, i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, \
  	o_wb_ack, o_wb_stall, o_wb_data, i_wb_sel)
-	sdramdev_inst.convert()
+
+ 	"""
+ 	Only one topsdcntl_inst.convert() or sdramCntl_inst.convert()
+ 	can be uncommented at the same time
+ 	not both or the following error will occur
+ 	Signal has multiple drivers: host_intf_rst_i
+ 	"""
+	topsdcntl_inst.convert()
+	
 	return instances()
 
 
@@ -378,27 +345,28 @@ if __name__ == '__main__':
  
 	clk, sdram_clk, sdram_return_clk = [Signal(bool(0)) for _ in range(3)]
  
-	#led_status = Signal(intbv(0,0,16))
+	 
 	pb = Signal(bool(1))
 	clk50MHz = Signal(bool(0))
 	clk100MHz = Signal(bool(0))
 
-	host_intf_inst = host_intf()
+	 
 	sd_intf_inst = sd_intf()
-	top_inst = top(clk100MHz, sdram_clk, sdram_return_clk, pb, sd_intf_inst, host_intf_inst)
+	top_inst = top(clk100MHz, sdram_clk, sdram_return_clk, pb, sd_intf_inst)
+	 
 	top_inst.convert(hdl="Verilog", initial_values=False)
-	"""
-	memdev_inst = sdram_ini(clk, sdram_clk, sdram_return_clk, led_status, pb, sd_intf_inst)
-	sdram_init_inst.convert(hdl="Verilog", initial_values=False)
 	
-	tb = sdram_test_tb()
+	"""
+	The following three lines if uncommented with run the simulation and 
+	create the vcd file
+	"""
+	
+	"""
+	tb = topsdcntl_tb()
 	tb.config_sim(trace=True)
 	tb.run_sim()
 	"""
 	
-	tb = sdramdev_tb()
-	tb.config_sim(trace=True)
-	tb.run_sim()
 	
 	
 	
