@@ -61,7 +61,7 @@ CFLAGS	:= -Og -g -Wall $(INCS)
 #
 # A list of our sources and headers
 #
-SIMSRCS := zipelf.cpp memsim.cpp byteswap.cpp pportsim.cpp
+SIMSRCS := zipelf.cpp memsim.cpp byteswap.cpp pportsim.cpp sdramsim.cpp
 # Not used: i2csim.cpp
 VOBJDR	:= $(RTLD)/$(OBJDIR)
 VOBJS   := $(OBJDIR)/verilated.o $(OBJDIR)/verilated_vcd_c.o
