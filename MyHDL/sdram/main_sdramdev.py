@@ -142,7 +142,7 @@ def sdramdevfsm(clk_i, reset_i,sd_intf, host_intf, i_wb_cyc, i_wb_stb, i_wb_we, 
 
 
 @block
-def topsdcntl(master_clk_i, sdram_clk_o, sdram_clk_i, pb_i, \
+def mainsdram(master_clk_i, sdram_clk_o, sdram_clk_i, pb_i, \
 sd_intf, host_intf_inst, i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, o_wb_ack, \
 o_wb_stall, o_wb_data, i_wb_sel):	
 	clk = Signal(bool(0))
@@ -209,7 +209,7 @@ o_wb_stall, o_wb_data, i_wb_sel):
 	return instances()
 
 @block    
-def topsdcntl_tb():
+def mainsdram_tb():
 	clk, sdram_clk, sdram_return_clk  = [Signal(bool(0)) for _ in range(3)]
 	i_wb_cyc, i_wb_stb, i_wb_we,o_wb_ack, o_wb_stall = [Signal(bool(0)) for _ in range(5)]
 	i_wb_data = Signal(intbv(0)[16:])
@@ -226,7 +226,7 @@ def topsdcntl_tb():
 	host_intf_inst = host_intf()
 	sd_intf_inst = sd_intf()
 	sdram_inst = sdram(sdram_clk, sd_intf_inst, show_command=False)
- 	dut = topsdcntl(clk, sdram_clk, sdram_return_clk,  \
+ 	dut = mainsdram(clk, sdram_clk, sdram_return_clk,  \
  	pb, sd_intf_inst,host_intf_inst,i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, \
  	i_wb_data, o_wb_ack, o_wb_stall, o_wb_data, i_wb_sel)
 
@@ -311,8 +311,11 @@ def topsdcntl_tb():
 	return instances()
 
 @block
-def top(clk100MHz, sdram_clk, sdram_return_clk,  pb, sd_intf_inst):
+def top(clk100MHz, sdram_clk, sdram_return_clk,sd_intf_inst):
 #def top(clk100MHz, sdram_clk, sdram_return_clk,  pb, sd_intf_inst,host_int_inst):
+	pb = Signal(bool(1))
+ 	clk100MHz = Signal(bool(0))
+
 	clk50MHz = Signal(bool(0))
 	reset = Signal(bool(False))
 	divclkby2_0 = divclkby2(clk100MHz,clk50MHz)
@@ -325,17 +328,17 @@ def top(clk100MHz, sdram_clk, sdram_return_clk,  pb, sd_intf_inst):
 	i_wb_addr = Signal(intbv(0)[32:])
 	i_wb_sel = Signal(intbv(0)[4:])
 	
-  	topsdcntl_inst = topsdcntl(clk50MHz, sdram_clk, sdram_return_clk, pb, \
+  	mainsdram_inst = mainsdram(clk50MHz, sdram_clk, sdram_return_clk, pb, \
  	sd_intf_inst, host_intf_inst, i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, \
  	o_wb_ack, o_wb_stall, o_wb_data, i_wb_sel)
 
  	"""
- 	Only one topsdcntl_inst.convert() or sdramCntl_inst.convert()
+ 	Only one mainsdram_inst.convert() or sdramCntl_inst.convert()
  	can be uncommented at the same time
  	not both or the following error will occur
  	Signal has multiple drivers: host_intf_rst_i
  	"""
-	topsdcntl_inst.convert()
+	mainsdram_inst.convert()
 	
 	return instances()
 
@@ -352,7 +355,7 @@ if __name__ == '__main__':
 
 	 
 	sd_intf_inst = sd_intf()
-	top_inst = top(clk100MHz, sdram_clk, sdram_return_clk, pb, sd_intf_inst)
+	top_inst = top(clk100MHz, sdram_clk, sdram_return_clk,sd_intf_inst)
 	 
 	top_inst.convert(hdl="Verilog", initial_values=False)
 	
@@ -362,7 +365,7 @@ if __name__ == '__main__':
 	"""
 	
 	"""
-	tb = topsdcntl_tb()
+	tb = mainsdram_tb()
 	tb.config_sim(trace=True)
 	tb.run_sim()
 	"""
