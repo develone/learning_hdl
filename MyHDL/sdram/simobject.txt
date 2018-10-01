@@ -1,0 +1,195 @@
+00024654 <_ZN8SDRAMSIMclEiiiiiiijiss>:
+   2466c:	1a000004 	bne	24684 <_ZN8SDRAMSIMclEiiiiiiijiss+0x30>
+   24678:	1a000002 	bne	24688 <_ZN8SDRAMSIMclEiiiiiiijiss+0x34>
+   24680:	ea00001e 	b	24700 <_ZN8SDRAMSIMclEiiiiiiijiss+0xac>
+   24698:	0a00001a 	beq	24708 <_ZN8SDRAMSIMclEiiiiiiijiss+0xb4>
+   246a4:	ca0000c3 	bgt	249b8 <_ZN8SDRAMSIMclEiiiiiiijiss+0x364>
+   246ac:	1a000034 	bne	24784 <_ZN8SDRAMSIMclEiiiiiiijiss+0x130>
+   246c4:	1a000038 	bne	247ac <_ZN8SDRAMSIMclEiiiiiiijiss+0x158>
+   246cc:	0a000031 	beq	24798 <_ZN8SDRAMSIMclEiiiiiiijiss+0x144>
+   246d8:	0a00002e 	beq	24798 <_ZN8SDRAMSIMclEiiiiiiijiss+0x144>
+   246e4:	0a00002b 	beq	24798 <_ZN8SDRAMSIMclEiiiiiiijiss+0x144>
+   24708:	e59f496c 	ldr	r4, [pc, #2412]	; 2507c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa28>
+   24718:	e59f0960 	ldr	r0, [pc, #2400]	; 25080 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa2c>
+   24724:	e59f1958 	ldr	r1, [pc, #2392]	; 25084 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa30>
+   24734:	e59f194c 	ldr	r1, [pc, #2380]	; 25088 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa34>
+   24744:	e59f1940 	ldr	r1, [pc, #2368]	; 2508c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa38>
+   24754:	e59f1934 	ldr	r1, [pc, #2356]	; 25090 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa3c>
+   24764:	e59f1928 	ldr	r1, [pc, #2344]	; 25094 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa40>
+   24770:	e59f3920 	ldr	r3, [pc, #2336]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24778:	e59f191c 	ldr	r1, [pc, #2332]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   2477c:	e59f091c 	ldr	r0, [pc, #2332]	; 250a0 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4c>
+   24784:	e59f390c 	ldr	r3, [pc, #2316]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   2478c:	e59f1908 	ldr	r1, [pc, #2312]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24790:	e59f090c 	ldr	r0, [pc, #2316]	; 250a4 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa50>
+   24798:	e59f38f8 	ldr	r3, [pc, #2296]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   247a0:	e59f18f4 	ldr	r1, [pc, #2292]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   247a4:	e59f08fc 	ldr	r0, [pc, #2300]	; 250a8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa54>
+   247b0:	0a000019 	beq	2481c <_ZN8SDRAMSIMclEiiiiiiijiss+0x1c8>
+   247b8:	0a000028 	beq	24860 <_ZN8SDRAMSIMclEiiiiiiijiss+0x20c>
+   247c0:	0a000042 	beq	248d0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x27c>
+   247c8:	0a000057 	beq	2492c <_ZN8SDRAMSIMclEiiiiiiijiss+0x2d8>
+   247d0:	1affffc8 	bne	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   247d8:	1a000071 	bne	249a4 <_ZN8SDRAMSIMclEiiiiiiijiss+0x350>
+   247e0:	1a00006f 	bne	249a4 <_ZN8SDRAMSIMclEiiiiiiijiss+0x350>
+   247ec:	1a00006c 	bne	249a4 <_ZN8SDRAMSIMclEiiiiiiijiss+0x350>
+   247f8:	0a000069 	beq	249a4 <_ZN8SDRAMSIMclEiiiiiiijiss+0x350>
+   24804:	1affffbb 	bne	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   24818:	ea00005d 	b	24994 <_ZN8SDRAMSIMclEiiiiiiijiss+0x340>
+   24820:	1affffb4 	bne	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   24828:	1affffb2 	bne	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   24834:	0affffaf 	beq	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   24840:	1affffac 	bne	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   2485c:	eaffffa5 	b	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   24868:	1a000009 	bne	24894 <_ZN8SDRAMSIMclEiiiiiiijiss+0x240>
+   2487c:	aaffff9d 	bge	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   24884:	e59f1820 	ldr	r1, [pc, #2080]	; 250ac <_ZN8SDRAMSIMclEiiiiiiijiss+0xa58>
+   24890:	eafffff7 	b	24874 <_ZN8SDRAMSIMclEiiiiiiijiss+0x220>
+   24898:	1a000007 	bne	248bc <_ZN8SDRAMSIMclEiiiiiiijiss+0x268>
+   248a0:	1a000005 	bne	248bc <_ZN8SDRAMSIMclEiiiiiiijiss+0x268>
+   248ac:	1a000002 	bne	248bc <_ZN8SDRAMSIMclEiiiiiiijiss+0x268>
+   248b8:	1affff8e 	bne	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   248bc:	e59f37d4 	ldr	r3, [pc, #2004]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   248c4:	e59f17d0 	ldr	r1, [pc, #2000]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   248c8:	e59f07e0 	ldr	r0, [pc, #2016]	; 250b0 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa5c>
+   248d4:	1affff87 	bne	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   248dc:	1affff85 	bne	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   248e8:	1affff82 	bne	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   248f4:	1affff7f 	bne	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   24900:	1a000004 	bne	24918 <_ZN8SDRAMSIMclEiiiiiiijiss+0x2c4>
+   24914:	eaffff77 	b	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   24918:	e59f3778 	ldr	r3, [pc, #1912]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24920:	e59f1774 	ldr	r1, [pc, #1908]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24924:	e59f0788 	ldr	r0, [pc, #1928]	; 250b4 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa60>
+   24930:	0a000007 	beq	24954 <_ZN8SDRAMSIMclEiiiiiiijiss+0x300>
+   2493c:	1a000009 	bne	24968 <_ZN8SDRAMSIMclEiiiiiiijiss+0x314>
+   24950:	eaffff68 	b	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   24954:	e59f373c 	ldr	r3, [pc, #1852]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   2495c:	e59f1738 	ldr	r1, [pc, #1848]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24960:	e59f0750 	ldr	r0, [pc, #1872]	; 250b8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa64>
+   2496c:	0affff61 	beq	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   24970:	e59f3720 	ldr	r3, [pc, #1824]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24978:	e59f171c 	ldr	r1, [pc, #1820]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   2497c:	e59f0738 	ldr	r0, [pc, #1848]	; 250bc <_ZN8SDRAMSIMclEiiiiiiijiss+0xa68>
+   24988:	e59f171c 	ldr	r1, [pc, #1820]	; 250ac <_ZN8SDRAMSIMclEiiiiiiijiss+0xa58>
+   2499c:	bafffff8 	blt	24984 <_ZN8SDRAMSIMclEiiiiiiijiss+0x330>
+   249a0:	eaffff54 	b	246f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa4>
+   249a4:	e59f36ec 	ldr	r3, [pc, #1772]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   249ac:	e59f16e8 	ldr	r1, [pc, #1768]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   249b0:	e59f0708 	ldr	r0, [pc, #1800]	; 250c0 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa6c>
+   249c4:	aa000005 	bge	249e0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x38c>
+   249dc:	eafffff6 	b	249bc <_ZN8SDRAMSIMclEiiiiiiijiss+0x368>
+   249e4:	ea000000 	b	249ec <_ZN8SDRAMSIMclEiiiiiiijiss+0x398>
+   249f0:	ca00001a 	bgt	24a60 <_ZN8SDRAMSIMclEiiiiiiijiss+0x40c>
+   24a2c:	0affffed 	beq	249e8 <_ZN8SDRAMSIMclEiiiiiiijiss+0x394>
+   24a48:	aaffffe6 	bge	249e8 <_ZN8SDRAMSIMclEiiiiiiijiss+0x394>
+   24a4c:	e59f3644 	ldr	r3, [pc, #1604]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24a54:	e59f1640 	ldr	r1, [pc, #1600]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24a58:	e59f0664 	ldr	r0, [pc, #1636]	; 250c4 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa70>
+   24a78:	0a000003 	beq	24a8c <_ZN8SDRAMSIMclEiiiiiiijiss+0x438>
+   24a88:	0a000048 	beq	24bb0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x55c>
+   24a94:	da000010 	ble	24adc <_ZN8SDRAMSIMclEiiiiiiijiss+0x488>
+   24aa0:	0a00000d 	beq	24adc <_ZN8SDRAMSIMclEiiiiiiijiss+0x488>
+   24ac8:	1a000040 	bne	24bd0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x57c>
+   24af4:	1a000040 	bne	24bfc <_ZN8SDRAMSIMclEiiiiiiijiss+0x5a8>
+   24b20:	1a000046 	bne	24c40 <_ZN8SDRAMSIMclEiiiiiiijiss+0x5ec>
+   24b28:	1a000044 	bne	24c40 <_ZN8SDRAMSIMclEiiiiiiijiss+0x5ec>
+   24b34:	1a000041 	bne	24c40 <_ZN8SDRAMSIMclEiiiiiiijiss+0x5ec>
+   24b40:	0a00003e 	beq	24c40 <_ZN8SDRAMSIMclEiiiiiiijiss+0x5ec>
+   24b4c:	e59f1558 	ldr	r1, [pc, #1368]	; 250ac <_ZN8SDRAMSIMclEiiiiiiijiss+0xa58>
+   24b74:	1a000022 	bne	24c04 <_ZN8SDRAMSIMclEiiiiiiijiss+0x5b0>
+   24b80:	1a000024 	bne	24c18 <_ZN8SDRAMSIMclEiiiiiiijiss+0x5c4>
+   24b8c:	1a000026 	bne	24c2c <_ZN8SDRAMSIMclEiiiiiiijiss+0x5d8>
+   24b98:	0afffed8 	beq	24700 <_ZN8SDRAMSIMclEiiiiiiijiss+0xac>
+   24b9c:	e59f34f4 	ldr	r3, [pc, #1268]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24ba4:	e59f14f0 	ldr	r1, [pc, #1264]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24ba8:	e59f0518 	ldr	r0, [pc, #1304]	; 250c8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa74>
+   24bb0:	e59f34c4 	ldr	r3, [pc, #1220]	; 2507c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa28>
+   24bc0:	e59f0504 	ldr	r0, [pc, #1284]	; 250cc <_ZN8SDRAMSIMclEiiiiiiijiss+0xa78>
+   24bd4:	0affffbd 	beq	24ad0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x47c>
+   24be8:	0affffb8 	beq	24ad0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x47c>
+   24bf8:	eaffffb4 	b	24ad0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x47c>
+   24c00:	eaffffc0 	b	24b08 <_ZN8SDRAMSIMclEiiiiiiijiss+0x4b4>
+   24c04:	e59f348c 	ldr	r3, [pc, #1164]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24c0c:	e59f1488 	ldr	r1, [pc, #1160]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24c10:	e59f04b8 	ldr	r0, [pc, #1208]	; 250d0 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa7c>
+   24c18:	e59f3478 	ldr	r3, [pc, #1144]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24c20:	e59f1474 	ldr	r1, [pc, #1140]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24c24:	e59f04a8 	ldr	r0, [pc, #1192]	; 250d4 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa80>
+   24c2c:	e59f3464 	ldr	r3, [pc, #1124]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24c34:	e59f1460 	ldr	r1, [pc, #1120]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24c38:	e59f0498 	ldr	r0, [pc, #1176]	; 250d8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa84>
+   24c44:	1a000025 	bne	24ce0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x68c>
+   24c4c:	1a000023 	bne	24ce0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x68c>
+   24c58:	0a000020 	beq	24ce0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x68c>
+   24c64:	1a00001d 	bne	24ce0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x68c>
+   24c70:	0a00000b 	beq	24ca4 <_ZN8SDRAMSIMclEiiiiiiijiss+0x650>
+   24c7c:	cafffe9f 	bgt	24700 <_ZN8SDRAMSIMclEiiiiiiijiss+0xac>
+   24ca0:	eafffff3 	b	24c74 <_ZN8SDRAMSIMclEiiiiiiijiss+0x620>
+   24cac:	1a000006 	bne	24ccc <_ZN8SDRAMSIMclEiiiiiiijiss+0x678>
+   24cc8:	eafffe8c 	b	24700 <_ZN8SDRAMSIMclEiiiiiiijiss+0xac>
+   24ccc:	e59f33c4 	ldr	r3, [pc, #964]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24cd4:	e59f13c0 	ldr	r1, [pc, #960]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24cd8:	e59f03fc 	ldr	r0, [pc, #1020]	; 250dc <_ZN8SDRAMSIMclEiiiiiiijiss+0xa88>
+   24ce4:	1a000032 	bne	24db4 <_ZN8SDRAMSIMclEiiiiiiijiss+0x760>
+   24cec:	1a000030 	bne	24db4 <_ZN8SDRAMSIMclEiiiiiiijiss+0x760>
+   24cf8:	0a00002d 	beq	24db4 <_ZN8SDRAMSIMclEiiiiiiijiss+0x760>
+   24d04:	0a00002a 	beq	24db4 <_ZN8SDRAMSIMclEiiiiiiijiss+0x760>
+   24d10:	1a000016 	bne	24d70 <_ZN8SDRAMSIMclEiiiiiiijiss+0x71c>
+   24d28:	1a000019 	bne	24d94 <_ZN8SDRAMSIMclEiiiiiiijiss+0x740>
+   24d50:	e59f2388 	ldr	r2, [pc, #904]	; 250e0 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa8c>
+   24d6c:	eafffe63 	b	24700 <_ZN8SDRAMSIMclEiiiiiiijiss+0xac>
+   24d78:	e59f32fc 	ldr	r3, [pc, #764]	; 2507c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa28>
+   24d88:	e59f0354 	ldr	r0, [pc, #852]	; 250e4 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa90>
+   24d90:	eaffffe5 	b	24d2c <_ZN8SDRAMSIMclEiiiiiiijiss+0x6d8>
+   24d98:	e59f1348 	ldr	r1, [pc, #840]	; 250e8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa94>
+   24d9c:	e59f02d8 	ldr	r0, [pc, #728]	; 2507c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa28>
+   24db0:	eaffffdd 	b	24d2c <_ZN8SDRAMSIMclEiiiiiiijiss+0x6d8>
+   24db8:	1a00008a 	bne	24fe8 <_ZN8SDRAMSIMclEiiiiiiijiss+0x994>
+   24dc0:	0a000088 	beq	24fe8 <_ZN8SDRAMSIMclEiiiiiiijiss+0x994>
+   24dcc:	1a000085 	bne	24fe8 <_ZN8SDRAMSIMclEiiiiiiijiss+0x994>
+   24dd8:	1a00003c 	bne	24ed0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x87c>
+   24de4:	1a00002a 	bne	24e94 <_ZN8SDRAMSIMclEiiiiiiijiss+0x840>
+   24dfc:	0a000029 	beq	24ea8 <_ZN8SDRAMSIMclEiiiiiiijiss+0x854>
+   24e30:	0a000021 	beq	24ebc <_ZN8SDRAMSIMclEiiiiiiijiss+0x868>
+   24e60:	0afffe26 	beq	24700 <_ZN8SDRAMSIMclEiiiiiiijiss+0xac>
+   24e88:	e59f3250 	ldr	r3, [pc, #592]	; 250e0 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa8c>
+   24e90:	eafffe1a 	b	24700 <_ZN8SDRAMSIMclEiiiiiiijiss+0xac>
+   24e94:	e59f31fc 	ldr	r3, [pc, #508]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24e9c:	e59f11f8 	ldr	r1, [pc, #504]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24ea0:	e59f0234 	ldr	r0, [pc, #564]	; 250dc <_ZN8SDRAMSIMclEiiiiiiijiss+0xa88>
+   24ea8:	e59f31e8 	ldr	r3, [pc, #488]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24eb0:	e59f11e4 	ldr	r1, [pc, #484]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24eb4:	e59f0230 	ldr	r0, [pc, #560]	; 250ec <_ZN8SDRAMSIMclEiiiiiiijiss+0xa98>
+   24ebc:	e59f31d4 	ldr	r3, [pc, #468]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24ec4:	e59f11d0 	ldr	r1, [pc, #464]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24ec8:	e59f0220 	ldr	r0, [pc, #544]	; 250f0 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa9c>
+   24ed8:	1a000033 	bne	24fac <_ZN8SDRAMSIMclEiiiiiiijiss+0x958>
+   24ef0:	0a000032 	beq	24fc0 <_ZN8SDRAMSIMclEiiiiiiijiss+0x96c>
+   24f04:	e59f21e8 	ldr	r2, [pc, #488]	; 250f4 <_ZN8SDRAMSIMclEiiiiiiijiss+0xaa0>
+   24f28:	1a000029 	bne	24fd4 <_ZN8SDRAMSIMclEiiiiiiijiss+0x980>
+   24f7c:	0afffddf 	beq	24700 <_ZN8SDRAMSIMclEiiiiiiijiss+0xac>
+   24fa0:	e59f3138 	ldr	r3, [pc, #312]	; 250e0 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa8c>
+   24fa8:	eafffdd4 	b	24700 <_ZN8SDRAMSIMclEiiiiiiijiss+0xac>
+   24fac:	e59f30e4 	ldr	r3, [pc, #228]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24fb4:	e59f10e0 	ldr	r1, [pc, #224]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24fb8:	e59f011c 	ldr	r0, [pc, #284]	; 250dc <_ZN8SDRAMSIMclEiiiiiiijiss+0xa88>
+   24fc0:	e59f30d0 	ldr	r3, [pc, #208]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24fc8:	e59f10cc 	ldr	r1, [pc, #204]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24fcc:	e59f0118 	ldr	r0, [pc, #280]	; 250ec <_ZN8SDRAMSIMclEiiiiiiijiss+0xa98>
+   24fd4:	e59f30bc 	ldr	r3, [pc, #188]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   24fdc:	e59f10b8 	ldr	r1, [pc, #184]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   24fe0:	e59f0110 	ldr	r0, [pc, #272]	; 250f8 <_ZN8SDRAMSIMclEiiiiiiijiss+0xaa4>
+   24fec:	1afffdc3 	bne	24700 <_ZN8SDRAMSIMclEiiiiiiijiss+0xac>
+   24ff4:	0a000005 	beq	25010 <_ZN8SDRAMSIMclEiiiiiiijiss+0x9bc>
+   25000:	0a000002 	beq	25010 <_ZN8SDRAMSIMclEiiiiiiijiss+0x9bc>
+   2500c:	1afffdbb 	bne	24700 <_ZN8SDRAMSIMclEiiiiiiijiss+0xac>
+   25010:	e59f4064 	ldr	r4, [pc, #100]	; 2507c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa28>
+   25020:	e59f00d4 	ldr	r0, [pc, #212]	; 250fc <_ZN8SDRAMSIMclEiiiiiiijiss+0xaa8>
+   2502c:	e59f1054 	ldr	r1, [pc, #84]	; 25088 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa34>
+   2503c:	e59f1048 	ldr	r1, [pc, #72]	; 2508c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa38>
+   2504c:	e59f103c 	ldr	r1, [pc, #60]	; 25090 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa3c>
+   2505c:	e59f1030 	ldr	r1, [pc, #48]	; 25094 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa40>
+   25068:	e59f3028 	ldr	r3, [pc, #40]	; 25098 <_ZN8SDRAMSIMclEiiiiiiijiss+0xa44>
+   25070:	e59f1024 	ldr	r1, [pc, #36]	; 2509c <_ZN8SDRAMSIMclEiiiiiiijiss+0xa48>
+   25074:	e59f0084 	ldr	r0, [pc, #132]	; 25100 <_ZN8SDRAMSIMclEiiiiiiijiss+0xaac>

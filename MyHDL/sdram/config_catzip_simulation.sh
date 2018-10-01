@@ -49,3 +49,8 @@ cp ~/testbuilds/learning_hdl/MyHDL/sdram/sim_hw_test.sh \
 diff ~/testbuilds/learning_hdl/MyHDL/sdram/sim_hw_test.sh \
 ~/testbuilds/catzip_simulation/catzip/rtl/catzip/sw/host
 
+cp ~/testbuilds/learning_hdl/MyHDL/sdram/Makefile_verilated \
+~/testbuilds/catzip_simulation/catzip/sim/verilated/Makefile
+
+diff ~/testbuilds/learning_hdl/MyHDL/sdram/Makefile_verilated \
+~/testbuilds/catzip_simulation/catzip/sim/verilated/Makefile

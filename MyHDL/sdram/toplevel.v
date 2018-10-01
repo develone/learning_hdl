@@ -53,6 +53,9 @@
 // so the @TOP.PORTLIST key may be left undefined.
 //
 module	toplevel(i_clk,
+    sdram_clk,
+    sdram_return_clk,
+    pb,
     topsdcntl0_SdramCntl_sd_intf_cke,
     topsdcntl0_SdramCntl_sd_intf_we,
     topsdcntl0_SdramCntl_sd_intf_addr,
@@ -80,37 +83,30 @@ module	toplevel(i_clk,
 	// key may be left undefined.
 	//
 	input	wire		i_clk;
-output sd_intf_cke;
-reg sd_intf_cke;
-output sd_intf_we;
-reg sd_intf_we;
-output [12:0] sd_intf_addr;
-reg [12:0] sd_intf_addr;
-output sd_intf_dqml;
-reg sd_intf_dqml;
-output sd_intf_cas;
-reg sd_intf_cas;
-output sd_intf_dqmh;
-reg sd_intf_dqmh;
-output sd_intf_ras;
-reg sd_intf_ras;
-output [1:0] sd_intf_bs;
-reg [1:0] sd_intf_bs;
-output sd_intf_cs;
-reg sd_intf_cs;
-inout [15:0] sd_intf_dq;
-wire [15:0] sd_intf_dq;
-input host_intf_wr_i;
-output host_intf_done_o;
-wire host_intf_done_o;
-output host_intf_rdPending_o;
-wire host_intf_rdPending_o;
-input host_intf_rst_i;
-input [15:0] host_intf_data_i;
-output [15:0] host_intf_data_o;
-wire [15:0] host_intf_data_o;
-input host_intf_rd_i;
-input [23:0] host_intf_addr_i;
+output sdram_clk;
+wire sdram_clk;
+input sdram_return_clk;
+input pb;
+output topsdcntl_SdramCntl0_sd_intf_cke;
+reg topsdcntl_SdramCntl0_sd_intf_cke;
+output topsdcntl_SdramCntl0_sd_intf_we;
+reg topsdcntl_SdramCntl0_sd_intf_we;
+output [12:0] topsdcntl_SdramCntl0_sd_intf_addr;
+reg [12:0] topsdcntl_SdramCntl0_sd_intf_addr;
+output topsdcntl_SdramCntl0_sd_intf_dqml;
+reg topsdcntl_SdramCntl0_sd_intf_dqml;
+output topsdcntl_SdramCntl0_sd_intf_cas;
+reg topsdcntl_SdramCntl0_sd_intf_cas;
+output topsdcntl_SdramCntl0_sd_intf_dqmh;
+reg topsdcntl_SdramCntl0_sd_intf_dqmh;
+output topsdcntl_SdramCntl0_sd_intf_ras;
+reg topsdcntl_SdramCntl0_sd_intf_ras;
+output [1:0] topsdcntl_SdramCntl0_sd_intf_bs;
+reg [1:0] topsdcntl_SdramCntl0_sd_intf_bs;
+output topsdcntl_SdramCntl0_sd_intf_cs;
+reg topsdcntl_SdramCntl0_sd_intf_cs;
+inout [15:0] topsdcntl_SdramCntl0_sd_intf_dq;
+wire [15:0] topsdcntl_SdramCntl0_sd_intf_dq;
 input master_clk_i;
 output sdram_clk_o;
 wire sdram_clk_o;
