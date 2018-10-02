@@ -36,7 +36,7 @@
 ################################################################################
 ##
 ##
-all: sdram_test echo top
+all: sdram_test echo top topcat
 
 # GNU Make automatic variables (since I can never remember these ...)
 # $@	- name of the target
@@ -54,6 +54,7 @@ all: sdram_test echo top
 .PHONY: sdram_test
 sdram_test:   sdram_test.bin
 echo: echo.bin
+topcat: topcat.bin
 top: top.bin
 sdram_test.blif:   sdram_test 
 echo.blif:    echo.v  

@@ -50,28 +50,38 @@
 @TOP.PORTLIST=
     sdram_clk,
     sdram_return_clk,
-    mainsdram_SdramCntl0_sd_intf_cke,
-    mainsdram_SdramCntl0_sd_intf_we,
-    mainsdram_SdramCntl0_sd_intf_addr,
-    mainsdram_SdramCntl0_sd_intf_dqml,
-    mainsdram_SdramCntl0_sd_intf_cas,
-    mainsdram_SdramCntl0_sd_intf_dqmh,
-    mainsdram_SdramCntl0_sd_intf_ras,
-    mainsdram_SdramCntl0_sd_intf_bs,
-    mainsdram_SdramCntl0_sd_intf_cs,
-    mainsdram_SdramCntl0_sd_intf_dq 
+    sdramdev0_Sdcntl_sd_intf_cke,
+    sdramdev0_Sdcntl_sd_intf_we,
+    sdramdev0_Sdcntl_sd_intf_addr,
+    sdramdev0_Sdcntl_sd_intf_dqml,
+    sdramdev0_Sdcntl_sd_intf_cas,
+    sdramdev0_Sdcntl_sd_intf_dqmh,
+    sdramdev0_Sdcntl_sd_intf_ras,
+    sdramdev0_Sdcntl_sd_intf_bs,
+    sdramdev0_Sdcntl_sd_intf_cs,
+    sdramdev0_Sdcntl_sd_intf_dq
 
 @TOP.IODECL=
-	output wire sdram_clk;
-	input wire sdram_return_clk;
-	output reg mainsdram_SdramCntl0_sd_intf_cke;
-	output reg mainsdram_SdramCntl0_sd_intf_we;
-	output reg [12:0] mainsdram_SdramCntl0_sd_intf_addr;
-	output reg mainsdram_SdramCntl0_sd_intf_dqml;
-	output reg mainsdram_SdramCntl0_sd_intf_cas;
-	output reg mainsdram_SdramCntl0_sd_intf_dqmh;
-	output reg mainsdram_SdramCntl0_sd_intf_ras;
-	output reg [1:0] mainsdram_SdramCntl0_sd_intf_bs;
-	output reg mainsdram_SdramCntl0_sd_intf_cs;
-	inout wire [15:0] mainsdram_SdramCntl0_sd_intf_dq;
- 
+output sdram_clk;
+wire sdram_clk;
+input sdram_return_clk;
+output sdramdev0_Sdcntl_sd_intf_cke;
+reg sdramdev0_Sdcntl_sd_intf_cke;
+output sdramdev0_Sdcntl_sd_intf_we;
+reg sdramdev0_Sdcntl_sd_intf_we;
+output [12:0] sdramdev0_Sdcntl_sd_intf_addr;
+reg [12:0] sdramdev0_Sdcntl_sd_intf_addr;
+output sdramdev0_Sdcntl_sd_intf_dqml;
+reg sdramdev0_Sdcntl_sd_intf_dqml;
+output sdramdev0_Sdcntl_sd_intf_cas;
+reg sdramdev0_Sdcntl_sd_intf_cas;
+output sdramdev0_Sdcntl_sd_intf_dqmh;
+reg sdramdev0_Sdcntl_sd_intf_dqmh;
+output sdramdev0_Sdcntl_sd_intf_ras;
+reg sdramdev0_Sdcntl_sd_intf_ras;
+output [1:0] sdramdev0_Sdcntl_sd_intf_bs;
+reg [1:0] sdramdev0_Sdcntl_sd_intf_bs;
+output sdramdev0_Sdcntl_sd_intf_cs;
+reg sdramdev0_Sdcntl_sd_intf_cs;
+inout [15:0] sdramdev0_Sdcntl_sd_intf_dq;
+wire [15:0] sdramdev0_Sdcntl_sd_intf_dq; 
