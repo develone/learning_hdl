@@ -635,6 +635,52 @@ module	main(i_clk, i_reset,
 	// or making sure all of the various interrupt wires are set to
 	// zero if the component is not included.
 	//
+`ifdef	SDRAM_ACCESS
+sdramdev sdcntfsm(
+    master_clk_i,
+    sdram_clk_o,
+    sdram_clk_i,
+    pb_i,
+    .i_wb_cyc(wb_cyc),
+    .i_wb_stb(sdram_stb),
+    .i_wb_we(sdramdev0_i_wb_we),
+    .i_wb_addr(sdramdev0_i_wb_addr),
+    .i_wb_data(sdramdev0_i_wb_data),
+    .o_wb_ack(sdram_ack),
+    .o_wb_stall(sdram_stall),
+    .o_wb_data(sdramdev0_o_wb_data),
+    .i_wb_sel(sdram_sel),
+    SdramCntl0_0_sd_intf_cke,
+    SdramCntl0_0_sd_intf_we,
+    SdramCntl0_0_sd_intf_addr,
+    SdramCntl0_0_sd_intf_dqml,
+    SdramCntl0_0_sd_intf_cas,
+    SdramCntl0_0_sd_intf_dqmh,
+    SdramCntl0_0_sd_intf_ras,
+    SdramCntl0_0_sd_intf_bs,
+    SdramCntl0_0_sd_intf_cs,
+    SdramCntl0_0_sd_intf_dq,
+    SdramCntl0_0_host_intf_wr_i,
+    SdramCntl0_0_host_intf_done_o,
+    SdramCntl0_0_host_intf_rdPending_o,
+    sdramdevfsm0_0_host_intf_rst_i,
+    SdramCntl0_0_host_intf_data_i,
+    SdramCntl0_0_host_intf_data_o,
+    SdramCntl0_0_host_intf_rd_i,
+    SdramCntl0_0_host_intf_addr_i
+);
+`else	// SDRAM_ACCESS
+
+	// In the case that there is no sdram peripheral responding on the wb bus
+	reg	r_sdram_ack;
+	initial	r_sdram_ack = 1'b0;
+	always @(posedge i_clk)	r_sdram_ack <= (wb_stb)&&(sdram_sel);
+	assign	sdram_ack   = r_sdram_ack;
+	assign	sdram_stall = 0;
+	assign	sdram_data  = 0;
+
+`endif	// SDRAM_ACCESS
+
 `ifdef	WATCHDOG_ACCESS
 	ziptimer #(.VW(16), .RELOADABLE(0))
 		watchdogi(i_clk, i_reset, 1'b1,

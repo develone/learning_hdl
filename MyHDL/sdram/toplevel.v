@@ -179,7 +179,7 @@ reg [1:0] sdramdev0_Sdcntl_rasTimer_r;
 reg [12:0] sdramdev0_Sdcntl_activeRow_x [0:4-1];
 reg [12:0] sdramdev0_Sdcntl_activeRow_r [0:4-1];
 reg sdramdev0_Sdcntl_activeFlag_x [0:4-1];
-reg sdramdev0_Sdcntl_activeFlag_r [0:4-1];
+reg sdramdev0_Sdcntl_activeFlag_r [0:4-1]; 
 	// GPIO wires
 	output	wire	[1:0]	o_ledg;
 	output	wire		o_ledr;

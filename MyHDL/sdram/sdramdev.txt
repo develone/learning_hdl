@@ -160,4 +160,38 @@ reg [1:0] sdramdev0_Sdcntl_rasTimer_r;
 reg [12:0] sdramdev0_Sdcntl_activeRow_x [0:4-1];
 reg [12:0] sdramdev0_Sdcntl_activeRow_r [0:4-1];
 reg sdramdev0_Sdcntl_activeFlag_x [0:4-1];
-reg sdramdev0_Sdcntl_activeFlag_r [0:4-1];
+reg sdramdev0_Sdcntl_activeFlag_r [0:4-1]; 
+@MAIN.INSERT=
+sdramdev sdcntfsm(
+    master_clk_i,
+    sdram_clk_o,
+    sdram_clk_i,
+    pb_i,
+    .i_wb_cyc(wb_cyc),
+    .i_wb_stb(@$(PREFIX)_stb),
+    .i_wb_we(@$(PREFIX)_we),
+    .i_wb_addr(sdramdev0_i_wb_addr),
+    .i_wb_data(sdramdev0_i_wb_data),
+    .o_wb_ack(@$(PREFIX)_ack),
+    .o_wb_stall(@$(PREFIX)_stall),
+    .o_wb_data(sdramdev0_o_wb_data),
+    .i_wb_sel(@$(PREFIX)_sel),
+    SdramCntl0_0_sd_intf_cke,
+    SdramCntl0_0_sd_intf_we,
+    SdramCntl0_0_sd_intf_addr,
+    SdramCntl0_0_sd_intf_dqml,
+    SdramCntl0_0_sd_intf_cas,
+    SdramCntl0_0_sd_intf_dqmh,
+    SdramCntl0_0_sd_intf_ras,
+    SdramCntl0_0_sd_intf_bs,
+    SdramCntl0_0_sd_intf_cs,
+    SdramCntl0_0_sd_intf_dq,
+    SdramCntl0_0_host_intf_wr_i,
+    SdramCntl0_0_host_intf_done_o,
+    SdramCntl0_0_host_intf_rdPending_o,
+    sdramdevfsm0_0_host_intf_rst_i,
+    SdramCntl0_0_host_intf_data_i,
+    SdramCntl0_0_host_intf_data_o,
+    SdramCntl0_0_host_intf_rd_i,
+    SdramCntl0_0_host_intf_addr_i
+);
