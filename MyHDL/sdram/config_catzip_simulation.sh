@@ -16,11 +16,11 @@ diff ~/testbuilds/learning_hdl/MyHDL/sdram/sdramdev.txt \
 #diff ~/testbuilds/learning_hdl/MyHDL/sdram/sdcntl.txt \
 #~/testbuilds/catzip_simulation/catzip/auto-data/sdcntl.txt
 
-#cp ~/testbuilds/learning_hdl/MyHDL/sdram/Sdcntl.v \
-#~/testbuilds/catzip_simulation/catzip/rtl/catzip
+cp ~/testbuilds/learning_hdl/MyHDL/sdram/wbfsm.v \
+~/testbuilds/catzip_simulation/catzip/rtl/catzip
 
-#diff ~/testbuilds/learning_hdl/MyHDL/sdram/Sdcntl.v \
-#~/testbuilds/catzip_simulation/catzip/rtl/catzip/Sdcntl.v
+diff ~/testbuilds/learning_hdl/MyHDL/sdram/wbfsm.v \
+~/testbuilds/catzip_simulation/catzip/rtl/catzip/wbfsm.v
 
 cp ~/testbuilds/learning_hdl/MyHDL/sdram/Makefile_autodata \
 ~/testbuilds/catzip_simulation/catzip/auto-data/Makefile
@@ -42,6 +42,12 @@ cp ~/testbuilds/learning_hdl/MyHDL/sdram/sdramdev.v \
 
 diff ~/testbuilds/learning_hdl/MyHDL/sdram/sdramdev.v \
 ~/testbuilds/catzip_simulation/catzip/rtl/catzip/sdramdev.v
+
+cp ~/testbuilds/learning_hdl/MyHDL/sdram/catzip.pcf \
+~/testbuilds/catzip_simulation/catzip/rtl/catzip
+
+diff ~/testbuilds/learning_hdl/MyHDL/sdram/catzip.pcf \
+~/testbuilds/catzip_simulation/catzip/rtl/catzip/catzip.pcf
 
 cp ~/testbuilds/learning_hdl/MyHDL/sdram/sim_hw_test.sh \
 ~/testbuilds/catzip_simulation/catzip/sw/host/

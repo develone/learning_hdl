@@ -19,55 +19,55 @@ set_io sdram_clk H16
 set_io sdram_return_clk	G16
 
 set_io pb A16 -pullup yes
-set_io sdramdev0_Sdcntl_sd_intf_cke G15 -pullup yes
-set_io sdramdev0_Sdcntl_sd_intf_we J14
+set_io sd_intf_cke G15 -pullup yes
+set_io sd_intf_we J14
 #'R14', 'P14', 'M13', 'M14', 0-3 from rhea/rhea/boards/lattice/_catboard.py 
 #D0 D1 D2 D3 D4 D5 D6 D7 D8 D9 D10 D11 D12 D13 D14 D15 ok 
-set_io sdramdev0_Sdcntl_sd_intf_dq[0] R14
-set_io sdramdev0_Sdcntl_sd_intf_dq[1] P14
-set_io sdramdev0_Sdcntl_sd_intf_dq[2] M13
-set_io sdramdev0_Sdcntl_sd_intf_dq[3] M14
+set_io sd_intf_dq[0] R14
+set_io sd_intf_dq[1] P14
+set_io sd_intf_dq[2] M13
+set_io sd_intf_dq[3] M14
 #L13', 'L14', 'K13', 'K14',  4-7 from rhea/rhea/boards/lattice/_catboard.py
-set_io sdramdev0_Sdcntl_sd_intf_dq[4] L13
-set_io sdramdev0_Sdcntl_sd_intf_dq[5] L14
-set_io sdramdev0_Sdcntl_sd_intf_dq[6] K13
-set_io sdramdev0_Sdcntl_sd_intf_dq[7] K14
+set_io sd_intf_dq[4] L13
+set_io sd_intf_dq[5] L14
+set_io sd_intf_dq[6] K13
+set_io sd_intf_dq[7] K14
 #J16', 'L16', 'M16', 'M15', 8-11 from rhea/rhea/boards/lattice/_catboard.py
-set_io sdramdev0_Sdcntl_sd_intf_dq[8] J16
-set_io sdramdev0_Sdcntl_sd_intf_dq[9] L16
-set_io sdramdev0_Sdcntl_sd_intf_dq[10] M16
-set_io sdramdev0_Sdcntl_sd_intf_dq[11] M15
+set_io sd_intf_dq[8] J16
+set_io sd_intf_dq[9] L16
+set_io sd_intf_dq[10] M16
+set_io sd_intf_dq[11] M15
 #'N16', 'P16', 'P15', 'R15', 12-15 from rhea/rhea/boards/lattice/_catboard.py
-set_io sdramdev0_Sdcntl_sd_intf_dq[12] N16 
-set_io sdramdev0_Sdcntl_sd_intf_dq[13] P16
-set_io sdramdev0_Sdcntl_sd_intf_dq[14] P15
-set_io sdramdev0_Sdcntl_sd_intf_dq[15] R15
-set_io sdramdev0_Sdcntl_sd_intf_dqml J13
-set_io sdramdev0_Sdcntl_sd_intf_cas K15
-set_io sdramdev0_Sdcntl_sd_intf_dqmh J15
-set_io sdramdev0_Sdcntl_sd_intf_ras K16
-set_io sdramdev0_Sdcntl_sd_intf_bs[0] H14 
-set_io sdramdev0_Sdcntl_sd_intf_bs[1] G13
-set_io sdramdev0_Sdcntl_sd_intf_cs H13 -pullup yes
+set_io sd_intf_dq[12] N16 
+set_io sd_intf_dq[13] P16
+set_io sd_intf_dq[14] P15
+set_io sd_intf_dq[15] R15
+set_io sd_intf_dqml J13
+set_io sd_intf_cas K15
+set_io sd_intf_dqmh J15
+set_io sd_intf_ras K16
+set_io sd_intf_bs[0] H14 
+set_io sd_intf_bs[1] G13
+set_io sd_intf_cs H13 -pullup yes
  
 #'F13', 'E14', 'E13', 'D14',   0-3 from rhea/rhea/boards/lattice/_catboard.py
 # A0 A1 A2 A3 A4 A5 A6 A7 A8 A9 A10 A11 A12 ok
-set_io sdramdev0_Sdcntl_sd_intf_addr[0] F13
-set_io sdramdev0_Sdcntl_sd_intf_addr[1] E14
-set_io sdramdev0_Sdcntl_sd_intf_addr[2] E13
-set_io sdramdev0_Sdcntl_sd_intf_addr[3] D14
+set_io sd_intf_addr[0] F13
+set_io sd_intf_addr[1] E14
+set_io sd_intf_addr[2] E13
+set_io sd_intf_addr[3] D14
 #'B16', 'C16', 'D15', 'D16',    4-7 from rhea/rhea/boards/lattice/_catboard.py 
-set_io sdramdev0_Sdcntl_sd_intf_addr[4] B16
-set_io sdramdev0_Sdcntl_sd_intf_addr[5] C16
-set_io sdramdev0_Sdcntl_sd_intf_addr[6] D15 
-set_io sdramdev0_Sdcntl_sd_intf_addr[7] D16
+set_io sd_intf_addr[4] B16
+set_io sd_intf_addr[5] C16
+set_io sd_intf_addr[6] D15 
+set_io sd_intf_addr[7] D16
 #'E16', 'F15', 'F14', 'F16',    8-11 from rhea/rhea/boards/lattice/_catboard.py
-set_io sdramdev0_Sdcntl_sd_intf_addr[8] E16 
-set_io sdramdev0_Sdcntl_sd_intf_addr[9] F15
-set_io sdramdev0_Sdcntl_sd_intf_addr[10] F14
-set_io sdramdev0_Sdcntl_sd_intf_addr[11] F16
+set_io sd_intf_addr[8] E16 
+set_io sd_intf_addr[9] F15
+set_io sd_intf_addr[10] F14
+set_io sd_intf_addr[11] F16
 #'G14',                          12 from rhea/rhea/boards/lattice/_catboard.py
-set_io sdramdev0_Sdcntl_sd_intf_addr[12] G14
+set_io sd_intf_addr[12] G14
 #set_io i_uart_rx T15 
 #set_io o_uart_tx T14
  
