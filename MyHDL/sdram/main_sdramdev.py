@@ -333,7 +333,7 @@ def top(clk100MHz, sdram_clk, sdram_return_clk,sd_intf_inst):
  	o_wb_ack, o_wb_stall, o_wb_data, i_wb_sel)
 
  	"""
- 	Only one sdramdev_inst.convert() or SdCntl_inst.convert()
+ 	Only one sdramdev_inst.convert(name = 'sdramdev') or SdCntl_inst.convert(name = 'Sdcntl')
  	can be uncommented at the same time
  	not both or the following error will occur
  	Signal has multiple drivers: host_intf_rst_i
