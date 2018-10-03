@@ -31,7 +31,7 @@ from data_del import data_delay
 from SDRAM_Controller.clkdiv import divclkby2 
  
 @block
-def wbfsm(clk_i, reset_i,sd_intf, host_intf, i_wb_cyc, i_wb_stb, i_wb_we, \
+def sdramdevfsm(clk_i, reset_i,sd_intf, host_intf, i_wb_cyc, i_wb_stb, i_wb_we, \
 	i_wb_addr, i_wb_data, o_wb_ack, o_wb_stall, o_wb_data, i_wb_sel ):
  
 	address = Signal(intbv(0)[len(host_intf.addr_i)+3:])
@@ -142,7 +142,7 @@ def wbfsm(clk_i, reset_i,sd_intf, host_intf, i_wb_cyc, i_wb_stb, i_wb_we, \
 
 
 @block
-def maincat(master_clk_i, sdram_clk_o, sdram_clk_i, pb_i, \
+def sdramdev(master_clk_i, sdram_clk_o, sdram_clk_i, pb_i, \
 sd_intf, host_intf_inst, i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, o_wb_ack, \
 o_wb_stall, o_wb_data, i_wb_sel):	
 	clk = Signal(bool(0))
@@ -187,10 +187,10 @@ o_wb_stall, o_wb_data, i_wb_sel):
 		reset.next = not initialized or not pb_debounced
 
 	test_status = Signal(intbv(0)[8:])
- 	wbfsm_inst = wbfsm(clk, reset, sd_intf_inst, host_intf_inst, \
+ 	sdramdevfsm_inst = sdramdevfsm(clk, reset, sd_intf_inst, host_intf_inst, \
 	i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, o_wb_ack, \
 	o_wb_stall, o_wb_data , i_wb_sel)
-	wbfsm_inst.convert()
+ 
 	SdCntl_inst = SdramCntl(clk, host_intf_inst, sd_intf)
 	#SdCntl_inst.convert(name = 'Sdcntl')
  
@@ -209,7 +209,7 @@ o_wb_stall, o_wb_data, i_wb_sel):
 	return instances()
 
 @block    
-def maincat_tb():
+def sdramdev_tb():
 	clk, sdram_clk, sdram_return_clk  = [Signal(bool(0)) for _ in range(3)]
 	i_wb_cyc, i_wb_stb, i_wb_we,o_wb_ack, o_wb_stall = [Signal(bool(0)) for _ in range(5)]
 	i_wb_data = Signal(intbv(0)[16:])
@@ -226,7 +226,7 @@ def maincat_tb():
 	host_intf_inst = host_intf()
 	sd_intf_inst = sd_intf()
 	sdram_inst = sdram(sdram_clk, sd_intf_inst, show_command=False)
- 	dut = maincat(clk, sdram_clk, sdram_return_clk,  \
+ 	dut = sdramdev(clk, sdram_clk, sdram_return_clk,  \
  	pb, sd_intf_inst,host_intf_inst,i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, \
  	i_wb_data, o_wb_ack, o_wb_stall, o_wb_data, i_wb_sel)
 
@@ -328,17 +328,17 @@ def top(clk100MHz, sdram_clk, sdram_return_clk,sd_intf_inst):
 	i_wb_addr = Signal(intbv(0)[32:])
 	i_wb_sel = Signal(intbv(0)[4:])
 	
-  	maincat_inst = maincat(clk50MHz, sdram_clk, sdram_return_clk, pb, \
+  	sdramdev_inst = sdramdev(clk50MHz, sdram_clk, sdram_return_clk, pb, \
  	sd_intf_inst, host_intf_inst, i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, \
  	o_wb_ack, o_wb_stall, o_wb_data, i_wb_sel)
 
  	"""
- 	Only one maincat_inst.convert(name = 'sdramdev') or SdCntl_inst.convert(name = 'Sdcntl')
+ 	Only one sdramdev_inst.convert(name = 'sdramdev') or SdCntl_inst.convert(name = 'Sdcntl')
  	can be uncommented at the same time
  	not both or the following error will occur
  	Signal has multiple drivers: host_intf_rst_i
  	"""
-	maincat_inst.convert(name = 'sdramdev')
+	sdramdev_inst.convert(name = 'sdramdev')
 	
 	return instances()
 
@@ -357,18 +357,18 @@ if __name__ == '__main__':
 	sd_intf_inst = sd_intf()
 	top_inst = top(clk100MHz, sdram_clk, sdram_return_clk,sd_intf_inst)
 	 
-	#top_inst.convert(hdl="Verilog", initial_values=False,name = 'topcat')
+	top_inst.convert(hdl="Verilog", initial_values=False,name = 'topcat')
 	
 	"""
 	The following three lines if uncommented with run the simulation and 
 	create the vcd file
 	"""
 	
-	
-	tb = maincat_tb()
+	"""
+	tb = sdramdev_tb()
 	tb.config_sim(trace=True)
 	tb.run_sim()
-	
+	"""
 	
 	
 	

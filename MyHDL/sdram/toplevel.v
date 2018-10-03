@@ -55,16 +55,16 @@
 module	toplevel(i_clk,
     sdram_clk,
     sdram_return_clk,
-    sd_intf_cke,
-    sd_intf_we,
-    sd_intf_addr,
-    sd_intf_dqml,
-    sd_intf_cas,
-    sd_intf_dqmh,
-    sd_intf_ras,
-    sd_intf_bs,
-    sd_intf_cs,
-    sd_intf_dq,
+    sdramdev0_Sdcntl_sd_intf_cke,
+    sdramdev0_Sdcntl_sd_intf_we,
+    sdramdev0_Sdcntl_sd_intf_addr,
+    sdramdev0_Sdcntl_sd_intf_dqml,
+    sdramdev0_Sdcntl_sd_intf_cas,
+    sdramdev0_Sdcntl_sd_intf_dqmh,
+    sdramdev0_Sdcntl_sd_intf_ras,
+    sdramdev0_Sdcntl_sd_intf_bs,
+    sdramdev0_Sdcntl_sd_intf_cs,
+    sdramdev0_Sdcntl_sd_intf_dq,
 		// GPIO wires
 		o_ledg, o_ledr, i_btn,
 		// Parallel port to wishbone / console interface
@@ -84,101 +84,102 @@ module	toplevel(i_clk,
 output sdram_clk;
 wire sdram_clk;
 input sdram_return_clk;
-output sd_intf_cke;
-reg sd_intf_cke;
-output sd_intf_we;
-reg sd_intf_we;
-output [12:0] sd_intf_addr;
-reg [12:0] sd_intf_addr;
-output sd_intf_dqml;
-reg sd_intf_dqml;
-output sd_intf_cas;
-reg sd_intf_cas;
-output sd_intf_dqmh;
-reg sd_intf_dqmh;
-output sd_intf_ras;
-reg sd_intf_ras;
-output [1:0] sd_intf_bs;
-reg [1:0] sd_intf_bs;
-output sd_intf_cs;
-reg sd_intf_cs;
-inout [15:0] sd_intf_dq;
-wire [15:0] sd_intf_dq;
- 
-wire i_wb_we;
-wire i_wb_stb;
+output sdramdev0_Sdcntl_sd_intf_cke;
+reg sdramdev0_Sdcntl_sd_intf_cke;
+output sdramdev0_Sdcntl_sd_intf_we;
+reg sdramdev0_Sdcntl_sd_intf_we;
+output [12:0] sdramdev0_Sdcntl_sd_intf_addr;
+reg [12:0] sdramdev0_Sdcntl_sd_intf_addr;
+output sdramdev0_Sdcntl_sd_intf_dqml;
+reg sdramdev0_Sdcntl_sd_intf_dqml;
+output sdramdev0_Sdcntl_sd_intf_cas;
+reg sdramdev0_Sdcntl_sd_intf_cas;
+output sdramdev0_Sdcntl_sd_intf_dqmh;
+reg sdramdev0_Sdcntl_sd_intf_dqmh;
+output sdramdev0_Sdcntl_sd_intf_ras;
+reg sdramdev0_Sdcntl_sd_intf_ras;
+output [1:0] sdramdev0_Sdcntl_sd_intf_bs;
+reg [1:0] sdramdev0_Sdcntl_sd_intf_bs;
+output sdramdev0_Sdcntl_sd_intf_cs;
+reg sdramdev0_Sdcntl_sd_intf_cs;
+inout [15:0] sdramdev0_Sdcntl_sd_intf_dq;
+wire [15:0] sdramdev0_Sdcntl_sd_intf_dq; 
+
 wire pb;
-wire i_wb_cyc;
-wire [3:0] i_wb_sel;
-reg o_wb_ack;
-reg o_wb_stall;
-wire [15:0] o_wb_data;
-wire [15:0] i_wb_data;
-reg maincat0_pb_prev;
-reg maincat0_pb_debounced;
-reg maincat0_initialized;
-reg [5:0] maincat0_debounce_cntr;
-wire maincat0_clk;
-wire maincat0_reset;
-wire maincat0_wbfsm_host_intf_done_o;
-reg maincat0_wbfsm_rand_load;
-reg maincat0_wbfsm_rand_enable;
-wire maincat0_wbfsm_host_intf_wr_i;
-reg maincat0_wbfsm_rd_enable;
-wire [15:0] maincat0_wbfsm_rand_val;
-wire [15:0] maincat0_wbfsm_host_intf_data_i;
-wire [15:0] maincat0_wbfsm_host_intf_data_o;
-reg [1:0] maincat0_wbfsm_test_state;
-reg [26:0] maincat0_wbfsm_address;
-wire maincat0_wbfsm_host_intf_rst_i;
-wire maincat0_wbfsm_host_intf_rd_i;
-reg maincat0_wbfsm_wr_enable;
-reg maincat0_wbfsm_error;
-wire [23:0] maincat0_wbfsm_host_intf_addr_i;
-reg [15:0] maincat0_wbfsm_data_delay0_0_tmpdata1;
-reg [15:0] maincat0_wbfsm_data_delay0_0_tmpdata;
-reg [2:0] maincat0_SdramCntl0_cmd_r;
-reg [12:0] maincat0_SdramCntl0_sAddr_x;
-reg [2:0] maincat0_SdramCntl0_cmd_x;
-reg [1:0] maincat0_SdramCntl0_activeBank_r;
-reg [12:0] maincat0_SdramCntl0_sAddr_r;
-reg [15:0] maincat0_SdramCntl0_sdramData_x;
-reg maincat0_SdramCntl0_activateInProgress_s;
-reg maincat0_SdramCntl0_sDataDir_x;
-reg maincat0_SdramCntl0_sDataDir_r;
-wire [1:0] maincat0_SdramCntl0_ba_x;
-reg [4:0] maincat0_SdramCntl0_rdPipeline_r;
-wire [12:0] maincat0_SdramCntl0_row_s;
-reg [13:0] maincat0_SdramCntl0_rfshCntr_x;
-reg [1:0] maincat0_SdramCntl0_ba_r;
-reg [4:0] maincat0_SdramCntl0_rdPipeline_x;
-reg [13:0] maincat0_SdramCntl0_rfshCntr_r;
-reg [15:0] maincat0_SdramCntl0_sDriver;
-reg [1:0] maincat0_SdramCntl0_activeBank_x;
-reg maincat0_SdramCntl0_doActivate_s;
-wire [1:0] maincat0_SdramCntl0_bank_s;
-reg [8:0] maincat0_SdramCntl0_refTimer_r;
-reg maincat0_SdramCntl0_rdInProgress_s;
-reg [8:0] maincat0_SdramCntl0_refTimer_x;
-reg maincat0_SdramCntl0_writeInProgress_s;
-reg [2:0] maincat0_SdramCntl0_state_x;
-reg [15:0] maincat0_SdramCntl0_sData_r;
-wire [8:0] maincat0_SdramCntl0_col_s;
-reg [2:0] maincat0_SdramCntl0_state_r;
-wire [15:0] maincat0_SdramCntl0_sData_x;
-reg [9:0] maincat0_SdramCntl0_timer_x;
-reg [4:0] maincat0_SdramCntl0_wrPipeline_x;
-reg [1:0] maincat0_SdramCntl0_wrTimer_x;
-reg [4:0] maincat0_SdramCntl0_wrPipeline_r;
-reg [15:0] maincat0_SdramCntl0_sdramData_r;
-reg [1:0] maincat0_SdramCntl0_wrTimer_r;
-reg [9:0] maincat0_SdramCntl0_timer_r;
-reg [1:0] maincat0_SdramCntl0_rasTimer_x;
-reg [1:0] maincat0_SdramCntl0_rasTimer_r;
-reg [12:0] maincat0_SdramCntl0_activeRow_x [0:4-1];
-reg [12:0] maincat0_SdramCntl0_activeRow_r [0:4-1];
-reg maincat0_SdramCntl0_activeFlag_x [0:4-1];
-reg maincat0_SdramCntl0_activeFlag_r [0:4-1];
+wire [31:0] sdramdev0_i_wb_addr;
+reg sdramdev0_pb_prev;
+reg sdramdev0_pb_debounced;
+wire sdramdev0_i_wb_cyc;
+reg sdramdev0_o_wb_stall;
+reg sdramdev0_initialized;
+reg [5:0] sdramdev0_debounce_cntr;
+wire sdramdev0_clk;
+wire sdramdev0_i_wb_stb;
+wire [3:0] sdramdev0_i_wb_sel;
+reg sdramdev0_o_wb_ack;
+wire sdramdev0_i_wb_we;
+wire [15:0] sdramdev0_i_wb_data;
+wire sdramdev0_reset;
+wire [15:0] sdramdev0_o_wb_data;
+wire sdramdev0_sdramdevfsm0_host_intf_done_o;
+reg sdramdev0_sdramdevfsm0_rand_load;
+reg sdramdev0_sdramdevfsm0_rand_enable;
+wire sdramdev0_sdramdevfsm0_host_intf_wr_i;
+reg sdramdev0_sdramdevfsm0_rd_enable;
+wire [15:0] sdramdev0_sdramdevfsm0_rand_val;
+wire [15:0] sdramdev0_sdramdevfsm0_host_intf_data_i;
+wire [15:0] sdramdev0_sdramdevfsm0_host_intf_data_o;
+reg [1:0] sdramdev0_sdramdevfsm0_test_state;
+reg [26:0] sdramdev0_sdramdevfsm0_address;
+wire sdramdev0_sdramdevfsm0_host_intf_rd_i;
+reg sdramdev0_sdramdevfsm0_wr_enable;
+reg sdramdev0_sdramdevfsm0_error;
+wire [23:0] sdramdev0_sdramdevfsm0_host_intf_addr_i;
+reg [15:0] sdramdev0_sdramdevfsm0_data_delay0_0_tmpdata1;
+reg [15:0] sdramdev0_sdramdevfsm0_data_delay0_0_tmpdata;
+reg [2:0] sdramdev0_Sdcntl_cmd_r;
+reg [12:0] sdramdev0_Sdcntl_sAddr_x;
+reg [2:0] sdramdev0_Sdcntl_cmd_x;
+reg [1:0] sdramdev0_Sdcntl_activeBank_r;
+reg [12:0] sdramdev0_Sdcntl_sAddr_r;
+reg [15:0] sdramdev0_Sdcntl_sdramData_x;
+reg sdramdev0_Sdcntl_activateInProgress_s;
+reg sdramdev0_Sdcntl_sDataDir_x;
+reg sdramdev0_Sdcntl_sDataDir_r;
+wire [1:0] sdramdev0_Sdcntl_ba_x;
+reg [4:0] sdramdev0_Sdcntl_rdPipeline_r;
+wire [12:0] sdramdev0_Sdcntl_row_s;
+reg [13:0] sdramdev0_Sdcntl_rfshCntr_x;
+reg [1:0] sdramdev0_Sdcntl_ba_r;
+reg [4:0] sdramdev0_Sdcntl_rdPipeline_x;
+reg [13:0] sdramdev0_Sdcntl_rfshCntr_r;
+reg [15:0] sdramdev0_Sdcntl_sDriver;
+reg [1:0] sdramdev0_Sdcntl_activeBank_x;
+reg sdramdev0_Sdcntl_doActivate_s;
+wire [1:0] sdramdev0_Sdcntl_bank_s;
+reg [8:0] sdramdev0_Sdcntl_refTimer_r;
+reg sdramdev0_Sdcntl_rdInProgress_s;
+reg [8:0] sdramdev0_Sdcntl_refTimer_x;
+reg sdramdev0_Sdcntl_writeInProgress_s;
+reg [2:0] sdramdev0_Sdcntl_state_x;
+reg [15:0] sdramdev0_Sdcntl_sData_r;
+wire [8:0] sdramdev0_Sdcntl_col_s;
+reg [2:0] sdramdev0_Sdcntl_state_r;
+wire [15:0] sdramdev0_Sdcntl_sData_x;
+reg [9:0] sdramdev0_Sdcntl_timer_x;
+reg [4:0] sdramdev0_Sdcntl_wrPipeline_x;
+reg [1:0] sdramdev0_Sdcntl_wrTimer_x;
+wire sdramdev0_Sdcntl_host_intf_rdPending_o;
+reg [4:0] sdramdev0_Sdcntl_wrPipeline_r;
+reg [15:0] sdramdev0_Sdcntl_sdramData_r;
+reg [1:0] sdramdev0_Sdcntl_wrTimer_r;
+reg [9:0] sdramdev0_Sdcntl_timer_r;
+reg [1:0] sdramdev0_Sdcntl_rasTimer_x;
+reg [1:0] sdramdev0_Sdcntl_rasTimer_r;
+reg [12:0] sdramdev0_Sdcntl_activeRow_x [0:4-1];
+reg [12:0] sdramdev0_Sdcntl_activeRow_r [0:4-1];
+reg sdramdev0_Sdcntl_activeFlag_x [0:4-1];
+reg sdramdev0_Sdcntl_activeFlag_r [0:4-1]; 
 	// GPIO wires
 	output	wire	[1:0]	o_ledg;
 	output	wire		o_ledr;

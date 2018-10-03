@@ -636,19 +636,20 @@ module	main(i_clk, i_reset,
 	// zero if the component is not included.
 	//
 `ifdef	SDRAM_ACCESS
-sdramdev dut(
-    .sdram_clk_o(sdram_clk),
+sdramdev sdcntfsm(
+    master_clk_i,
+    sdram_clk_o,
     sdram_clk_i,
     pb_i,
-    i_wb_cyc,
-    i_wb_stb,
-    i_wb_we,
-    i_wb_addr,
-    i_wb_data,
-    o_wb_ack,
-    o_wb_stall,
-    o_wb_data,
-    i_wb_sel,
+    .i_wb_cyc(wb_cyc),
+    .i_wb_stb(sdram_stb),
+    .i_wb_we(sdram_we),
+    .i_wb_addr(sdramdev0_i_wb_addr),
+    .i_wb_data(sdramdev0_i_wb_data),
+    .o_wb_ack(sdram_ack),
+    .o_wb_stall(sdram_stall),
+    .o_wb_data(sdramdev0_o_wb_data),
+    .i_wb_sel(sdram_sel),
     SdramCntl0_0_sd_intf_cke,
     SdramCntl0_0_sd_intf_we,
     SdramCntl0_0_sd_intf_addr,
@@ -667,30 +668,6 @@ sdramdev dut(
     SdramCntl0_0_host_intf_data_o,
     SdramCntl0_0_host_intf_rd_i,
     SdramCntl0_0_host_intf_addr_i
-);
-wbfsm dutfsm(
-    clk_i,
-    reset_i,
-    i_wb_cyc,
-    i_wb_stb,
-    i_wb_we,
-    i_wb_addr,
-    i_wb_data,
-    o_wb_ack,
-    o_wb_stall,
-    o_wb_data,
-    i_wb_sel,
-    sd_intf_cke,
-    sd_intf_we,
-    sd_intf_addr,
-   host_intf_wr_i,
-    host_intf_done_o,
-    host_intf_rdPending_o,
-    host_intf_rst_i,
-    host_intf_data_i,
-    host_intf_data_o,
-    host_intf_rd_i,
-    host_intf_addr_i
 );
 `else	// SDRAM_ACCESS
 
