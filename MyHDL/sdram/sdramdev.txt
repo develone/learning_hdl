@@ -176,7 +176,11 @@ output sdramdevfsm0_0_host_intf_rd_i;
 wire sdramdevfsm0_0_host_intf_rd_i;
 output [23:0] sdramdevfsm0_0_host_intf_addr_i;
 wire [23:0] sdramdevfsm0_0_host_intf_addr_i;
-
+@REGS.N=1
+@REGS.0= 0 R_@$(DEVID) @$(DEVID)
+@REGDEFS.H.DEFNS=
+#define	@$(DEVID)BASE	@$(BASEHX)
+#define	@$(DEVID)LEN	@$NBYTES
 
 @MAIN.INSERT=
 sdramdev sdcntfsm(
