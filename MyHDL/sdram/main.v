@@ -76,6 +76,44 @@
 // from the fields given by @MAIN.PORTLIST
 //
 module	main(i_clk, i_reset,
+    sdram_clk,
+    sdram_return_clk,
+    pb_i,
+	i_wb_cyc,
+	i_wb_stb,
+	i_wb_we,
+	i_wb_addr,
+	i_wb_data,
+	o_wb_ack,
+	o_wb_stall,
+	o_wb_data,
+	i_wb_sel,
+	SdramCntl0_0_sd_intf_cke,
+	SdramCntl0_0_sd_intf_we,
+	SdramCntl0_0_sd_intf_addr,
+	SdramCntl0_0_sd_intf_dqml,
+	SdramCntl0_0_sd_intf_cas,
+	SdramCntl0_0_sd_intf_dqmh,
+	SdramCntl0_0_sd_intf_ras,
+	SdramCntl0_0_sd_intf_bs,
+	SdramCntl0_0_sd_intf_cs,
+	SdramCntl0_0_sd_intf_dq
+	sdramdevfsm0_0_host_intf_wr_i,
+	sdramdevfsm0_0_host_intf_done_o,
+	SdramCntl0_0_host_intf_rdPending_o,
+	sdramdevfsm0_0_host_intf_rst_i,
+	sdramdevfsm0_0_host_intf_data_i,
+	sdramdevfsm0_0_host_intf_data_o,
+	sdramdevfsm0_0_host_intf_rd_i,
+	sdramdevfsm0_0_host_intf_addr_i,
+	sdramdevfsm0_0_host_intf_wr_i,
+	sdramdevfsm0_0_host_intf_done_o,
+	SdramCntl0_0_host_intf_rdPending_o,
+	sdramdevfsm0_0_host_intf_rst_i,
+	sdramdevfsm0_0_host_intf_data_i,
+	sdramdevfsm0_0_host_intf_data_o,
+	sdramdevfsm0_0_host_intf_rd_i,
+	sdramdevfsm0_0_host_intf_addr_i,
 		// GPIO ports
 		i_gpio, o_gpio,
 		// Command and Control port
@@ -122,6 +160,61 @@ module	main(i_clk, i_reset,
 // verilator lint_off UNUSED
 	input	wire		i_reset;
 	// verilator lint_on UNUSED
+input master_clk_i;
+output sdram_clk_o;
+wire sdram_clk_o;
+input sdram_clk_i;
+input pb_i;
+input i_wb_cyc;
+input i_wb_stb;
+input i_wb_we;
+input [31:0] i_wb_addr;
+input [15:0] i_wb_data;
+output o_wb_ack;
+reg o_wb_ack;
+output o_wb_stall;
+reg o_wb_stall;
+output [15:0] o_wb_data;
+wire [15:0] o_wb_data;
+input [3:0] i_wb_sel;
+output SdramCntl0_0_sd_intf_cke;
+reg SdramCntl0_0_sd_intf_cke;
+output SdramCntl0_0_sd_intf_we;
+reg SdramCntl0_0_sd_intf_we;
+output [12:0] SdramCntl0_0_sd_intf_addr;
+reg [12:0] SdramCntl0_0_sd_intf_addr;
+output SdramCntl0_0_sd_intf_dqml;
+reg SdramCntl0_0_sd_intf_dqml;
+output SdramCntl0_0_sd_intf_cas;
+reg SdramCntl0_0_sd_intf_cas;
+output SdramCntl0_0_sd_intf_dqmh;
+reg SdramCntl0_0_sd_intf_dqmh;
+output SdramCntl0_0_sd_intf_ras;
+reg SdramCntl0_0_sd_intf_ras;
+output [1:0] SdramCntl0_0_sd_intf_bs;
+reg [1:0] SdramCntl0_0_sd_intf_bs;
+output SdramCntl0_0_sd_intf_cs;
+reg SdramCntl0_0_sd_intf_cs;
+inout [15:0] SdramCntl0_0_sd_intf_dq;
+wire [15:0] SdramCntl0_0_sd_intf_dq;
+output sdramdevfsm0_0_host_intf_wr_i;
+wire sdramdevfsm0_0_host_intf_wr_i;
+output sdramdevfsm0_0_host_intf_done_o;
+wire sdramdevfsm0_0_host_intf_done_o;
+output SdramCntl0_0_host_intf_rdPending_o;
+wire SdramCntl0_0_host_intf_rdPending_o;
+output sdramdevfsm0_0_host_intf_rst_i;
+wire sdramdevfsm0_0_host_intf_rst_i;
+output [15:0] sdramdevfsm0_0_host_intf_data_i;
+wire [15:0] sdramdevfsm0_0_host_intf_data_i;
+output [15:0] sdramdevfsm0_0_host_intf_data_o;
+wire [15:0] sdramdevfsm0_0_host_intf_data_o;
+output sdramdevfsm0_0_host_intf_rd_i;
+wire sdramdevfsm0_0_host_intf_rd_i;
+output [23:0] sdramdevfsm0_0_host_intf_addr_i;
+wire [23:0] sdramdevfsm0_0_host_intf_addr_i;
+
+
 	input	wire		i_pp_clk, i_pp_dir;
 	input	wire	[7:0]	i_pp_data;
 	output	wire	[7:0]	o_pp_data;
@@ -637,19 +730,19 @@ module	main(i_clk, i_reset,
 	//
 `ifdef	SDRAM_ACCESS
 sdramdev sdcntfsm(
-    master_clk_i,
-    sdram_clk_o,
-    sdram_clk_i,
+    .master_clk_i(i_clk),
+    .sdram_clk_o(sdram_clk),
+    sdram_clk_i(sdram_return_clk),
     pb_i,
-    .i_wb_cyc(wb_cyc),
-    .i_wb_stb(sdram_stb),
-    .i_wb_we(sdram_we),
-    .i_wb_addr(sdramdev0_i_wb_addr),
-    .i_wb_data(sdramdev0_i_wb_data),
-    .o_wb_ack(sdram_ack),
-    .o_wb_stall(sdram_stall),
-    .o_wb_data(sdramdev0_o_wb_data),
-    .i_wb_sel(sdram_sel),
+    i_wb_cyc,
+    i_wb_stb,
+    i_wb_we,
+    i_wb_addr,
+    i_wb_data,
+    o_wb_ack,
+    o_wb_stall,
+    o_wb_data,
+    i_wb_sel,
     SdramCntl0_0_sd_intf_cke,
     SdramCntl0_0_sd_intf_we,
     SdramCntl0_0_sd_intf_addr,
@@ -660,14 +753,14 @@ sdramdev sdcntfsm(
     SdramCntl0_0_sd_intf_bs,
     SdramCntl0_0_sd_intf_cs,
     SdramCntl0_0_sd_intf_dq,
-    SdramCntl0_0_host_intf_wr_i,
-    SdramCntl0_0_host_intf_done_o,
+    sdramdevfsm0_0_host_intf_wr_i,
+    sdramdevfsm0_0_host_intf_done_o,
     SdramCntl0_0_host_intf_rdPending_o,
     sdramdevfsm0_0_host_intf_rst_i,
-    SdramCntl0_0_host_intf_data_i,
-    SdramCntl0_0_host_intf_data_o,
-    SdramCntl0_0_host_intf_rd_i,
-    SdramCntl0_0_host_intf_addr_i
+    sdramdevfsm0_0_host_intf_data_i,
+    sdramdevfsm0_0_host_intf_data_o,
+    sdramdevfsm0_0_host_intf_rd_i,
+    sdramdevfsm0_0_host_intf_addr_i
 );
 `else	// SDRAM_ACCESS
 
