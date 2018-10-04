@@ -76,8 +76,11 @@
 // from the fields given by @MAIN.PORTLIST
 //
 module	main(i_clk, i_reset,
-    sdram_clk,
-    sdram_return_clk,
+	master_clk_i,
+	sdram_clk_o,
+	sdram_clk_i,
+    //sdram_clk,
+    //sdram_return_clk,
     pb_i,
 	i_wb_cyc,
 	i_wb_stb,
@@ -97,15 +100,7 @@ module	main(i_clk, i_reset,
 	SdramCntl0_0_sd_intf_ras,
 	SdramCntl0_0_sd_intf_bs,
 	SdramCntl0_0_sd_intf_cs,
-	SdramCntl0_0_sd_intf_dq
-	sdramdevfsm0_0_host_intf_wr_i,
-	sdramdevfsm0_0_host_intf_done_o,
-	SdramCntl0_0_host_intf_rdPending_o,
-	sdramdevfsm0_0_host_intf_rst_i,
-	sdramdevfsm0_0_host_intf_data_i,
-	sdramdevfsm0_0_host_intf_data_o,
-	sdramdevfsm0_0_host_intf_rd_i,
-	sdramdevfsm0_0_host_intf_addr_i,
+	SdramCntl0_0_sd_intf_dq,
 	sdramdevfsm0_0_host_intf_wr_i,
 	sdramdevfsm0_0_host_intf_done_o,
 	SdramCntl0_0_host_intf_rdPending_o,
@@ -730,9 +725,9 @@ wire [23:0] sdramdevfsm0_0_host_intf_addr_i;
 	//
 `ifdef	SDRAM_ACCESS
 sdramdev sdcntfsm(
-    .master_clk_i(i_clk),
-    .sdram_clk_o(sdram_clk),
-    sdram_clk_i(sdram_return_clk),
+    master_clk_i,
+    sdram_clk_o,
+    sdram_clk_i,
     pb_i,
     i_wb_cyc,
     i_wb_stb,

@@ -121,14 +121,6 @@
 	sdramdevfsm0_0_host_intf_data_i,
 	sdramdevfsm0_0_host_intf_data_o,
 	sdramdevfsm0_0_host_intf_rd_i,
-	sdramdevfsm0_0_host_intf_addr_i,
-	sdramdevfsm0_0_host_intf_wr_i,
-	sdramdevfsm0_0_host_intf_done_o,
-	SdramCntl0_0_host_intf_rdPending_o,
-	sdramdevfsm0_0_host_intf_rst_i,
-	sdramdevfsm0_0_host_intf_data_i,
-	sdramdevfsm0_0_host_intf_data_o,
-	sdramdevfsm0_0_host_intf_rd_i,
 	sdramdevfsm0_0_host_intf_addr_i
 @MAIN.IODECL=
 input master_clk_i;
