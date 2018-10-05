@@ -150,8 +150,7 @@ sd_intf, host_intf_inst):
 """
 @block
 def sdramdev(master_clk_i, sdram_clk_o, sdram_clk_i, pb_i, \
-sd_intf, host_intf_inst, i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, o_wb_ack, \
-o_wb_stall, o_wb_data, i_wb_sel):
+sd_intf, host_intf_inst):	
 	clk = Signal(bool(0))
  	
 	@always_comb
@@ -199,10 +198,12 @@ o_wb_stall, o_wb_data, i_wb_sel):
 	i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, o_wb_ack, \
 	o_wb_stall, o_wb_data , i_wb_sel)
 	"""
+	"""
  	sdramdevfsm_inst = sdramdevfsm(clk, reset, host_intf_inst, \
 	i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, o_wb_ack, \
 	o_wb_stall, o_wb_data , i_wb_sel)
-	sdramdevfsm_inst.convert(name = 'sdramdev')
+	"""
+	#sdramdevfsm_inst.convert(name = 'sdramdev')
 	SdCntl_inst = SdramCntl(clk, host_intf_inst, sd_intf)
 	#SdCntl_inst.convert(name = 'Sdcntl')
  
@@ -339,23 +340,21 @@ def top(clk100MHz, sdram_clk, sdram_return_clk,sd_intf_inst):
 	o_wb_data = Signal(intbv(0)[16:])
 	i_wb_addr = Signal(intbv(0)[32:])
 	i_wb_sel = Signal(intbv(0)[4:])
-	"""
 	sdramdev_inst = sdramdev(clk50MHz, sdram_clk, sdram_return_clk, pb, \
  	sd_intf_inst, host_intf_inst)
- 	"""
-	
+	"""
   	sdramdev_inst = sdramdev(clk50MHz, sdram_clk, sdram_return_clk, pb, \
  	sd_intf_inst, host_intf_inst, i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, \
  	o_wb_ack, o_wb_stall, o_wb_data, i_wb_sel)
-	
+	"""
  	"""
  	Only one sdramdev_inst.convert(name = 'sdramdev') or SdCntl_inst.convert(name = 'Sdcntl')
  	can be uncommented at the same time
  	not both or the following error will occur
  	Signal has multiple drivers: host_intf_rst_i
  	"""
-	 
-	#sdramdev_inst.convert(name = 'sdcnt')
+	#sdramdev_inst.convert(name = 'sdramdev')
+	sdramdev_inst.convert(name = 'sdcnt')
 	
 	return instances()
 

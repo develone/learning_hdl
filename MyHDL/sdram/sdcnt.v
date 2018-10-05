@@ -218,7 +218,9 @@ always @(SdramCntl0_0_activeRow_r[0], SdramCntl0_0_activeRow_r[1], SdramCntl0_0_
                         else if ((SdramCntl0_0_rdInProgress_s == 1'b0)) begin
                             SdramCntl0_0_cmd_x = 5;
                             SdramCntl0_0_sDataDir_x = 1'b0;
+                            /* verilator lint_off WIDTH */
                             SdramCntl0_0_sAddr_x = SdramCntl0_0_col_s;
+                            /* verilator lint_off WIDTH */
                             SdramCntl0_0_rdPipeline_x = {1'b1, SdramCntl0_0_rdPipeline_r[(3 + 2)-1:1]};
                         end
                     end
@@ -237,7 +239,9 @@ always @(SdramCntl0_0_activeRow_r[0], SdramCntl0_0_activeRow_r[1], SdramCntl0_0_
                         else if ((SdramCntl0_0_rdInProgress_s == 1'b0)) begin
                             SdramCntl0_0_cmd_x = 4;
                             SdramCntl0_0_sDataDir_x = 1'b1;
+                            /* verilator lint_off WIDTH */
                             SdramCntl0_0_sAddr_x = SdramCntl0_0_col_s;
+                            /* verilator lint_off WIDTH */
                             SdramCntl0_0_wrPipeline_x = 5'h1;
                             SdramCntl0_0_wrTimer_x = 2;
                         end
