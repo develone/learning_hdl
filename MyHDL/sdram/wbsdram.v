@@ -117,7 +117,7 @@ module	wbsdram(i_clk,
 	always @(posedge i_clk)
 	begin
 		if (refresh_cmd)
-			refresh_clk <= 10'd625; // Make suitable for 80 MHz clk
+			refresh_clk <= 10'd391; // Make suitable for 50 MHz clk
 		else if (|refresh_clk)
 			refresh_clk <= refresh_clk - 10'h1;
 	end
