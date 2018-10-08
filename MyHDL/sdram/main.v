@@ -76,50 +76,13 @@
 // from the fields given by @MAIN.PORTLIST
 //
 module	main(i_clk, i_reset,
-    clk_i,
-    sdram_clk_o,
-    sdram_clk_i, 
-    reset_i,
-    i_wb_cyc,
-    i_wb_stb,
-    i_wb_we,
-    i_wb_addr,
-    i_wb_data,
-    o_wb_ack,
-    o_wb_stall,
-    o_wb_data,
-    i_wb_sel,
-    host_intf_wr_i,
-    host_intf_done_o,
-    host_intf_rdPending_o,
-    host_intf_rst_i,
-    host_intf_data_i,
-    host_intf_data_o,
-    host_intf_rd_i,
-    host_intf_addr_i,
-    
-    master_clk_i,
-    pb_i,
-    sdram_clk_o,
-    sdram_clk_i,
-    SdramCntl0_0_sd_intf_cke,
-    SdramCntl0_0_sd_intf_we,
-    SdramCntl0_0_sd_intf_addr,
-    SdramCntl0_0_sd_intf_dqml,
-    SdramCntl0_0_sd_intf_cas,
-    SdramCntl0_0_sd_intf_dqmh,
-    SdramCntl0_0_sd_intf_ras,
-    SdramCntl0_0_sd_intf_bs,
-    SdramCntl0_0_sd_intf_cs,
-    SdramCntl0_0_sd_intf_dq,
-    SdramCntl0_0_host_intf_wr_i,
-    SdramCntl0_0_host_intf_done_o,
-    SdramCntl0_0_host_intf_rdPending_o,
-    host_intf_inst_rst_i,
-    SdramCntl0_0_host_intf_data_i,
-    SdramCntl0_0_host_intf_data_o,
-    SdramCntl0_0_host_intf_rd_i,
-    SdramCntl0_0_host_intf_addr_i	,
+i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, i_wb_sel,
+			o_wb_ack, o_wb_stall, o_wb_data,
+		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
+			o_ram_bs, o_ram_addr,
+			o_ram_dmod, i_ram_data, o_ram_data, o_ram_dqm,
+		o_debug     
+ 	,
 		// GPIO ports
 		i_gpio, o_gpio,
 		// Command and Control port
@@ -166,81 +129,29 @@ module	main(i_clk, i_reset,
 // verilator lint_off UNUSED
 	input	wire		i_reset;
 	// verilator lint_on UNUSED
-output sdram_clk_o;
-wire sdram_clk_o;
-input sdram_clk_i;
-input master_clk_i;
-input clk_i;
-input reset_i;
-input i_wb_cyc;
-input i_wb_stb;
-input i_wb_we;
-input [31:0] i_wb_addr;
-input [15:0] i_wb_data;
-output o_wb_ack;
-reg o_wb_ack;
-output o_wb_stall;
-reg o_wb_stall;
-output [15:0] o_wb_data;
-wire [15:0] o_wb_data;
-input [3:0] i_wb_sel;
-output host_intf_wr_i;
-wire host_intf_wr_i;
-input host_intf_done_o;
-input host_intf_rdPending_o;
-output host_intf_rst_i;
-wire host_intf_rst_i;
-output [15:0] host_intf_data_i;
-wire [15:0] host_intf_data_i;
-input [15:0] host_intf_data_o;
-output host_intf_rd_i;
-wire host_intf_rd_i;
-output [23:0] host_intf_addr_i;
-wire [23:0] host_intf_addr_i;
-input pb_i;
-reg rand_load;
-reg rand_enable;
-wire [15:0] rand_val;
-reg rd_enable;
-reg [1:0] test_state;
-reg [26:0] address;
-reg wr_enable;
-reg error;
-reg [15:0] data_delay0_0_1_tmpdata1;
-reg [15:0] data_delay0_0_1_tmpdata;
-
-
-output SdramCntl0_0_sd_intf_cke;
-reg SdramCntl0_0_sd_intf_cke;
-output SdramCntl0_0_sd_intf_we;
-reg SdramCntl0_0_sd_intf_we;
-output [12:0] SdramCntl0_0_sd_intf_addr;
-reg [12:0] SdramCntl0_0_sd_intf_addr;
-output SdramCntl0_0_sd_intf_dqml;
-reg SdramCntl0_0_sd_intf_dqml;
-output SdramCntl0_0_sd_intf_cas;
-reg SdramCntl0_0_sd_intf_cas;
-output SdramCntl0_0_sd_intf_dqmh;
-reg SdramCntl0_0_sd_intf_dqmh;
-output SdramCntl0_0_sd_intf_ras;
-reg SdramCntl0_0_sd_intf_ras;
-output [1:0] SdramCntl0_0_sd_intf_bs;
-reg [1:0] SdramCntl0_0_sd_intf_bs;
-output SdramCntl0_0_sd_intf_cs;
-reg SdramCntl0_0_sd_intf_cs;
-inout [15:0] SdramCntl0_0_sd_intf_dq;
-wire [15:0] SdramCntl0_0_sd_intf_dq;
-input SdramCntl0_0_host_intf_wr_i;
-output SdramCntl0_0_host_intf_done_o;
-wire SdramCntl0_0_host_intf_done_o;
-output SdramCntl0_0_host_intf_rdPending_o;
-wire SdramCntl0_0_host_intf_rdPending_o;
-input host_intf_inst_rst_i;
-input [15:0] SdramCntl0_0_host_intf_data_i;
-output [15:0] SdramCntl0_0_host_intf_data_o;
-wire [15:0] SdramCntl0_0_host_intf_data_o;
-input SdramCntl0_0_host_intf_rd_i;
-input [23:0] SdramCntl0_0_host_intf_addr_i;
+parameter	RDLY = 6;
+	// Wishbone
+	//	inputs
+	input			i_wb_cyc, i_wb_stb, i_wb_we;
+	input		[22:0]	i_wb_addr;
+	input		[31:0]	i_wb_data;
+	input		[3:0]	i_wb_sel;
+		//	outputs
+	output	wire		o_wb_ack;
+	output	reg		o_wb_stall;
+	output	wire [31:0]	o_wb_data;
+	// SDRAM control
+	output	wire		o_ram_cke;
+	output	reg		o_ram_cs_n,
+				o_ram_ras_n, o_ram_cas_n, o_ram_we_n;
+	output	reg	[1:0]	o_ram_bs;
+	output	reg	[12:0]	o_ram_addr;
+	output	reg		o_ram_dmod;
+	input		[15:0]	i_ram_data;
+	output	reg	[15:0]	o_ram_data;
+	output	reg	[1:0]	o_ram_dqm;
+	output	wire	[31:0]	o_debug;
+	
 
 	input	wire		i_pp_clk, i_pp_dir;
 	input	wire	[7:0]	i_pp_data;
@@ -756,53 +667,13 @@ input [23:0] SdramCntl0_0_host_intf_addr_i;
 	// zero if the component is not included.
 	//
 `ifdef	SDRAM_ACCESS
-sdramdev sdram (
-    .clk_i(i_clk),
-    .reset_i(i_reset),
-    .i_wb_cyc(wb_cyc),
-    .i_wb_stb(wb_stb),
-    .i_wb_we(wb_we),
-    /* verilator lint_off WIDTH */	
-    .i_wb_addr(wb_addr[(24-3):0]),
-    /* verilator lint_off WIDTH */	
-    i_wb_data,
-    o_wb_ack,
-    .o_wb_stall(sdram_stall),
-    o_wb_data,
-    .i_wb_sel(wb_sel),
-    host_intf_wr_i,
-    host_intf_done_o,
-    host_intf_rdPending_o,
-    host_intf_rst_i,
-    host_intf_data_i,
-    host_intf_data_o,
-    host_intf_rd_i,
-    host_intf_addr_i
-);
-sdcnt sdcl (
-    .master_clk_i(i_clk),
-    sdram_clk_o,
-    sdram_clk_i,
-    pb_i,
-    SdramCntl0_0_sd_intf_cke,
-    SdramCntl0_0_sd_intf_we,
-    SdramCntl0_0_sd_intf_addr,
-    SdramCntl0_0_sd_intf_dqml,
-    SdramCntl0_0_sd_intf_cas,
-    SdramCntl0_0_sd_intf_dqmh,
-    SdramCntl0_0_sd_intf_ras,
-    SdramCntl0_0_sd_intf_bs,
-    SdramCntl0_0_sd_intf_cs,
-    SdramCntl0_0_sd_intf_dq,
-    SdramCntl0_0_host_intf_wr_i,
-    SdramCntl0_0_host_intf_done_o,
-    SdramCntl0_0_host_intf_rdPending_o,
-    host_intf_inst_rst_i,
-    SdramCntl0_0_host_intf_data_i,
-    SdramCntl0_0_host_intf_data_o,
-    SdramCntl0_0_host_intf_rd_i,
-    SdramCntl0_0_host_intf_addr_i
-);
+wbsdram sdrami(i_clk,
+		.i_wb_cyc(wb_cyc), .i_wb_stb(wb_stb), .i_wb_we(wb_we), .i_wb_addr(wb_addr), .i_wb_data(wb_data), .i_wb_sel(wb_sel),
+			o_wb_ack, o_wb_stall, o_wb_data,
+		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
+			o_ram_bs, o_ram_addr,
+			o_ram_dmod, i_ram_data, o_ram_data, o_ram_dqm,
+		o_debug);
 `else	// SDRAM_ACCESS
 
 	// In the case that there is no sdram peripheral responding on the wb bus

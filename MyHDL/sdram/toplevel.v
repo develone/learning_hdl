@@ -53,18 +53,9 @@
 // so the @TOP.PORTLIST key may be left undefined.
 //
 module	toplevel(i_clk,
-	sdram_clk,
-	sdram_return_clk,
-    sdramdev0_SdramCntl0_sd_intf_cke,
-    sdramdev0_SdramCntl0_sd_intf_we,
-    sdramdev0_SdramCntl0_sd_intf_addr,
-    sdramdev0_SdramCntl0_sd_intf_dqml,
-    sdramdev0_SdramCntl0_sd_intf_cas,
-    sdramdev0_SdramCntl0_sd_intf_dqmh,
-    sdramdev0_SdramCntl0_sd_intf_ras,
-    sdramdev0_SdramCntl0_sd_intf_bs,
-    sdramdev0_SdramCntl0_sd_intf_cs,
-    sdramdev0_SdramCntl0_sd_intf_dq,
+		o_ram_clk, o_ram_cke, o_ram_cs_n, o_ram_ras_n, o_ram_cas_n,
+		o_ram_we_n, o_ram_bs, o_ram_addr, o_ram_udqm, o_ram_ldqm,
+		io_ram_data, o_ram_dqm, o_debug,
 		// GPIO wires
 		o_ledg, o_ledr, i_btn,
 		// Parallel port to wishbone / console interface
@@ -82,30 +73,12 @@ module	toplevel(i_clk,
 	//
 	input	wire		i_clk;
 
-output sdram_clk;
-wire sdram_clk;
-input sdram_return_clk;
-output sdramdev0_SdramCntl0_sd_intf_cke;
-reg sdramdev0_SdramCntl0_sd_intf_cke;
-output sdramdev0_SdramCntl0_sd_intf_we;
-reg sdramdev0_SdramCntl0_sd_intf_we;
-output [12:0] sdramdev0_SdramCntl0_sd_intf_addr;
-reg [12:0] sdramdev0_SdramCntl0_sd_intf_addr;
-output sdramdev0_SdramCntl0_sd_intf_dqml;
-reg sdramdev0_SdramCntl0_sd_intf_dqml;
-output sdramdev0_SdramCntl0_sd_intf_cas;
-reg sdramdev0_SdramCntl0_sd_intf_cas;
-output sdramdev0_SdramCntl0_sd_intf_dqmh;
-reg sdramdev0_SdramCntl0_sd_intf_dqmh;
-output sdramdev0_SdramCntl0_sd_intf_ras;
-reg sdramdev0_SdramCntl0_sd_intf_ras;
-output [1:0] sdramdev0_SdramCntl0_sd_intf_bs;
-reg [1:0] sdramdev0_SdramCntl0_sd_intf_bs;
-output sdramdev0_SdramCntl0_sd_intf_cs;
-reg sdramdev0_SdramCntl0_sd_intf_cs;
-inout [15:0] sdramdev0_SdramCntl0_sd_intf_dq;
-wire [15:0] sdramdev0_SdramCntl0_sd_intf_dq;
-
+	output	wire	o_ram_clk, o_ram_cke;
+	output	wire	o_ram_cs_n, o_ram_ras_n, o_ram_cas_n, o_ram_we_n;
+	output	wire	[1:0]	o_ram_bs;
+	output	wire	[12:0]	o_ram_addr;
+	output	wire		o_ram_udqm, o_ram_ldqm;
+	inout	wire	[15:0]	io_ram_data;
 	// GPIO wires
 	output	wire	[1:0]	o_ledg;
 	output	wire		o_ledr;
@@ -154,50 +127,8 @@ wire [15:0] sdramdev0_SdramCntl0_sd_intf_dq;
 	//
 
 	main	thedesign(s_clk, s_reset,
-    clk_i,
-    sdram_clk_o,
-    sdram_clk_i, 
-    reset_i,
-    i_wb_cyc,
-    i_wb_stb,
-    i_wb_we,
-    i_wb_addr,
-    i_wb_data,
-    o_wb_ack,
-    o_wb_stall,
-    o_wb_data,
-    i_wb_sel,
-    host_intf_wr_i,
-    host_intf_done_o,
-    host_intf_rdPending_o,
-    host_intf_rst_i,
-    host_intf_data_i,
-    host_intf_data_o,
-    host_intf_rd_i,
-    host_intf_addr_i,
-    
-    master_clk_i,
-    pb_i,
-    sdram_clk_o,
-    sdram_clk_i,
-    SdramCntl0_0_sd_intf_cke,
-    SdramCntl0_0_sd_intf_we,
-    SdramCntl0_0_sd_intf_addr,
-    SdramCntl0_0_sd_intf_dqml,
-    SdramCntl0_0_sd_intf_cas,
-    SdramCntl0_0_sd_intf_dqmh,
-    SdramCntl0_0_sd_intf_ras,
-    SdramCntl0_0_sd_intf_bs,
-    SdramCntl0_0_sd_intf_cs,
-    SdramCntl0_0_sd_intf_dq,
-    SdramCntl0_0_host_intf_wr_i,
-    SdramCntl0_0_host_intf_done_o,
-    SdramCntl0_0_host_intf_rdPending_o,
-    host_intf_inst_rst_i,
-    SdramCntl0_0_host_intf_data_i,
-    SdramCntl0_0_host_intf_data_o,
-    SdramCntl0_0_host_intf_rd_i,
-    SdramCntl0_0_host_intf_addr_i	,,
+		
+    ,
 		// GPIO wires
 		i_gpio, o_gpio,
 		// External USB-UART bus control
