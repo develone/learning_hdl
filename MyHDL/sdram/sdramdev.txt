@@ -145,4 +145,9 @@ _@$(MEM.NAME) = ORIGIN(@$(MEM.NAME))
 @SIM.TICK=
 
 @SIM.LOAD=
-			m_@$(MEM.NAME)->load(start, &buf[offset], wlen);
+#ifdef	@$(ACCESS)
+	m_sdram->load(start, &buf[offset], wlen);
+	if (addr + len > base + naddr)
+		return load(base + naddr, &buf[offset+wlen], len-wlen);
+	return true;
+#endif // @$(ACCESS)

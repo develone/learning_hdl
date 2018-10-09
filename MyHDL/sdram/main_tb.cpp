@@ -230,7 +230,12 @@ public:
 				? (naddr - start) : len - offset;
 #ifdef	SDRAM_ACCESS
 			// FROM sdram.SIM.LOAD
-			m_sdram->load(start, &buf[offset], wlen);
+#ifdef	SDRAM_ACCESS
+	m_sdram->load(start, &buf[offset], wlen);
+	if (addr + len > base + naddr)
+		return load(base + naddr, &buf[offset+wlen], len-wlen);
+	return true;
+#endif // SDRAM_ACCESS
 			// AUTOFPGA::Now clean up anything else
 			// Was there more to write than we wrote?
 			if (addr + len > base + naddr)
