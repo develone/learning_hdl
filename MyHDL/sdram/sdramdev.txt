@@ -62,6 +62,18 @@
 	output	wire	[12:0]	o_ram_addr;
 	output	wire		o_ram_udqm, o_ram_ldqm;
 	inout	wire	[15:0]	io_ram_data;
+@TOP.INSERT=
+	//
+	// SRAM Interface
+	//
+	// Use the PPIO primitive to give us access to a group of SB_IO's,
+	// and therefore access to a tristate output
+	//
+	ppio #(.W(16))
+		sdramioi(o_ram_we_n, io_ram_data, o_ram_data, i_ram_data);
+
+@TOP.DEFNS=
+	wire	[15:0]		i_ram_data, o_ram_data;
 @MAIN.PORTLIST	
 i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, i_wb_sel,
 			o_wb_ack, o_wb_stall, o_wb_data,
@@ -93,19 +105,44 @@ parameter	RDLY = 6;
 	output	reg	[15:0]	o_ram_data;
 	output	reg	[1:0]	o_ram_dqm;
 	output	wire	[31:0]	o_debug;
-	
+@MAIN.INSERT=
+wbsdram sdrami(.i_clk(i_clk),
+		/* verilator lint_off WIDTH */
+		.i_wb_cyc(wb_cyc), .i_wb_stb(wb_stb), .i_wb_we(wb_we), .i_wb_addr(wb_addr[(@$LGMEMSZ-3):0]), .i_wb_data(wb_data), .i_wb_sel(wb_sel),
+		/* verilator lint_off WIDTH */
+			.o_wb_ack(sdram_ack), .o_wb_stall(sdram_stall), .o_wb_data(o_wb_data),
+		.o_ram_cs_n(o_ram_cs_n), .o_ram_cke(o_ram_cke), .o_ram_ras_n(o_ram_ras_n), .o_ram_cas_n(o_ram_cas_n), o_ram_we_n, 
+			.o_ram_bs(o_ram_bs), .o_ram_addr(o_ram_addr),
+			.o_ram_dmod(o_ram_dmod), .i_ram_data(i_ram_data), .o_ram_data(o_ram_data), .o_ram_dqm(o_ram_dqm),
+		.o_debug(o_debug));	
 
 @REGS.N=1
 @REGS.0= 0 R_@$(DEVID) @$(DEVID)
 @REGDEFS.H.DEFNS=
 #define	@$(DEVID)BASE	@$(BASEHX)
 #define	@$(DEVID)LEN	@$NBYTES
+@BDEF.OSDEF=_BOARD_HAS_@$(DEVID)
+@MEM.NAME= @$(PREFIX)
+@BDEF.OSVAL=extern char	_@$(MEM.NAME)[@$NBYTES];
+@LDSCRIPT.PSTR=	wx
+@LDSCRIPT.PTR=	@$(MEM.NAME)
+@LDSCRIPT.DEF=
+_@$(MEM.NAME) = ORIGIN(@$(MEM.NAME))
+@RTL.MAKE.GROUP= @$(DEVID)
+@RTL.MAKE.FILES= wbsdram.v
+@$BASEHX = @$REGBASE
+@BASEHX.FORMAT= 0x%08x
+@$NADDRHX = @$NADDR
+@NADDRHX.FORMAT= 0x%x
+@SIM.INCLUDE=
+#include "sdramsim.h"
+@SIM.DEFNS=
+#ifdef	@$(ACCESS)
+	SDRAMSIM		*m_@$(MEM.NAME);
+#endif // @$(ACCESS)
+@SIM.INIT=
+ 
+@SIM.TICK=
 
-@MAIN.INSERT=
-wbsdram sdrami(i_clk,
-		.i_wb_cyc(wb_cyc), .i_wb_stb(wb_stb), .i_wb_we(wb_we), .i_wb_addr(wb_addr), .i_wb_data(wb_data), .i_wb_sel(wb_sel),
-			o_wb_ack, o_wb_stall, o_wb_data,
-		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
-			o_ram_bs, o_ram_addr,
-			o_ram_dmod, i_ram_data, o_ram_data, o_ram_dqm,
-		o_debug);
+@SIM.LOAD=
+			m_@$(MEM.NAME)->load(start, &buf[offset], wlen);

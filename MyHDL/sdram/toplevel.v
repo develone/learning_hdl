@@ -96,6 +96,7 @@ module	toplevel(i_clk,
 	// These declarations just copy data from the @TOP.DEFNS key
 	// within the component data files.
 	//
+	wire	[15:0]		i_ram_data, o_ram_data;
 	// GPIO declarations.  The two wire busses are just virtual lists of
 	// input (or output) ports.
 	wire	[2 -1:0]	i_gpio;
@@ -140,6 +141,16 @@ module	toplevel(i_clk,
 	// that special logic that couldnt fit in main.  This logic is
 	// given by the @TOP.INSERT tag in our data files.
 	//
+
+
+	//
+	// SRAM Interface
+	//
+	// Use the PPIO primitive to give us access to a group of SB_IO's,
+	// and therefore access to a tristate output
+	//
+	ppio #(.W(16))
+		sdramioi(o_ram_we_n, io_ram_data, o_ram_data, i_ram_data);
 
 
 	assign	i_gpio = { i_btn };
