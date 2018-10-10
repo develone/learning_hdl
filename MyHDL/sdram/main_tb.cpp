@@ -119,7 +119,10 @@ public:
 		// here.
 		//
 		// From sdram
- 
+#ifdef	SDRAM_ACCESS
+short	*m_mem;
+m_mem = new short[0x01000000]; 
+#endif // SDRAM_ACCESS
 		// From zip
 		m_cpu_bombed = 0;
 		// From hb
