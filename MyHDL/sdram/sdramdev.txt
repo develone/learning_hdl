@@ -1,6 +1,6 @@
 ################################################################################
 ##
-## Filename: 	sram.txt
+## Filename: 	sdram.txt
 ##
 ## Project:	ICO Zip, iCE40 ZipCPU demonsrtation project
 ##
@@ -38,6 +38,7 @@
 ##
 @PREFIX=sdram
 @DEVID=SDRAM
+## This is 24 to SDRAM
 @$LGMEMSZ=24
 @LGMEMSZ.FORMAT=%d
 @$NADDR=(1<<(@$THIS.LGMEMSZ-2))
@@ -64,7 +65,7 @@
 	inout	wire	[15:0]	io_ram_data;
 @TOP.INSERT=
 	//
-	// SRAM Interface
+	// SDRAM Interface
 	//
 	// Use the PPIO primitive to give us access to a group of SB_IO's,
 	// and therefore access to a tristate output
@@ -142,15 +143,20 @@ _@$(MEM.NAME) = ORIGIN(@$(MEM.NAME))
 #endif // @$(ACCESS)
 @SIM.INIT=
 #ifdef	@$(ACCESS)
-short	*m_mem;
-m_mem = new short[@$NBYTES]; 
+m_sdram = new SDRAMSIM[@$NBYTES]; 
 #endif // @$(ACCESS)
 @SIM.TICK=
+#ifdef	@$(ACCESS)
 
+m_core->i_ram_data = (*m_@$(MEM.NAME))(m_core->i_clk,m_core->o_ram_cke,
+m_core->o_ram_cs_n,m_core->o_ram_ras_n,m_core->o_ram_cas_n,
+m_core->o_ram_we_n,m_core->o_ram_bs,m_core->o_ram_addr,
+m_core->i_ram_data,m_core->o_ram_data,m_core->o_ram_dqm);
+#endif // @$(ACCESS)		
 @SIM.LOAD=
 #ifdef	@$(ACCESS)
-	m_sdram->load(start, &buf[offset], wlen);
-	if (addr + len > base + naddr)
-		return load(base + naddr, &buf[offset+wlen], len-wlen);
-	return true;
+	m_@$(MEM.NAME)->load(start, &buf[offset], wlen);
+	//if (addr + len > base + naddr)
+		//return load(base + naddr, &buf[offset+wlen], len-wlen);
+	//return true;
 #endif // @$(ACCESS)
