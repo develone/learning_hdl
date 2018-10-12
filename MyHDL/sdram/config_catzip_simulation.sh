@@ -1,7 +1,7 @@
 #!/bin/bash
 rsync -avl --delete ~/catzip ~/testbuilds/catzip_simulation/
 
-rsync -avl --delete ~/icozip ~/testbuilds/
+#rsync -avl --delete ~/icozip ~/testbuilds/
 
 cp ~/testbuilds/learning_hdl/MyHDL/sdram/sdramdev.txt \
 ~/testbuilds/catzip_simulation/catzip/auto-data

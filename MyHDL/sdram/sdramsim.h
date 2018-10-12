@@ -26,7 +26,7 @@ class	SDRAMSIM {
 	unsigned	m_fail;
 public:
 	SDRAMSIM(void) {
-		m_mem = new short[SDRAMSZB/2]; // 32 MB, or 16 Mshorts
+		m_mem = new short[SDRAMSZB]; // 32 MB, or 16 Mshorts
 
 		m_refresh_time = new unsigned[(1<<13)];
 		for(int i=0; i<m_nrefresh; i++)

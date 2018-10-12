@@ -119,10 +119,9 @@ public:
 		// here.
 		//
 		// From sdram
-#ifdef	SDRAM_ACCESS
-short	*m_mem;
-m_mem = new short[0x01000000]; 
-#endif // SDRAM_ACCESS
+//#ifdef	SDRAM_ACCESS
+//m_sdram = new SDRAMSIM[0x01000000]; 
+//#endif // SDRAM_ACCESS
 		// From zip
 		m_cpu_bombed = 0;
 		// From hb
@@ -175,7 +174,13 @@ m_mem = new short[0x01000000];
 		// SIM.TICK tags go here for SIM.CLOCK=clk
 		//
 		// SIM.TICK from sdram
+#ifdef	SDRAM_ACCESS
 
+m_core->i_ram_data = (*m_sdram)(1,m_core->o_ram_cke,
+m_core->o_ram_cs_n,m_core->o_ram_ras_n,m_core->o_ram_cas_n,
+m_core->o_ram_we_n,m_core->o_ram_bs,m_core->o_ram_addr,
+m_core->i_ram_data,m_core->o_ram_data,m_core->o_ram_dqm);
+#endif // SDRAM_ACCESS		
 		// SIM.TICK from zip
 #ifdef	INCLUDE_ZIPCPU
 		// ZipCPU Sim instruction support
@@ -235,9 +240,9 @@ m_mem = new short[0x01000000];
 			// FROM sdram.SIM.LOAD
 #ifdef	SDRAM_ACCESS
 	m_sdram->load(start, &buf[offset], wlen);
-	if (addr + len > base + naddr)
-		return load(base + naddr, &buf[offset+wlen], len-wlen);
-	return true;
+	//if (addr + len > base + naddr)
+		//return load(base + naddr, &buf[offset+wlen], len-wlen);
+	//return true;
 #endif // SDRAM_ACCESS
 			// AUTOFPGA::Now clean up anything else
 			// Was there more to write than we wrote?

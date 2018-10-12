@@ -144,7 +144,7 @@ module	toplevel(i_clk,
 
 
 	//
-	// SRAM Interface
+	// SDRAM Interface
 	//
 	// Use the PPIO primitive to give us access to a group of SB_IO's,
 	// and therefore access to a tristate output

@@ -142,13 +142,13 @@ _@$(MEM.NAME) = ORIGIN(@$(MEM.NAME))
 	SDRAMSIM		*m_@$(MEM.NAME);
 #endif // @$(ACCESS)
 @SIM.INIT=
-#ifdef	@$(ACCESS)
-m_sdram = new SDRAMSIM[@$NBYTES]; 
-#endif // @$(ACCESS)
+//#ifdef	@$(ACCESS)
+//m_sdram = new SDRAMSIM[@$NBYTES]; 
+//#endif // @$(ACCESS)
 @SIM.TICK=
 #ifdef	@$(ACCESS)
 
-m_core->i_ram_data = (*m_@$(MEM.NAME))(m_core->i_clk,m_core->o_ram_cke,
+m_core->i_ram_data = (*m_@$(MEM.NAME))(1,m_core->o_ram_cke,
 m_core->o_ram_cs_n,m_core->o_ram_ras_n,m_core->o_ram_cas_n,
 m_core->o_ram_we_n,m_core->o_ram_bs,m_core->o_ram_addr,
 m_core->i_ram_data,m_core->o_ram_data,m_core->o_ram_dqm);
