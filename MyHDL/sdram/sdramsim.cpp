@@ -183,7 +183,7 @@ short	SDRAMSIM::operator()(int clk, int cke, int cs_n, int ras_n, int cas_n, int
 				m_wr_addr |= bs;
 				m_wr_addr <<= 9;
 				m_wr_addr |= (addr & 0x01ff);
-
+				printf("SDRAM[%08x] <= %04x\n", m_wr_addr, data & 0x0ffff);
 				assert(driv);
 				// printf("SDRAM[%08x] <= %04x\n", m_wr_addr, data & 0x0ffff);
 				m_mem[m_wr_addr++] = data;

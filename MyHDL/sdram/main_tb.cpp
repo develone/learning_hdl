@@ -119,9 +119,9 @@ public:
 		// here.
 		//
 		// From sdram
-//#ifdef	SDRAM_ACCESS
-//m_sdram = new SDRAMSIM[0x01000000]; 
-//#endif // SDRAM_ACCESS
+#ifdef	SDRAM_ACCESS
+m_sdram = new SDRAMSIM; 
+#endif // SDRAM_ACCESS
 		// From zip
 		m_cpu_bombed = 0;
 		// From hb

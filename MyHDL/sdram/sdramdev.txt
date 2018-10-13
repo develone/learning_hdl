@@ -142,9 +142,9 @@ _@$(MEM.NAME) = ORIGIN(@$(MEM.NAME))
 	SDRAMSIM		*m_@$(MEM.NAME);
 #endif // @$(ACCESS)
 @SIM.INIT=
-//#ifdef	@$(ACCESS)
-//m_sdram = new SDRAMSIM[@$NBYTES]; 
-//#endif // @$(ACCESS)
+#ifdef	@$(ACCESS)
+m_sdram = new SDRAMSIM; 
+#endif // @$(ACCESS)
 @SIM.TICK=
 #ifdef	@$(ACCESS)
 
