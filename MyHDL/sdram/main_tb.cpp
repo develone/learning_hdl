@@ -107,7 +107,9 @@ public:
 		// as part of the main_tb.cpp function.
 // Looking for string: SIM.DEFNS
 #ifdef	SDRAM_ACCESS
+
 	SDRAMSIM		*m_sdram;
+	
 #endif // SDRAM_ACCESS
 	int	m_cpu_bombed;
 	PPORTSIM	*m_hb;
@@ -120,7 +122,9 @@ public:
 		//
 		// From sdram
 #ifdef	SDRAM_ACCESS
-m_sdram = new SDRAMSIM; 
+
+	m_sdram = new SDRAMSIM;
+	
 #endif // SDRAM_ACCESS
 		// From zip
 		m_cpu_bombed = 0;
@@ -176,10 +180,13 @@ m_sdram = new SDRAMSIM;
 		// SIM.TICK from sdram
 #ifdef	SDRAM_ACCESS
 
-m_core->i_ram_data = (*m_sdram)(1,m_core->o_ram_cke,
-m_core->o_ram_cs_n,m_core->o_ram_ras_n,m_core->o_ram_cas_n,
-m_core->o_ram_we_n,m_core->o_ram_bs,m_core->o_ram_addr,
-m_core->i_ram_data,m_core->o_ram_data,m_core->o_ram_dqm);
+	m_core->i_ram_data = (*m_sdram)(1,m_core->o_ram_cke,
+	m_core->o_ram_cs_n,m_core->o_ram_ras_n,m_core->o_ram_cas_n,
+	m_core->o_ram_we_n,m_core->o_ram_bs,m_core->o_ram_addr,
+	//m_core->o_ram_drive_data,m_core->o_ram_data,m_core->o_ram_dqm);
+	//21930,m_core->o_ram_data,m_core->o_ram_dqm);
+	m_core->io_ram_data,m_core->o_ram_data,m_core->o_ram_dqm);
+	
 #endif // SDRAM_ACCESS		
 		// SIM.TICK from zip
 #ifdef	INCLUDE_ZIPCPU
@@ -239,10 +246,9 @@ m_core->i_ram_data,m_core->o_ram_data,m_core->o_ram_dqm);
 #ifdef	SDRAM_ACCESS
 			// FROM sdram.SIM.LOAD
 #ifdef	SDRAM_ACCESS
+
 	m_sdram->load(start, &buf[offset], wlen);
-	//if (addr + len > base + naddr)
-		//return load(base + naddr, &buf[offset+wlen], len-wlen);
-	//return true;
+	
 #endif // SDRAM_ACCESS
 			// AUTOFPGA::Now clean up anything else
 			// Was there more to write than we wrote?

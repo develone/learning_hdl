@@ -72,13 +72,25 @@ module	toplevel(i_clk,
 	// key may be left undefined.
 	//
 	input	wire		i_clk;
-
+	//o_ram_cs_n,     Chip select
+	//o_ram_cke,      Clock enable
+	//o_ram_ras_n,    Row address strobe
+	//o_ram_cas_n,    Column address strobe
+	//o_ram_we_n,     Write enable
+	//o_ram_bs,       Bank select
+	//o_ram_addr,     Address lines
+	//r_ram_data,     Data lines (input)
+	//ram_data,       Data lines (output)
+	
 	output	wire	o_ram_clk, o_ram_cke;
 	output	wire	o_ram_cs_n, o_ram_ras_n, o_ram_cas_n, o_ram_we_n;
 	output	wire	[1:0]	o_ram_bs;
 	output	wire	[12:0]	o_ram_addr;
 	output	wire		o_ram_udqm, o_ram_ldqm;
 	inout	wire	[15:0]	io_ram_data;
+	wire            ram_drive_data;
+	reg     [15:0]  r_ram_data;
+	
 	// GPIO wires
 	output	wire	[1:0]	o_ledg;
 	output	wire		o_ledr;
@@ -151,6 +163,13 @@ module	toplevel(i_clk,
 	//
 	ppio #(.W(16))
 		sdramioi(o_ram_we_n, io_ram_data, o_ram_data, i_ram_data);
+	assign io_ram_data = (ram_drive_data) ? ram_data : 16'bzzzz_zzzz_zzzz_zzzz;
+	reg     [15:0]  r_ram_data_ext_clk;
+	// always @(posedge intermediate_clk_n)
+	always @(posedge clk_s)
+		r_ram_data_ext_clk <= io_ram_data;
+	always @(posedge clk_s)
+		r_ram_data <= r_ram_data_ext_clk;
 
 
 	assign	i_gpio = { i_btn };

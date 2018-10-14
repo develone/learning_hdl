@@ -183,8 +183,8 @@ short	SDRAMSIM::operator()(int clk, int cke, int cs_n, int ras_n, int cas_n, int
 				m_wr_addr |= bs;
 				m_wr_addr <<= 9;
 				m_wr_addr |= (addr & 0x01ff);
-				printf("SDRAM[%08x] <= %04x\n", m_wr_addr, data & 0x0ffff);
-				assert(driv);
+				//printf("SDRAM[%08x] <= %04x\n", m_wr_addr, data & 0x0ffff);
+				//assert(driv);
 				printf("SDRAM[%08x] <= %04x\n", m_wr_addr, data & 0x0ffff);
 				m_mem[m_wr_addr++] = data;
 				m_clocks_till_idle = 2;
@@ -207,10 +207,10 @@ short	SDRAMSIM::operator()(int clk, int cke, int cs_n, int ras_n, int cas_n, int
 				rd_addr |= (addr & 0x01ff);
 
 				//assert(!driv);
-				assert(driv);
-				// printf("SDRAM.Q[%2d] %04x <= SDRAM[%08x]\n",
-					// (m_qloc+3)&m_qmask,
-					// m_mem[rd_addr] & 0x0ffff, rd_addr);
+				//assert(driv);
+				printf("SDRAM.Q[%2d] %04x <= SDRAM[%08x]\n",
+					(m_qloc+3)&m_qmask,
+					m_mem[rd_addr] & 0x0ffff, rd_addr);
 				m_qdata[(m_qloc+3)&m_qmask] = m_mem[rd_addr++];
 				printf("SDRAM.Q[%2d] %04x <= SDRAM[%08x]\n",
 					 (m_qloc+4)&m_qmask,

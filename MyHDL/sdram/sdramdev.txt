@@ -100,7 +100,7 @@ i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, i_wb_sel,
 		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
 			o_ram_bs, o_ram_addr,
 			o_ram_dmod, i_ram_data, o_ram_data, o_ram_dqm,
-		o_debug     
+		o_debug, io_ram_data     
  	
 @MAIN.IODECL=
 parameter	RDLY = 6;
@@ -125,6 +125,7 @@ parameter	RDLY = 6;
 	output	reg	[15:0]	o_ram_data;
 	output	reg	[1:0]	o_ram_dqm;
 	output	wire	[31:0]	o_debug;
+	inout	wire	[15:0]	io_ram_data;
 @MAIN.INSERT=
 wbsdram sdrami(.i_clk(i_clk),
 		/* verilator lint_off WIDTH */
@@ -133,7 +134,7 @@ wbsdram sdrami(.i_clk(i_clk),
 			.o_wb_ack(sdram_ack), .o_wb_stall(sdram_stall), .o_wb_data(o_wb_data),
 		.o_ram_cs_n(o_ram_cs_n), .o_ram_cke(o_ram_cke), .o_ram_ras_n(o_ram_ras_n), .o_ram_cas_n(o_ram_cas_n), o_ram_we_n, 
 			.o_ram_bs(o_ram_bs), .o_ram_addr(o_ram_addr),
-			.o_ram_dmod(o_ram_dmod), .i_ram_data(i_ram_data), .o_ram_data(o_ram_data), .o_ram_dqm(o_ram_dqm),
+			.o_ram_dmod(o_ram_dmod), .i_ram_data(io_ram_data), .o_ram_data(o_ram_data), .o_ram_dqm(o_ram_dqm),
 		.o_debug(o_debug));	
 
 @REGS.N=1
@@ -175,8 +176,8 @@ _@$(MEM.NAME) = ORIGIN(@$(MEM.NAME))
 	m_core->o_ram_cs_n,m_core->o_ram_ras_n,m_core->o_ram_cas_n,
 	m_core->o_ram_we_n,m_core->o_ram_bs,m_core->o_ram_addr,
 	//m_core->o_ram_drive_data,m_core->o_ram_data,m_core->o_ram_dqm);
-	21930,m_core->o_ram_data,m_core->o_ram_dqm);
-	//m_core->i_ram_data,m_core->o_ram_data,m_core->o_ram_dqm);
+	//21930,m_core->o_ram_data,m_core->o_ram_dqm);
+	m_core->io_ram_data,m_core->o_ram_data,m_core->o_ram_dqm);
 	
 #endif // @$(ACCESS)		
 @SIM.LOAD=
