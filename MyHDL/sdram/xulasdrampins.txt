@@ -1,0 +1,52 @@
+
+#define	SDRAM_ADDRESS	0x2000000
+#define	SDRAM_LENGTH	0x2000000
+
+
+m_core->i_ram_data = m_sdram(1,
+                                m_core->o_ram_cke, m_core->o_ram_cs_n,
+                                m_core->o_ram_ras_n, m_core->o_ram_cas_n,
+                                m_core->o_ram_we_n, m_core->o_ram_bs,
+                                m_core->o_ram_addr, m_core->o_ram_drive_data,
+                                m_core->o_ram_data, m_core->o_ram_dqm);
+
+xula sdram pins
+NET o_ram_clk        LOC = K11;
+NET i_ram_feedback_clk      LOC = K12;
+NET o_ram_cs_n       LOC = H4;
+NET o_ram_ras_n      LOC = L4;
+NET o_ram_cas_n      LOC = L3;
+NET o_ram_we_n       LOC = M3;
+NET o_ram_ldqm       LOC = M4;
+NET o_ram_udqm       LOC = L13;
+NET o_ram_bs<0>      LOC = H3;
+NET o_ram_bs<1>      LOC = G3;
+NET o_ram_addr<0>    LOC = E4;
+NET o_ram_addr<1>    LOC = E3;
+NET o_ram_addr<2>    LOC = D3;
+NET o_ram_addr<3>    LOC = C3;
+NET o_ram_addr<4>    LOC = B12;
+NET o_ram_addr<5>    LOC = A12;
+NET o_ram_addr<6>    LOC = D12;
+NET o_ram_addr<7>    LOC = E12;
+NET o_ram_addr<8>    LOC = G16;
+NET o_ram_addr<9>    LOC = G12;
+NET o_ram_addr<10>   LOC = F4;q
+NET o_ram_addr<11>   LOC = G11;
+NET o_ram_addr<12>   LOC = H13;
+NET io_ram_data<0>   LOC = P6;
+NET io_ram_data<1>   LOC = T6;
+NET io_ram_data<2>   LOC = T5;
+NET io_ram_data<3>   LOC = P5;
+NET io_ram_data<4>   LOC = R5;
+NET io_ram_data<5>   LOC = N5;
+NET io_ram_data<6>   LOC = P4;
+NET io_ram_data<7>   LOC = N4;
+NET io_ram_data<8>   LOC = P12;
+NET io_ram_data<9>   LOC = R12;
+NET io_ram_data<10>  LOC = T13;
+NET io_ram_data<11>  LOC = T14;
+NET io_ram_data<12>  LOC = R14;
+NET io_ram_data<13>  LOC = T15;
+NET io_ram_data<14>  LOC = T12;
+NET io_ram_data<15>  LOC = P11;
