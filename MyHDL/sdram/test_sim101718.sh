@@ -1,0 +1,17 @@
+#/bin/bash
+./arm-wbregs 0x1000004 0x55aaaa55
+./arm-wbregs 0x1000004
+./arm-wbregs 0x10ffff8 0x55aaaa55
+./arm-wbregs 0x10ffff8
+./arm-wbregs 0x1800004 0x55aaaa55
+./arm-wbregs 0x1800004
+./arm-wbregs 0x18ffff8 0x55aaaa55
+./arm-wbregs 0x18ffff8
+./arm-wbregs 0x1c00004 0x55aaaa55
+./arm-wbregs 0x1c00004
+./arm-wbregs 0x1cffff8 0x55aaaa55
+./arm-wbregs 0x1cffff8
+./arm-wbregs 0x1f00004 0x55aaaa55
+./arm-wbregs 0x1f00004
+./arm-wbregs 0x1fffff8 0x55aaaa55
+./arm-wbregs 0x1fffff8
