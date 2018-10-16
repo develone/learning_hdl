@@ -206,8 +206,7 @@ short	SDRAMSIM::operator()(int clk, int cke, int cs_n, int ras_n, int cas_n, int
 				rd_addr <<= 9;
 				rd_addr |= (addr & 0x01ff);
 
-				//assert(!driv);
-				//assert(driv);
+				assert(!driv);
 				printf("SDRAM.Q[%2d] %04x <= SDRAM[%08x]\n",
 					(m_qloc+3)&m_qmask,
 					m_mem[rd_addr] & 0x0ffff, rd_addr);
