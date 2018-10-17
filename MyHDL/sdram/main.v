@@ -81,7 +81,7 @@ i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, i_wb_sel,
 		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
 			o_ram_bs, o_ram_addr,
 			o_ram_dmod, i_ram_data, o_ram_data, o_ram_dqm,
-		o_debug, io_ram_data     
+		o_debug    
  	,
 		// GPIO ports
 		i_gpio, o_gpio,
@@ -151,7 +151,7 @@ parameter	RDLY = 6;
 	output	reg	[15:0]	o_ram_data;
 	output	reg	[1:0]	o_ram_dqm;
 	output	wire	[31:0]	o_debug;
-	inout	wire	[15:0]	io_ram_data;
+	//inout	wire	[15:0]	io_ram_data;
 	input	wire		i_pp_clk, i_pp_dir;
 	input	wire	[7:0]	i_pp_data;
 	output	wire	[7:0]	o_pp_data;
@@ -671,9 +671,9 @@ wbsdram sdrami(.i_clk(i_clk),
 		.i_wb_cyc(wb_cyc), .i_wb_stb(wb_stb), .i_wb_we(wb_we), .i_wb_addr(wb_addr[(24-3):0]), .i_wb_data(wb_data), .i_wb_sel(wb_sel),
 		/* verilator lint_off WIDTH */
 			.o_wb_ack(sdram_ack), .o_wb_stall(sdram_stall), .o_wb_data(o_wb_data),
-		.o_ram_cs_n(o_ram_cs_n), .o_ram_cke(o_ram_cke), .o_ram_ras_n(o_ram_ras_n), .o_ram_cas_n(o_ram_cas_n), o_ram_we_n, 
+		.o_ram_cs_n(o_ram_cs_n), .o_ram_cke(o_ram_cke), .o_ram_ras_n(o_ram_ras_n), .o_ram_cas_n(o_ram_cas_n), .o_ram_we_n(o_ram_we_n), 
 			.o_ram_bs(o_ram_bs), .o_ram_addr(o_ram_addr),
-			.o_ram_dmod(o_ram_dmod), .i_ram_data(io_ram_data), .o_ram_data(o_ram_data), .o_ram_dqm(o_ram_dqm),
+			.o_ram_dmod(o_ram_dmod), .i_ram_data(i_ram_data), .o_ram_data(o_ram_data), .o_ram_dqm(o_ram_dqm),
 		.o_debug(o_debug));	
 
 `else	// SDRAM_ACCESS

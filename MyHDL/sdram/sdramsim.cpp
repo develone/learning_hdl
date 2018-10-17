@@ -130,8 +130,8 @@ short	SDRAMSIM::operator()(int clk, int cke, int cs_n, int ras_n, int cas_n, int
 		result = (driv)?data:m_qdata[(m_qloc)&m_qmask];
 		m_qdata[(m_qloc)&m_qmask] = 0;
 
-		// if (result != 0)
-			// printf("%d RESULT[%3d] = %04x\n", clk, m_qloc, result&0x0ffff);
+		if (result != 0)
+			printf("%d RESULT[%3d] = %04x\n", clk, m_qloc, result&0x0ffff);
 
 		if ((!cs_n)&&(!ras_n)&&(!cas_n)&&(we_n)) {
 			// Auto-refresh command
@@ -184,7 +184,7 @@ short	SDRAMSIM::operator()(int clk, int cke, int cs_n, int ras_n, int cas_n, int
 				m_wr_addr <<= 9;
 				m_wr_addr |= (addr & 0x01ff);
 				//printf("SDRAM[%08x] <= %04x\n", m_wr_addr, data & 0x0ffff);
-				//assert(driv);
+				assert(driv);
 				printf("SDRAM[%08x] <= %04x\n", m_wr_addr, data & 0x0ffff);
 				m_mem[m_wr_addr++] = data;
 				m_clocks_till_idle = 2;
