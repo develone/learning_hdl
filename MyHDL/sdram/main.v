@@ -76,8 +76,7 @@
 // from the fields given by @MAIN.PORTLIST
 //
 module	main(i_clk, i_reset,
-i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, i_wb_sel,
-			o_wb_ack, o_wb_stall, o_wb_data,
+
 		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
 			o_ram_bs, o_ram_addr,
 			o_ram_dmod, i_ram_data, o_ram_data, o_ram_dqm,
@@ -130,16 +129,7 @@ i_wb_cyc, i_wb_stb, i_wb_we, i_wb_addr, i_wb_data, i_wb_sel,
 	input	wire		i_reset;
 	// verilator lint_on UNUSED
 parameter	RDLY = 6;
-	// Wishbone
-	//	inputs
-	input			i_wb_cyc, i_wb_stb, i_wb_we;
-	input		[22:0]	i_wb_addr;
-	input		[31:0]	i_wb_data;
-	input		[3:0]	i_wb_sel;
-		//	outputs
-	output	wire		o_wb_ack;
-	output	reg		o_wb_stall;
-	output	wire [31:0]	o_wb_data;
+
 	// SDRAM control
 	output	wire		o_ram_cke;
 	output	reg		o_ram_cs_n,
@@ -666,15 +656,15 @@ parameter	RDLY = 6;
 	// zero if the component is not included.
 	//
 `ifdef	SDRAM_ACCESS
-wbsdram sdrami(.i_clk(i_clk),
+wbsdram sdrami(i_clk,
 		/* verilator lint_off WIDTH */
-		.i_wb_cyc(wb_cyc), .i_wb_stb(wb_stb), .i_wb_we(wb_we), .i_wb_addr(wb_addr[(24-3):0]), .i_wb_data(wb_data), .i_wb_sel(wb_sel),
+		wb_cyc, wb_stb, wb_we, wb_addr[(24-3):0], wb_data, wb_sel,
 		/* verilator lint_off WIDTH */
-			.o_wb_ack(sdram_ack), .o_wb_stall(sdram_stall), .o_wb_data(o_wb_data),
-		.o_ram_cs_n(o_ram_cs_n), .o_ram_cke(o_ram_cke), .o_ram_ras_n(o_ram_ras_n), .o_ram_cas_n(o_ram_cas_n), .o_ram_we_n(o_ram_we_n), 
-			.o_ram_bs(o_ram_bs), .o_ram_addr(o_ram_addr),
-			.o_ram_dmod(o_ram_dmod), .i_ram_data(i_ram_data), .o_ram_data(o_ram_data), .o_ram_dqm(o_ram_dqm),
-		.o_debug(o_debug));	
+			sdram_ack, sdram_stall, sdram_data,
+		o_ram_cs_n, o_ram_cke, o_ram_ras_n,o_ram_cas_n, o_ram_we_n, 
+			o_ram_bs, o_ram_addr,
+			o_ram_dmod, i_ram_data, o_ram_data, o_ram_dqm,
+		o_debug);	
 
 `else	// SDRAM_ACCESS
 
