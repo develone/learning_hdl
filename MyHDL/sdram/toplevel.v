@@ -89,9 +89,9 @@ module	toplevel(i_clk,
 	output	wire		o_ram_udqm, o_ram_ldqm;
 	wire	[15:0]	ram_data;
 	inout	wire	[15:0]	io_ram_data;
-	wire            o_ram_dmod;
+	wire            ram_drive_data;
 	reg     [15:0]  r_ram_data;
-	reg	[1:0]	o_ram_dqm;
+	//reg	[1:0]	o_ram_dqm; using instead { o_ram_udqm, o_ram_ldqm }
 	wire	[31:0]	o_debug;
 	wire            ram_drive_data;
 	
@@ -151,15 +151,15 @@ module	toplevel(i_clk,
 		//o_ram_we_n, o_ram_bs, o_ram_addr,
 		//o_ram_drive_data, i_ram_data, o_ram_data,
 		//o_ram_dqm,
-		//o_ram_drive seems to be the same as o_ram_dmod
-		//o_ram_dmod was added to SIM.TICK and the assert(driv);
+		//o_ram_drive seems to be the same as ram_drive_data
+		//ram_drive_data was added to SIM.TICK and the assert(driv);
 		//sdramsim.cpp restored write
 		//assert(!driv); sdramsim.cpp restored read
 		//*********************************************************
 		
 		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
 			o_ram_bs, o_ram_addr,
-			o_ram_dmod, i_ram_data, o_ram_data, o_ram_dqm,
+			ram_drive_data, i_ram_data, o_ram_data, { o_ram_udqm, o_ram_ldqm },
 		o_debug		
     ,
 		// GPIO wires
@@ -183,7 +183,7 @@ module	toplevel(i_clk,
 	//
 	ppio #(.W(16))
 		sdramioi(o_ram_we_n, io_ram_data, o_ram_data, i_ram_data);
-	assign io_ram_data = (o_ram_dmod) ? ram_data : 16'bzzzz_zzzz_zzzz_zzzz;
+	assign io_ram_data = (ram_drive_data) ? ram_data : 16'bzzzz_zzzz_zzzz_zzzz;
 	reg     [15:0]  r_ram_data_ext_clk;
 	// always @(posedge intermediate_clk_n)
 	always @(posedge clk_50mhz)

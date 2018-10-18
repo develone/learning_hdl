@@ -183,7 +183,7 @@ public:
 	m_core->i_ram_data = (*m_sdram)(1,m_core->o_ram_cke,
 	m_core->o_ram_cs_n,m_core->o_ram_ras_n,m_core->o_ram_cas_n,
 	m_core->o_ram_we_n,m_core->o_ram_bs,m_core->o_ram_addr,
-	m_core->o_ram_dmod,m_core->o_ram_data,m_core->o_ram_dqm);
+	m_core->ram_drive_data,m_core->o_ram_data,m_core->o_ram_dqm);
 	
 #endif // SDRAM_ACCESS		
 		// SIM.TICK from zip

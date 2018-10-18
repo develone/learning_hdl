@@ -171,6 +171,9 @@ set_io o_ram_cas_n K15
 set_io o_ram_we_n J14
 set_io o_ram_bs[0]_n H14
 set_io o_ram_bs[1]_n G13
+#dqmh J15 dqml J13 
+set_io o_ram_udqm J15
+set_io o_ram_ldqm J13
 #???? 10/15/18
 #'F13', 'E14', 'E13', 'D14',   0-3 from rhea/rhea/boards/lattice/_catboard.py
 set_io o_ram_addr[0] F13
