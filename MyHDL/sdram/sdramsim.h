@@ -2,7 +2,7 @@
 
 #define	NBANKS	4
 #define	POWERED_UP_STATE	6
-#define	CLK_RATE_HZ		50000000 // = 100 MHz = 100 * 10^6
+#define	CLK_RATE_HZ		100000000 // = 100 MHz = 100 * 10^6
 #define	PWRUP_WAIT_CKS		((int)(.000200 * CLK_RATE_HZ))
 #define	MAX_BANKOPEN_TIME	((int)(.000100 * CLK_RATE_HZ))
 #define	MAX_REFRESH_TIME	((int)(.064 * CLK_RATE_HZ))
@@ -26,7 +26,8 @@ class	SDRAMSIM {
 	unsigned	m_fail;
 public:
 	SDRAMSIM(void) {
-		m_mem = new short[SDRAMSZB]; // 32 MB, or 16 Mshorts
+		m_mem = new short[SDRAMSZB/2]; // 32 MB, or 16 Mshorts
+
 		m_refresh_time = new unsigned[(1<<13)];
 		for(int i=0; i<m_nrefresh; i++)
 			m_refresh_time[i] = 0;

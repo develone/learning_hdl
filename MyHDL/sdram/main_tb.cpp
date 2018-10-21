@@ -232,8 +232,8 @@ public:
 		//
 		// Loading the sdram component
 		//
-		base  = 0x01000000;
-		naddr = 0x00400000;
+		base  = 0x02000000;
+		naddr = 0x00800000;
 
 		if ((addr >= base)&&(addr < base + naddr)) {
 			// If the start access is in sdram
@@ -265,7 +265,7 @@ public:
 		//
 		// Loading the bkram component
 		//
-		base  = 0x00800000;
+		base  = 0x01000000;
 		naddr = 0x00000040;
 
 		if ((addr >= base)&&(addr < base + naddr)) {

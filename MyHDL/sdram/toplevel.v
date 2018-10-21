@@ -186,9 +186,9 @@ module	toplevel(i_clk,
 	assign io_ram_data = (ram_drive_data) ? ram_data : 16'bzzzz_zzzz_zzzz_zzzz;
 	reg     [15:0]  r_ram_data_ext_clk;
 	// always @(posedge intermediate_clk_n)
-	always @(posedge clk_50mhz)
+	always @(posedge s_clk)
 		r_ram_data_ext_clk <= io_ram_data;
-	always @(posedge clk_50mhz)
+	always @(posedge s_clk)
 		r_ram_data <= r_ram_data_ext_clk;
 
 

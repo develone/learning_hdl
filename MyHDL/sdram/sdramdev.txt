@@ -39,7 +39,7 @@
 @PREFIX=sdram
 @DEVID=SDRAM
 ## This is 24 to SDRAM
-@$LGMEMSZ=24
+@$LGMEMSZ=25
 @LGMEMSZ.FORMAT=%d
 @$NADDR=(1<<(@$THIS.LGMEMSZ-2))
 @$NBYTES=(1<<(@$THIS.LGMEMSZ))
@@ -107,9 +107,9 @@
 	assign io_ram_data = (ram_drive_data) ? ram_data : 16'bzzzz_zzzz_zzzz_zzzz;
 	reg     [15:0]  r_ram_data_ext_clk;
 	// always @(posedge intermediate_clk_n)
-	always @(posedge clk_50mhz)
+	always @(posedge s_clk)
 		r_ram_data_ext_clk <= io_ram_data;
-	always @(posedge clk_50mhz)
+	always @(posedge s_clk)
 		r_ram_data <= r_ram_data_ext_clk;
 
 @TOP.DEFNS=
@@ -141,13 +141,14 @@ parameter	RDLY = 6;
 	//output reg [15:0] r_ram_data; did not help adding these
 @MAIN.INSERT=
 wbsdram sdrami(i_clk,
+		wb_cyc, (wb_stb)&&(sdram_sel),
 		/* verilator lint_off WIDTH */
-		wb_cyc, wb_stb, wb_we, wb_addr[(@$LGMEMSZ-3):0], wb_data, wb_sel,
+		wb_we, wb_addr[(@$LGMEMSZ-3):0], wb_data, wb_sel,
 		/* verilator lint_off WIDTH */
-			sdram_ack, sdram_stall, sdram_data,
-		o_ram_cs_n, o_ram_cke, o_ram_ras_n,o_ram_cas_n, o_ram_we_n, 
-			o_ram_bs, o_ram_addr,
-			ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
+		sdram_ack, sdram_stall, sdram_data,
+		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n,
+		o_ram_bs, o_ram_addr,
+		ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
 		o_debug);	
 
 @REGS.N=1
