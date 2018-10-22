@@ -1,0 +1,235 @@
+comparing pi@mypi3-1:~/testbuilds/xulalx25soc/rtl/toplevel.v
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/rtl/catzip/toplevel.v
+and
+pi@mypi3-1:~/testbuilds/xulalx25soc/rtl/busmaster.v
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/rtl/catzip/main.v
+
+
+Steps to test adding sdram to catzip
+Step 1
+pi@mypi3-1:~/testbuilds/learning_hdl/MyHDL/sdram $ ./config_catzip_simulation.sh
+
+Steps 2 & 3
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip $ make datestamp
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip $ make autodata
+
+Steps 4, 5, 6, 7, and 8
+
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/rtl/catzip $ make clean
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/rtl/catzip $ make cpudefs.h
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/rtl/catzip $ make design.h
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/rtl/catzip $ make verilated
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/rtl/catzip $ make bin
+yosys -ql simple.log -p synth_ice40 -blif catzip.blif -top toplevel ...
+Warning: Yosys has only limited support for tri-state logic at the moment. (toplevel.v:187)
+Warning: Blocking assignment to memory in line wbsdram.v:248 is handled like a non-blocking assignment.
+Warning: Blocking assignment to memory in line wbsdram.v:249 is handled like a non-blocking assignment.
+Warning: Blocking assignment to memory in line wbsdram.v:250 is handled like a non-blocking assignment.
+Warning: Blocking assignment to memory in line wbsdram.v:251 is handled like a non-blocking assignment.
+Warning: Resizing cell port toplevel.thedesign.r_ram_data from 2 bits to 16 bits.
+Warning: Resizing cell port toplevel.thedesign.ram_data from 11 bits to 16 bits.
+Warning: Resizing cell port toplevel.thedesign.i_gpio from 1 bits to 2 bits.
+Warning: Resizing cell port toplevel.thedesign.o_gpio from 1 bits to 11 bits.
+Warning: Resizing cell port toplevel.thedesign.i_pp_clk from 8 bits to 1 bits.
+Warning: Resizing cell port toplevel.thedesign.i_pp_dir from 8 bits to 1 bits.
+Warning: Resizing cell port toplevel.thedesign.i_pp_data from 1 bits to 8 bits.
+Warning: Resizing cell port toplevel.thedesign.o_pp_data from 1 bits to 8 bits.
+Warning: multiple conflicting drivers for toplevel.\i_pp_dir:
+    port Q[0] of cell $techmap\thedesign.gpioi.$procdff$7689 ($dff)
+    module input i_pp_dir[0]
+Warning: Wire toplevel.\o_ram_clk is used but has no driver.
+Warning: Wire toplevel.\o_ledr is used but has no driver.
+Warning: Wire toplevel.\o_ledg [1] is used but has no driver.
+Warning: Wire toplevel.\o_ledg [0] is used but has no driver.
+Warning: Wire toplevel.\ram_drive_data is used but has no driver.
+Warning: Wire toplevel.\ram_data [15] is used but has no driver.
+Warning: Wire toplevel.\ram_data [14] is used but has no driver.
+Warning: Wire toplevel.\ram_data [13] is used but has no driver.
+Warning: Wire toplevel.\ram_data [12] is used but has no driver.
+Warning: Wire toplevel.\ram_data [11] is used but has no driver.
+Warning: Wire toplevel.\ram_data [10] is used but has no driver.
+Warning: Wire toplevel.\ram_data [9] is used but has no driver.
+Warning: Wire toplevel.\ram_data [8] is used but has no driver.
+Warning: Wire toplevel.\ram_data [7] is used but has no driver.
+Warning: Wire toplevel.\ram_data [6] is used but has no driver.
+Warning: Wire toplevel.\ram_data [5] is used but has no driver.
+Warning: Wire toplevel.\ram_data [4] is used but has no driver.
+Warning: Wire toplevel.\ram_data [3] is used but has no driver.
+Warning: Wire toplevel.\ram_data [2] is used but has no driver.
+Warning: Wire toplevel.\ram_data [1] is used but has no driver.
+Warning: Wire toplevel.\ram_data [0] is used but has no driver.
+Warning: Wire toplevel.\thedesign.hbi_pp.i_pp_data [0] is used but has no driver.
+Warning: Wire toplevel.\hbi_io.i_data [7] is used but has no driver.
+Warning: Wire toplevel.\hbi_io.i_data [6] is used but has no driver.
+Warning: Wire toplevel.\hbi_io.i_data [5] is used but has no driver.
+Warning: Wire toplevel.\hbi_io.i_data [4] is used but has no driver.
+Warning: Wire toplevel.\hbi_io.i_data [3] is used but has no driver.
+Warning: Wire toplevel.\hbi_io.i_data [2] is used but has no driver.
+Warning: Wire toplevel.\hbi_io.i_data [1] is used but has no driver.
+Warning: Wire toplevel.\hbi_io.i_data [0] is used but has no driver.
+ERROR: Conflicting init values for signal 1'x (\thedesign.sdrami.fwd_addr [1] = 1'0, \thedesign.sdrami.fwd_addr [0] = 1'1).
+Makefile:107: recipe for target 'catzip.blif' failed
+make: *** [catzip.blif] Error 1
+
+Steps 9,10, and 11
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/sim/verilated $ make clean
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/sim/verilated $ make
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/sim/verilated $ ./arm-main_tb
+
+Steps 12, 13, and 14
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/sw/host $ make clean
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/sw/host $ make
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/sw/host $ ./test_sim102218.sh 
+00c00010 ( VERSION) : [..."] 20181022
+02000004 (        )-> 55aaaa55
+02000004 (        ) : [U...] 55aa0000
+020ffff8 (        )-> 55aaaa55
+020ffff8 (        ) : [U...] 55aa0000
+02800004 (        )-> 55aaaa55
+02800004 (        ) : [U...] 55aa0000
+028ffff8 (        )-> 55aaaa55
+028ffff8 (        ) : [U...] 55aa0000
+02c00004 (        )-> 55aaaa55
+02c00004 (        ) : [U...] 55aa0000
+02cffff8 (        )-> 55aaaa55
+02cffff8 (        ) : [U...] 55aa0000
+02f00004 (        )-> 55aaaa55
+02f00004 (        ) : [U...] 55aa0000
+02fffff8 (        )-> 55aaaa55
+02fffff8 (        ) : [U...] 55aa0000
+
+
+pi@mypi3-1:~/testbuilds/xulalx25soc/rtl/toplevel.v
+module toplevel(i_clk_12mhz,
+		i_ram_feedback_clk,
+		o_sf_cs_n, o_sd_cs_n, o_spi_sck, o_spi_mosi, i_spi_miso,
+		o_ram_clk, o_ram_cke, o_ram_cs_n, o_ram_ras_n, o_ram_cas_n,
+		o_ram_we_n, o_ram_bs, o_ram_addr, o_ram_udqm, o_ram_ldqm,
+		io_ram_data,
+		i_gpio, o_gpio, o_pwm, i_rx_uart, o_tx_uart);
+	input		i_ram_feedback_clk;
+	// SD RAM
+	output	wire	o_ram_clk, o_ram_cke;
+	output	wire	o_ram_cs_n, o_ram_ras_n, o_ram_cas_n, o_ram_we_n;
+	output	wire	[1:0]	o_ram_bs;
+	output	wire	[12:0]	o_ram_addr;
+	output	wire		o_ram_udqm, o_ram_ldqm;
+	inout	wire	[15:0]	io_ram_data;
+	
+	wire	[15:0]	ram_data;
+	wire		ram_drive_data;
+	reg	[15:0]	r_ram_data;
+
+	busmaster #(24,15,14)
+		wbbus(clk_s, reset_s,
+			// External JTAG bus control
+			rx_stb, rx_data, tx_stb, tx_data, tx_busy,
+			// Board lights and switches ... none
+			// SPI/SD-card flash
+			o_sf_cs_n, o_sd_cs_n, o_spi_sck, o_spi_mosi, i_spi_miso,
+			// SDRAM interface
+			// o_ram_clk,	// SDRAM clock = clk_100mhz_s = clk_s
+			o_ram_cs_n,	// Chip select
+			o_ram_cke,	// Clock enable
+			o_ram_ras_n,	// Row address strobe
+			o_ram_cas_n,	// Column address strobe
+			o_ram_we_n,	// Write enable
+			o_ram_bs,	// Bank select
+			o_ram_addr,	// Address lines
+			ram_drive_data,
+			r_ram_data,	// Data lines (input)
+			ram_data,	// Data lines (output)
+			{ o_ram_udqm, o_ram_ldqm },
+			// GPIO
+			i_gpio, o_gpio, o_pwm, i_rx_uart, o_tx_uart
+		);
+
+	assign io_ram_data = (ram_drive_data) ? ram_data : 16'bzzzz_zzzz_zzzz_zzzz;
+
+	reg	[15:0]	r_ram_data_ext_clk;
+	// always @(posedge intermediate_clk_n)
+	always @(posedge clk_s)
+		r_ram_data_ext_clk <= io_ram_data;
+	always @(posedge clk_s)
+		r_ram_data <= r_ram_data_ext_clk;
+
+assign io_ram_data = (ram_drive_data) ? ram_data : 16'bzzzz_zzzz_zzzz_zzzz;
+
+pi@mypi3-1:~/testbuilds/xulalx25soc/rtl/busmaster.v
+
+module	busmaster(i_clk, i_rst,
+		i_rx_stb, i_rx_data, o_tx_stb, o_tx_data, i_tx_busy,
+		// The SPI Flash lines
+		o_sf_cs_n, o_sd_cs_n, o_spi_sck, o_spi_mosi, i_spi_miso,
+		// The SDRAM lines
+		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n,
+			o_ram_we_n, o_ram_bs, o_ram_addr,
+			o_ram_drive_data, i_ram_data, o_ram_data,
+			o_ram_dqm,
+
+output	wire		o_ram_drive_data;
+
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/rtl/catzip/main.v			
+module	main(i_clk, i_reset,
+
+		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
+			o_ram_bs, o_ram_addr,
+			o_ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
+			o_debug   
+ 	,
+		// GPIO ports
+		i_gpio, o_gpio,
+		// Command and Control port
+		i_pp_clk, i_pp_dir, i_pp_data, o_pp_data, o_pp_clkfb, o_pp_dbg); 
+ 
+output	wire		o_ram_drive_data;
+ 
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/rtl/catzip/toplevel.v
+module	toplevel(i_clk,
+		i_ram_feedback_clk, o_ram_clk, o_ram_cke, o_ram_cs_n, o_ram_ras_n, o_ram_cas_n,
+		o_ram_we_n, o_ram_bs, o_ram_addr, o_ram_udqm, o_ram_ldqm,
+		io_ram_data,
+
+
+wire		ram_drive_data;
+
+output	wire		o_ram_drive_data;
+
+	main	thedesign(s_clk, s_reset,
+		//*********************************************************
+		//This section was missing when the simulation was aborting 
+		//xulalx25soc/rtl/busmaster.v same as main.v in new design
+		//o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n,
+		//o_ram_we_n, o_ram_bs, o_ram_addr,
+		//o_ram_drive_data, i_ram_data, o_ram_data,
+		//o_ram_dqm,
+		//o_ram_drive seems to be the same as ram_drive_data
+		//o_ram_drive_data was added to SIM.TICK and the assert(driv);
+		//sdramsim.cpp restored write
+		//assert(!driv); sdramsim.cpp restored read
+		//*********************************************************
+		
+		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
+			o_ram_bs, o_ram_addr,
+			o_ram_drive_data, i_ram_data, o_ram_data, { o_ram_udqm, o_ram_ldqm },
+		o_debug		
+    ,
+ 
+					
+`ifndef	BYPASS_SDRAM_ACCESS
+	wbsdram	sdram(i_clk,
+		wb_cyc, (wb_stb)&&(sdram_sel),
+			wb_we, wb_addr[22:0], wb_data, wb_sel,
+			sdram_ack, sdram_stall, sdram_data,
+		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n,
+			o_ram_bs, o_ram_addr,
+			o_ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
+		sdram_debug);
+
+xulalx25soc/bench/cpp	
+		m_core->i_ram_data = m_sdram(1,
+				m_core->o_ram_cke, m_core->o_ram_cs_n,
+				m_core->o_ram_ras_n, m_core->o_ram_cas_n,
+				m_core->o_ram_we_n, m_core->o_ram_bs,
+				m_core->o_ram_addr, m_core->o_ram_drive_data,
+				m_core->o_ram_data, m_core->o_ram_dqm);
