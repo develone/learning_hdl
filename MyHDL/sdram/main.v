@@ -79,9 +79,8 @@ module	main(i_clk, i_reset,
 
 		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
 			o_ram_bs, o_ram_addr,
-			ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
-			o_debug
-		//o_debug, r_ram_data, ram_data  did not help adding these   
+			o_ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
+			o_debug,  r_ram_data,  ram_data 
  	,
 		// GPIO ports
 		i_gpio, o_gpio,
@@ -137,14 +136,17 @@ parameter	RDLY = 6;
 				o_ram_ras_n, o_ram_cas_n, o_ram_we_n;
 	output	reg	[1:0]	o_ram_bs;
 	output	reg	[12:0]	o_ram_addr;
-	output	reg		ram_drive_data;
+	 
 	input		[15:0]	i_ram_data;
 	output	reg	[15:0]	o_ram_data;
 	output	reg	[1:0]	o_ram_dqm;
 	output	wire	[31:0]	o_debug;
 	//inout	wire	[15:0]	io_ram_data;
+	output wire [15:0] ram_data;
+	//input wire [15:0] i_ram_data;
 	//output wire [15:0] ram_data; did not help adding these
-	//output reg [15:0] r_ram_data; did not help adding these
+	output reg [15:0] r_ram_data; //did not help adding these
+	output	wire		o_ram_drive_data;
 	input	wire		i_pp_clk, i_pp_dir;
 	input	wire	[7:0]	i_pp_data;
 	output	wire	[7:0]	o_pp_data;
@@ -667,7 +669,7 @@ wbsdram sdrami(i_clk,
 		sdram_ack, sdram_stall, sdram_data,
 		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n,
 		o_ram_bs, o_ram_addr,
-		ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
+		o_ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
 		o_debug);	
 
 `else	// SDRAM_ACCESS

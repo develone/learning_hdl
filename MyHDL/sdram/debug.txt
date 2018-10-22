@@ -1,0 +1,148 @@
+ gdb arm-main_tb 
+GNU gdb (Raspbian 7.12-6) 7.12.0.20161007-git
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "arm-linux-gnueabihf".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from arm-main_tb...done.
+(gdb) break main_tb.cpp:123
+Breakpoint 1 at 0x23534: file main_tb.cpp, line 123.
+(gdb) run
+Starting program: /home/pi/testbuilds/catzip_simulation/catzip/sim/verilated/arm-main_tb 
+
+Breakpoint 1, MAINTB::MAINTB (this=0x7f1c0) at main_tb.cpp:123
+123     m_sdram = new SDRAMSIM[0x00020000]; 
+(gdb) l
+118                     // create a SIM.INIT tag.  That tag's value will be pasted
+119                     // here.
+120                     //
+121                     // From sdram
+122     #ifdef  SDRAM_ACCESS
+123     m_sdram = new SDRAMSIM[0x00020000]; 
+124     #endif // SDRAM_ACCESS
+125                     // From zip
+126                     m_cpu_bombed = 0;
+127                     // From hb
+(gdb) s
+SDRAMSIM::SDRAMSIM (this=0x75718010) at sdramsim.h:29
+29                      m_mem = new short[SDRAMSZB/2]; // 32 MB, or 16 Mshorts
+(gdb) s
+SDRAMSIM::SDRAMSIM (this=0x75718010) at sdramsim.h:31
+31                      m_refresh_time = new unsigned[(1<<13)];
+(gdb) s
+32                      for(int i=0; i<m_nrefresh; i++)
+(gdb) s
+34                      m_refresh_loc = 0;
+(gdb) break sdramsim.h:34
+Breakpoint 2 at 0x235a4: file sdramsim.h, line 34.
+(gdb) info break
+Num     Type           Disp Enb Address    What
+1       breakpoint     keep y   0x00023534 in MAINTB::MAINTB() 
+                                           at main_tb.cpp:123
+        breakpoint already hit 1 time
+2       breakpoint     keep y   0x000235a4 in MAINTB::MAINTB() at sdramsim.h:34
+(gdb) c
+Continuing.
+
+Breakpoint 2, SDRAMSIM::SDRAMSIM (this=0x757180b8) at sdramsim.h:34
+34                      m_refresh_loc = 0;
+(gdb) c
+Continuing.
+
+Breakpoint 2, SDRAMSIM::SDRAMSIM (this=0x75718160) at sdramsim.h:34
+34                      m_refresh_loc = 0;
+(gdb) infor break
+
+(gdb) info break
+Num     Type           Disp Enb Address    What
+1       breakpoint     keep y   0x00023534 in MAINTB::MAINTB() 
+                                           at main_tb.cpp:123
+        breakpoint already hit 1 time
+2       breakpoint     keep y   0x000235a4 in MAINTB::MAINTB() at sdramsim.h:34
+        breakpoint already hit 2 times
+Num     Type           Disp Enb Address    What
+1       breakpoint     keep y   0x00023534 in MAINTB::MAINTB() 
+                                           at main_tb.cpp:123
+        breakpoint already hit 1 time
+2       breakpoint     keep y   0x000235a4 in MAINTB::MAINTB() at sdramsim.h:34
+        breakpoint already hit 7 times
+pi@mypi3-1:~/testbuilds/catzip_simulation/catzip/sim/verilated $ ./arm-main_tb 
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+Aborted
+
+
+(gdb) break sdramsim.h:29
+Breakpoint 1 at 0x23570: file sdramsim.h, line 29.
+(gdb) run
+Starting program: /home/pi/testbuilds/catzip_simulation/catzip/sim/verilated/arm-main_tb 
+
+Breakpoint 1, MAINTB::MAINTB (this=0x7f1c0) at main_tb.cpp:123
+123	m_sdram = new SDRAMSIM[0x00020000]; 
+
+
+Program received signal SIGABRT, Aborted.
+__GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:51
+51	../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
+(gdb) where
+#0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:51
+#1  0x76c6c824 in __GI_abort () at abort.c:89
+#2  0x76e9f060 in __gnu_cxx::__verbose_terminate_handler() ()
+   from /usr/lib/arm-linux-gnueabihf/libstdc++.so.6
+#3  0x76e9cdb0 in ?? () from /usr/lib/arm-linux-gnueabihf/libstdc++.so.6
+#4  0x76e9ce24 in std::terminate() ()
+   from /usr/lib/arm-linux-gnueabihf/libstdc++.so.6
+#5  0x76e9d158 in __cxa_throw ()
+   from /usr/lib/arm-linux-gnueabihf/libstdc++.so.6
+#6  0x76e9d7e8 in operator new(unsigned int) ()
+   from /usr/lib/arm-linux-gnueabihf/libstdc++.so.6
+#7  0x000235f0 in SDRAMSIM::SDRAMSIM (this=0x7571d170) at sdramsim.h:29
+#8  MAINTB::MAINTB (this=0x7f1c0) at main_tb.cpp:123
+#9  0x00022450 in main (argc=140368, argv=0x7effef64) at automaster_tb.cpp:75
+
+
+gdb arm-main_tb 
+GNU gdb (Raspbian 7.12-6) 7.12.0.20161007-git
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "arm-linux-gnueabihf".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from arm-main_tb...done.
+(gdb) run
+Starting program: /home/pi/testbuilds/catzip_simulation/catzip/sim/verilated/arm-main_tb 
+terminate called after throwing an instance of 'std::bad_alloc'
+  what():  std::bad_alloc
+
+Program received signal SIGABRT, Aborted.
+__GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:51
+51	../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
+(gdb) where
+#0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:51
+#1  0x76c6c824 in __GI_abort () at abort.c:89
+#2  0x76e9f060 in __gnu_cxx::__verbose_terminate_handler() () from /usr/lib/arm-linux-gnueabihf/libstdc++.so.6
+#3  0x76e9cdb0 in ?? () from /usr/lib/arm-linux-gnueabihf/libstdc++.so.6
+#4  0x76e9ce24 in std::terminate() () from /usr/lib/arm-linux-gnueabihf/libstdc++.so.6
+#5  0x76e9d158 in __cxa_throw () from /usr/lib/arm-linux-gnueabihf/libstdc++.so.6
+#6  0x76e9d7e8 in operator new(unsigned int) () from /usr/lib/arm-linux-gnueabihf/libstdc++.so.6
+#7  0x0002364c in SDRAMSIM::SDRAMSIM (this=0x759255f8) at sdramsim.h:29
+#8  MAINTB::MAINTB (this=0x7f1c0) at main_tb.cpp:123
+#9  0x00022450 in main (argc=140368, argv=0x7effef34) at automaster_tb.cpp:75
+(gdb) 

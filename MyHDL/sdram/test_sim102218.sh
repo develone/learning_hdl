@@ -1,4 +1,5 @@
 #/bin/bash
+./arm-wbregs version 
 ./arm-wbregs 0x2000004 0x55aaaa55
 ./arm-wbregs 0x2000004
 ./arm-wbregs 0x20ffff8 0x55aaaa55

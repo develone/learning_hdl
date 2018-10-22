@@ -53,7 +53,7 @@
 // so the @TOP.PORTLIST key may be left undefined.
 //
 module	toplevel(i_clk,
-		o_ram_clk, o_ram_cke, o_ram_cs_n, o_ram_ras_n, o_ram_cas_n,
+		i_ram_feedback_clk, o_ram_clk, o_ram_cke, o_ram_cs_n, o_ram_ras_n, o_ram_cas_n,
 		o_ram_we_n, o_ram_bs, o_ram_addr, o_ram_udqm, o_ram_ldqm,
 		io_ram_data,
 		// GPIO wires
@@ -81,19 +81,21 @@ module	toplevel(i_clk,
 	//o_ram_addr,     Address lines
 	//r_ram_data,     Data lines (input)
 	//ram_data,       Data lines (output)
-	
+	input		i_ram_feedback_clk;
 	output	wire	o_ram_clk, o_ram_cke;
 	output	wire	o_ram_cs_n, o_ram_ras_n, o_ram_cas_n, o_ram_we_n;
 	output	wire	[1:0]	o_ram_bs;
 	output	wire	[12:0]	o_ram_addr;
 	output	wire		o_ram_udqm, o_ram_ldqm;
-	wire	[15:0]	ram_data;
 	inout	wire	[15:0]	io_ram_data;
-	wire            ram_drive_data;
-	reg     [15:0]  r_ram_data;
-	//reg	[1:0]	o_ram_dqm; using instead { o_ram_udqm, o_ram_ldqm }
+	wire	[15:0]	ram_data;
+	wire		ram_drive_data;
+	wire		o_ram_drive_data;
+	reg	[15:0]	r_ram_data;
+	 
+	reg	[1:0]	o_ram_dqm; 
+	//using instead { o_ram_udqm, o_ram_ldqm }
 	wire	[31:0]	o_debug;
-	wire            ram_drive_data;
 	
 	// GPIO wires
 	output	wire	[1:0]	o_ledg;
@@ -152,14 +154,14 @@ module	toplevel(i_clk,
 		//o_ram_drive_data, i_ram_data, o_ram_data,
 		//o_ram_dqm,
 		//o_ram_drive seems to be the same as ram_drive_data
-		//ram_drive_data was added to SIM.TICK and the assert(driv);
+		//o_ram_drive_data was added to SIM.TICK and the assert(driv);
 		//sdramsim.cpp restored write
 		//assert(!driv); sdramsim.cpp restored read
 		//*********************************************************
 		
 		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
 			o_ram_bs, o_ram_addr,
-			ram_drive_data, i_ram_data, o_ram_data, { o_ram_udqm, o_ram_ldqm },
+			o_ram_drive_data, i_ram_data, o_ram_data, { o_ram_udqm, o_ram_ldqm },
 		o_debug		
     ,
 		// GPIO wires
