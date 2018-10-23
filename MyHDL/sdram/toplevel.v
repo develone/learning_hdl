@@ -90,7 +90,7 @@ module	toplevel(i_clk,
 	inout	wire	[15:0]	io_ram_data;
 	wire	[15:0]	ram_data;
 	wire		ram_drive_data;
-	wire		o_ram_drive_data;
+	//wire		o_ram_drive_data;
 	reg	[15:0]	r_ram_data;
 	 
 	reg	[1:0]	o_ram_dqm; 
@@ -161,7 +161,7 @@ module	toplevel(i_clk,
 		
 		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
 			o_ram_bs, o_ram_addr,
-			o_ram_drive_data, i_ram_data, o_ram_data, { o_ram_udqm, o_ram_ldqm },
+			ram_drive_data, i_ram_data, o_ram_data, { o_ram_udqm, o_ram_ldqm },
 		o_debug		
     ,
 		// GPIO wires

@@ -68,7 +68,7 @@
 		
 		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
 			o_ram_bs, o_ram_addr,
-			o_ram_drive_data, i_ram_data, o_ram_data, { o_ram_udqm, o_ram_ldqm },
+			ram_drive_data, i_ram_data, o_ram_data, { o_ram_udqm, o_ram_ldqm },
 		o_debug		
     
 @TOP.IODECL=
@@ -90,7 +90,7 @@
 	inout	wire	[15:0]	io_ram_data;
 	wire	[15:0]	ram_data;
 	wire		ram_drive_data;
-	wire		o_ram_drive_data;
+	//wire		o_ram_drive_data;
 	reg	[15:0]	r_ram_data;
 	 
 	reg	[1:0]	o_ram_dqm; 
@@ -120,29 +120,31 @@
 
 		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n, 
 			o_ram_bs, o_ram_addr,
-			o_ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
-			o_debug,  r_ram_data,  ram_data 
+			ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
+			o_debug
  	
 @MAIN.IODECL=
 parameter	RDLY = 6;
 
 	// SDRAM control
 	output	wire		o_ram_cke;
-	output	reg		o_ram_cs_n,
+	output	wire		o_ram_cs_n,
 				o_ram_ras_n, o_ram_cas_n, o_ram_we_n;
-	output	reg	[1:0]	o_ram_bs;
-	output	reg	[12:0]	o_ram_addr;
+	output	wire	[1:0]	o_ram_bs;
+	output	wire	[12:0]	o_ram_addr;
 	 
-	input		[15:0]	i_ram_data;
-	output	reg	[15:0]	o_ram_data;
-	output	reg	[1:0]	o_ram_dqm;
+	input	wire	[15:0]	i_ram_data;
+	output	wire	[15:0]	o_ram_data;
+	output	wire	[1:0]	o_ram_dqm;
 	output	wire	[31:0]	o_debug;
 	//inout	wire	[15:0]	io_ram_data;
-	output wire [15:0] ram_data;
+	//output wire [15:0] ram_data;
 	//input wire [15:0] i_ram_data;
 	//output wire [15:0] ram_data; did not help adding these
-	output reg [15:0] r_ram_data; //did not help adding these
-	output	wire		o_ram_drive_data;
+	//output wire [15:0] r_ram_data; //did not help adding these
+	//output	wire		o_ram_drive_data;
+	output	wire		ram_drive_data;
+	
 @MAIN.INSERT=
 wbsdram sdrami(i_clk,
 		wb_cyc, (wb_stb)&&(sdram_sel),
@@ -152,7 +154,7 @@ wbsdram sdrami(i_clk,
 		sdram_ack, sdram_stall, sdram_data,
 		o_ram_cs_n, o_ram_cke, o_ram_ras_n, o_ram_cas_n, o_ram_we_n,
 		o_ram_bs, o_ram_addr,
-		o_ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
+		ram_drive_data, i_ram_data, o_ram_data, o_ram_dqm,
 		o_debug);	
 
 @REGS.N=1
@@ -193,7 +195,7 @@ _@$(MEM.NAME) = ORIGIN(@$(MEM.NAME))
 	m_core->i_ram_data = (*m_@$(MEM.NAME))(1,m_core->o_ram_cke,
 	m_core->o_ram_cs_n,m_core->o_ram_ras_n,m_core->o_ram_cas_n,
 	m_core->o_ram_we_n,m_core->o_ram_bs,m_core->o_ram_addr,
-	m_core->o_ram_drive_data,m_core->o_ram_data,m_core->o_ram_dqm);
+	m_core->ram_drive_data,m_core->o_ram_data,m_core->o_ram_dqm);
 	
 #endif // @$(ACCESS)		
 @SIM.LOAD=
