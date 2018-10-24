@@ -185,14 +185,8 @@ module	toplevel(i_clk,
 	//
 	ppio #(.W(16))
 		sdramioi(o_ram_we_n, io_ram_data, o_ram_data, i_ram_data);
-	assign io_ram_data = (ram_drive_data) ? ram_data : 16'bzzzz_zzzz_zzzz_zzzz;
-	reg     [15:0]  r_ram_data_ext_clk;
-	// always @(posedge intermediate_clk_n)
-	always @(posedge s_clk)
-		r_ram_data_ext_clk <= io_ram_data;
-	always @(posedge s_clk)
-		r_ram_data <= r_ram_data_ext_clk;
-
+	
+	assign o_ram_clk = clk_50mhz;
 
 	assign	i_gpio = { i_btn };
 	assign	o_ledr = o_gpio[0];

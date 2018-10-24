@@ -119,7 +119,8 @@ module	wbsdram(i_clk,
 	always @(posedge i_clk)
 	begin
 		if (refresh_cmd)
-			refresh_clk <= 10'd625; // Make suitable for 80 MHz clk
+			refresh_clk <= 10'd391; // Make suitable for 50 MHz clk
+			//refresh_clk <= 10'd625; // Make suitable for 80 MHz clk
 		else if (|refresh_clk)
 			refresh_clk <= refresh_clk - 10'h1;
 	end
@@ -179,7 +180,7 @@ module	wbsdram(i_clk,
 	initial	r_pending = 1'b0;
 	reg	[22:5]	fwd_addr;
 	initial	r_addr = 0;
-	initial	fwd_addr = 1;
+	//initial	fwd_addr = 1;
 	always @(posedge i_clk)
 		if (bus_cyc)
 		begin

@@ -159,18 +159,20 @@ set_io o_dbgwires[0] J1	#B5	HDR1-1
 # o_ram_lb	J4	# IO12A
 # o_ram_ub	J3	# IO14A
 
-# SDRAM 10/15/18
+# SDRAM 10/24/18
 #o_ram_clk, o_ram_cke, o_ram_cs_n, o_ram_ras_n, o_ram_cas_n,
 #o_ram_we_n, o_ram_bs, o_ram_addr, o_ram_udqm, o_ram_ldqm,
 #io_ram_data, o_ram_dqm, o_debug
-set_io o_ram_clk
+set_io o_ram_bs[0] H14
+set_io o_ram_bs[1] G13
+set_io i_ram_feedback_clk G16
+set_io o_ram_clk H16
 set_io o_ram_cke G15 -pullup yes
 set_io o_ram_cs_n H13 -pullup yes
 set_io o_ram_ras_n K16
 set_io o_ram_cas_n K15
 set_io o_ram_we_n J14
-set_io o_ram_bs[0]_n H14
-set_io o_ram_bs[1]_n G13
+
 #dqmh J15 dqml J13 
 set_io o_ram_udqm J15
 set_io o_ram_ldqm J13
@@ -190,6 +192,7 @@ set_io o_ram_addr[8] E16
 set_io o_ram_addr[9] F15
 set_io o_ram_addr[10] F14
 set_io o_ram_addr[11] F16
+set_io o_ram_addr[12] G14
 
 #D0 D1 D2 D3 D4 D5 D6 D7 D8 D9 D10 D11 D12 D13 D14 D15 ???? 10/15/18
 #'R14', 'P14', 'M13', 'M14', 0-3 from rhea/rhea/boards/lattice/_catboard.py

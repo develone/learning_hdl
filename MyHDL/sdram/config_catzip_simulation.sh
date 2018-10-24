@@ -9,6 +9,12 @@ cp ~/testbuilds/learning_hdl/MyHDL/sdram/sdramdev.txt \
 diff ~/testbuilds/learning_hdl/MyHDL/sdram/sdramdev.txt \
 ~/testbuilds/catzip_simulation/catzip/auto-data/sdramdev.txt
 
+cp ~/testbuilds/learning_hdl/MyHDL/sdram/catzip.pcf \
+~/testbuilds/catzip_simulation/catzip/rtl/catzip
+
+diff ~/testbuilds/learning_hdl/MyHDL/sdram/catzip.pcf \
+~/testbuilds/catzip_simulation/catzip/rtl/catzip/catzip.pcf
+
 cp ~/testbuilds/learning_hdl/MyHDL/sdram/wbsdram.v \
 ~/testbuilds/catzip_simulation/catzip/rtl/catzip
 
