@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Filename: 	sdramscope.cpp
+// Filename: 	spixscope.cpp
 //
 // Project:	ICO Zip, iCE40 ZipCPU demonsrtation project
 //
@@ -46,63 +46,68 @@
 
 #include "port.h"
 #include "regdefs.h"
-#include "hexbus.h"
 #include "scopecls.h"
 
-#ifdef	R_RAMSCOPE
+#ifdef	R_SPIXSCOPE
 
-#define	WBSCOPE		R_RAMSCOPE
-#define	WBSCOPEDATA	R_RAMSCOPED
+#include "hexbus.h"
+
+#define	WBSCOPE		R_SPIXSCOPE
+#define	WBSCOPEDATA	R_SPIXSCOPED
 
 FPGA	*m_fpga;
+void	closeup(int v) {
+	m_fpga->kill();
+	exit(0);
+}
 
 #define	BIT(V,N)	((V>>N)&1)
 #define	BITV(N)		BIT(val,N)
 
-
-void	usage(void) {
-	printf("USAGE: flashid [-n host] [-p port]\n"
-"\n"
-"\t[-n host]\tAttempt to connect, via TCP/IP, to host named [host].\n"
-"\t\tThe default host is \'%s\'\n"
-"\n"
-"\t-p [port]\tAttempt to connect, via TCP/IP, to port number [port].\n"
-"\t\tThe default port is \'%d\'\n"
-"\n", FPGAHOST, FPGAPORT);
-}
-
-class	SDRAMSCOPE : public SCOPE {
+class	SPIXSCOPE : public SCOPE {
 public:
-	SDRAMSCOPE(FPGA *fpga, unsigned addr, bool vecread)
+	SPIXSCOPE(FPGA *fpga, unsigned addr, bool vecread)
 		: SCOPE(fpga, addr, false, false) {};
-	~SDRAMSCOPE(void) {}
+	~SPIXSCOPE(void) {}
 	virtual	void	decode(DEVBUS::BUSW val) const {
-		int	cyc, stb, we, stall, ack,
-			cen, oen, wen, sel, addr, data;
+		// int	trig;
+		int	cyc, stb, cfg, wbwe, stall, ack, idata, odata,
+			csn, sck, mosi, miso;
 
 		// trig  = BITV(31);
 		cyc   = BITV(30);
 		stb   = BITV(29);
-		we    = BITV(28);
-		stall = BITV(27);
-		ack   = BITV(26);
-		cen   = BITV(25);
-		oen   = BITV(24);
-		wen   = BITV(23);
-		sel   = (val >> 21) & 0x03;
-		addr  = (val >> 16) & 0x01f;
-		data  = val & 0x0ffff;
+		cfg   = BITV(28);
+		wbwe  = BITV(27);
+		stall = BITV(26);
+		ack   = BITV(25);
+		idata = (val>>16)&0x1f;
+		odata = (val>> 7)&0x1f;
+		csn   = BITV(3);
+		sck   = BITV(2);
+		mosi  = BITV(1);
+		miso  = BITV(0);
 
-		printf("WB[%s%s%s -> %s%s] ",
-			(cyc)?"CYC":"   ", (stb)?"STB":"   ",
-			(we)?"WE":"  ", (ack)?"ACK":"   ",
-			(stall) ? "STALL":"     ");
-		printf("SDRAM[%s%s%s/%s%s @[%x] %s %04x\n",
-			(cen)?"  ":"CE", (oen)?"  ":"OE", (wen)?"  ":"WE",
-			(sel&2)?"  ":"UB", (sel&1)?"  ":"LB", addr,
-			(cen==0) ? ((wen) ? "->" : "<-") : "  ", data);
+		printf("WB[%s%s%s%s,%03x -> %s%s/%03x] ",
+			(cyc)?"CYC":"   ", (stb)?"STB":"   ", (cfg)?"CFG":"   ",
+			(wbwe)?"WE":"  ", (idata), (ack)?"ACK":"   ",
+			(stall) ? "STALL":"     ", (odata));
+		printf("SPI[%s%s %d-%d]\n",
+			(csn)?"   ":"CSN", (sck)?"   ":"SCK",
+			(mosi), (miso));
 	}
 };
+
+void	usage(void) {
+	printf("USAGE: ${ARCH}-spixscope [-n host] [-p port]\n"
+"\n"
+"\tQueries the scope focused on flash interactions.  The scope is assumed\n"
+"\tavailable via a debugging bus at the SPIXSCOPE address (0x%08x).\n"
+"\tThe debugging bus is assumed to be running on the given host, if\n"
+"\tprovided, or %s otherwise.  Likewise if the port is given, it describes\n"
+"\tthe TCP/IP port for the connection.  If not given, %d is assumed as a\n"
+"\tdefault.\n", R_SPIXSCOPE, FPGAHOST, FPGAPORT);
+}
 
 int main(int argc, char **argv) {
 	const char *host = FPGAHOST;
@@ -141,20 +146,20 @@ int main(int argc, char **argv) {
 
 	m_fpga = new FPGA(new NETCOMMS(host, port));
 
-	SDRAMSCOPE *scope = new SDRAMSCOPE(m_fpga, WBSCOPE, false);
+	SPIXSCOPE *scope = new SPIXSCOPE(m_fpga, WBSCOPE, false);
 	if (!scope->ready()) {
 		printf("Scope is not yet ready:\n");
 		scope->decode_control();
 	} else {
 		scope->print();
-		scope->writevcd("sdramscope.vcd");
+		scope->writevcd("spixscope.vcd");
 	}
 	delete	m_fpga;
 }
-#else
 
+#else // SPIXSCOPE
 int main(int argc, char **argv) {
-	fprintf(stderr, "ERR: Design had no SDRAM scope when this was built\n");
+	fprintf(stderr, "SPI Xpress scope not built, rebuild project with SPIX scope enabled to use this.\n");
 	exit(EXIT_FAILURE);
 }
 #endif

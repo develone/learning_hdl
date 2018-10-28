@@ -1,10 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Filename: 	sdramscope.cpp
+// Filename:	flashid.cpp
 //
 // Project:	ICO Zip, iCE40 ZipCPU demonsrtation project
 //
-// Purpose:	
+// Purpose:	Read the ID from the flash as a test of whether or not the
+//		SPIXPRESS controller is working or not.
+//
 //
 // Creator:	Dan Gisselquist, Ph.D.
 //		Gisselquist Technology, LLC
@@ -47,18 +49,12 @@
 #include "port.h"
 #include "regdefs.h"
 #include "hexbus.h"
-#include "scopecls.h"
-
-#ifdef	R_RAMSCOPE
-
-#define	WBSCOPE		R_RAMSCOPE
-#define	WBSCOPEDATA	R_RAMSCOPED
 
 FPGA	*m_fpga;
-
-#define	BIT(V,N)	((V>>N)&1)
-#define	BITV(N)		BIT(val,N)
-
+void	closeup(int v) {
+	m_fpga->kill();
+	exit(0);
+}
 
 void	usage(void) {
 	printf("USAGE: flashid [-n host] [-p port]\n"
@@ -71,40 +67,8 @@ void	usage(void) {
 "\n", FPGAHOST, FPGAPORT);
 }
 
-class	SDRAMSCOPE : public SCOPE {
-public:
-	SDRAMSCOPE(FPGA *fpga, unsigned addr, bool vecread)
-		: SCOPE(fpga, addr, false, false) {};
-	~SDRAMSCOPE(void) {}
-	virtual	void	decode(DEVBUS::BUSW val) const {
-		int	cyc, stb, we, stall, ack,
-			cen, oen, wen, sel, addr, data;
-
-		// trig  = BITV(31);
-		cyc   = BITV(30);
-		stb   = BITV(29);
-		we    = BITV(28);
-		stall = BITV(27);
-		ack   = BITV(26);
-		cen   = BITV(25);
-		oen   = BITV(24);
-		wen   = BITV(23);
-		sel   = (val >> 21) & 0x03;
-		addr  = (val >> 16) & 0x01f;
-		data  = val & 0x0ffff;
-
-		printf("WB[%s%s%s -> %s%s] ",
-			(cyc)?"CYC":"   ", (stb)?"STB":"   ",
-			(we)?"WE":"  ", (ack)?"ACK":"   ",
-			(stall) ? "STALL":"     ");
-		printf("SDRAM[%s%s%s/%s%s @[%x] %s %04x\n",
-			(cen)?"  ":"CE", (oen)?"  ":"OE", (wen)?"  ":"WE",
-			(sel&2)?"  ":"UB", (sel&1)?"  ":"LB", addr,
-			(cen==0) ? ((wen) ? "->" : "<-") : "  ", data);
-	}
-};
-
 int main(int argc, char **argv) {
+#ifdef	R_FLASHCFG
 	const char *host = FPGAHOST;
 	int	port=FPGAPORT;
 
@@ -141,20 +105,29 @@ int main(int argc, char **argv) {
 
 	m_fpga = new FPGA(new NETCOMMS(host, port));
 
-	SDRAMSCOPE *scope = new SDRAMSCOPE(m_fpga, WBSCOPE, false);
-	if (!scope->ready()) {
-		printf("Scope is not yet ready:\n");
-		scope->decode_control();
-	} else {
-		scope->print();
-		scope->writevcd("sdramscope.vcd");
-	}
-	delete	m_fpga;
-}
-#else
+	signal(SIGSTOP, closeup);
+	signal(SIGHUP, closeup);
 
-int main(int argc, char **argv) {
-	fprintf(stderr, "ERR: Design had no SDRAM scope when this was built\n");
-	exit(EXIT_FAILURE);
-}
+	// Make sure we start with the flash in idle
+	m_fpga->writeio(R_FLASHCFG, 0x100);
+#ifdef	R_SPIXSCOPE
+	m_fpga->writeio(R_SPIXSCOPE, 124);
 #endif
+	m_fpga->writeio(R_FLASHCFG, 0x09f);
+	m_fpga->writeio(R_FLASHCFG, 0x000);
+	printf("ID:");
+	for(int i=0; i<12; i++) {
+		unsigned	id;
+		id = m_fpga->readio(R_FLASHCFG);
+		printf("%c%02x", (i==0)?' ':':', id&0x0ff);
+		m_fpga->writeio(R_FLASHCFG, 0x000);
+	} printf("\n");
+	m_fpga->writeio(R_FLASHCFG, 0x100);
+
+
+	delete	m_fpga;
+#else
+	printf("ERR: NO FLASH CONFIGURATION REGISTER DEFINED!\n");
+#endif
+}
+

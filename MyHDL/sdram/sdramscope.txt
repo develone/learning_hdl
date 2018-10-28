@@ -1,10 +1,10 @@
 ################################################################################
 ##
-## Filename: 	sramscope.txt
+## Filename: 	sdramscope.txt
 ##
 ## Project:	ICO Zip, iCE40 ZipCPU demonsrtation project
 ##
-## Purpose:	Provides a scope for testing the SRAM driver on the ICO board.
+## Purpose:	Provides a scope for testing the SDRAM driver on the CAT board.
 ##
 ## Creator:	Dan Gisselquist, Ph.D.
 ##		Gisselquist Technology, LLC
@@ -35,26 +35,26 @@
 ################################################################################
 ##
 ##
-@PREFIX=sramscope
+@PREFIX=sdramscope
 @$NADDR=2
-@ACCESS= SRAM_SCOPE
-@DEPENDS= SRAM_ACCESS
+@ACCESS= SDRAM_SCOPE
+@DEPENDS= SDRAM_ACCESS
 @SLAVE.TYPE=OTHER
 @SLAVE.BUS=wb
 @MAIN.INSERT=
-	wire	[31:0]	sram_debug;
-	wire		sramscope_int;
+	wire	[31:0]	sdram_debug;
+	wire		sdramscope_int;
 
-	assign	sram_debug = { (!o_ram_ce_n),
-			wb_cyc, (wb_stb)&&(sram_sel), wb_we,
-				sram_stall,sram_ack,
-				o_ram_ce_n, o_ram_oe_n, o_ram_we_n, o_ram_sel,
+	assign	sdram_debug = { (!o_ram_cs_n),
+			wb_cyc, (wb_stb)&&(sdram_sel), wb_we,
+				sdram_stall,sdram_ack,
+				o_ram_cs_n, o_ram_cke, o_ram_we_n, o_ram_ras_n,
 				o_ram_addr[4:0],
-				(!o_ram_oe_n) ? i_ram_data[15:0]
+				(ram_drive_data) ? i_ram_data[15:0]
 						: o_ram_data[15:0]
 				};
 	wbscope #(.LGMEM(4), .SYNCHRONOUS(1), .HOLDOFFBITS(4))
-		@$(PREFIX)i(i_clk, 1'b1, (!o_ram_ce_n), sram_debug,
+		@$(PREFIX)i(i_clk, 1'b1, (!o_ram_cs_n), sdram_debug,
 			i_clk, wb_cyc, (wb_stb)&&(@$(PREFIX)_sel),
 			wb_we, wb_addr[0], wb_data,
 			@$(PREFIX)_ack, @$(PREFIX)_stall, @$(PREFIX)_data,
