@@ -1,0 +1,76 @@
+vidal@ws009:~/xula102818$ xsload -h
+usage: xsload [-h] [--fpga FILE.BIT] [--flash FILE.HEX] [--ram FILE.HEX]
+              [-u LOWER UPPER] [--usb {0}]
+              [-b {xula-50,xula-200,xula2-lx9,xula2-lx25}] [-v]
+
+Program a bitstream file into the FPGA on an XESS board.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --fpga FILE.BIT       The name of the bitstream file to load into the FPGA.
+  --flash FILE.HEX      The name of the file to down/upload to/from the serial
+                        configuration flash.
+  --ram FILE.HEX        The name of the file to down/upload to/from the RAM.
+  -u LOWER UPPER, --upload LOWER UPPER
+                        Upload from RAM or flash the data between the lower
+                        and upper addresses.
+  --usb {0}             The USB port number for the XESS board. If you only
+                        have one board, then use 0.
+  -b {xula-50,xula-200,xula2-lx9,xula2-lx25}, --board {xula-50,xula-200,xula2-lx9,xula2-lx25}
+  -v, --version         Print the version number of this program and exit.
+
+vidal@ws009:~$ xstest -h
+usage: xstest [-h] [-u {0}] [-b {xula-50,xula-200,xula2-lx9,xula2-lx25}] [-m]
+ qqq             [-v]
+
+Run self-test on an XESS board.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -u {0}, --usb {0}     The USB port number for the XESS board. If you only
+                        have one board, then use 0.
+  -b {xula-50,xula-200,xula2-lx9,xula2-lx25}, --board {xula-50,xula-200,xula2-lx9,xula2-lx25}
+  -m, --multiple        Run the self-test each time a board is detected on the
+                        USB port.
+  -v, --version         Print the version number of this program and exit.
+vidal@ws009:~$ xstest -u 0 -b xula2-lx9
+Success: XuLA2-LX9 passed diagnostic test!
+
+vidal@ws009:~$ cd /opt/Xilinx/14.6/ISE_DS/
+vidal@ws009:/opt/Xilinx/14.6/ISE_DS$ . settings64.sh
+vidal@ws009:/opt/Xilinx/14.6/ISE_DS$ ise
+/home/vidal/wkg/XULALX25SOC_GITHUB/uart_rpi2B
+-rw-rw-r-- 1 vidal vidal 340977 Dec 16  2016 toplevel.bit
+vidal@ws009:~/wkg/XULALX25SOC_GITHUB/uart_rpi2B$ md5sum toplevel.bit 
+713fafce61c6ca686f757a8bcab84844  toplevel.bit
+vidal@ws009:~/xula102818/ubuntu12.04$ xsload --usb 0 --fpga toplevel.bit 
+Success: Bitstream in toplevel.bit downloaded to FPGA on XuLA2-LX9!
+./wbregs version
+00000101 ( VERSION) : [....] 20161216
+vidal@ws009:~/wkg/XULALX25SOC_GITHUB/xulalx25soc/sw$ ./wbregs 0x800000 0x55aaa5500800000 (   SDRAM)-> 055aaa55
+vidal@ws009:~/wkg/XULALX25SOC_GITHUB/xulalx25soc/sw$ ./wbregs 0x800000 
+00800000 (   SDRAM) : [.Z.U] 055aaa55
+/home/vidal/XSTOOLs
+commit 6ced637cc8ff5ff8fa73b6d3cbf8cbb8276eb05f
+Author: Dave Vandenbout <devb@xess.com>
+Date:   Sat Jun 6 01:48:38 2015 -0400
+**********************************************************************************
+Testing using the toplevel.bit program win8
+vidal@ws009:~/xula102818/ubuntu12.04$ xsload --usb 0 --fpga ~/testbuilds/learning_hdl/MyHDL/sdram/toplevel.bit 
+Success: Bitstream in /home/vidal/testbuilds/learning_hdl/MyHDL/sdram/toplevel.bit downloaded to FPGA on XuLA2-LX9!
+vidal@ws009:~/testbuilds/ws010/xulalx25soc/sw$ ./wbregs version
+00000404 ( VERSION) : [....] 20181019
+vidal@ws009:~/testbuilds/ws010/xulalx25soc/sw$ ./wbsettime 
+Sleeping for 0 seconds, so as to set time at the top of the minute
+Time set to   052500
+Date set to 20181029
+(Now reads 20181029)
+vidal@ws009:~/testbuilds/ws010/xulalx25soc/sw$ ./wbregs time
+00000440 (   CLOCK) : [..%#] 00052523
+vidal@ws009:~/testbuilds/ws010/xulalx25soc/sw$ ./wbregs date
+00000414 (    DATE) : [...)] 20181029
+
+
+
+
+    Corrected license classifier.
