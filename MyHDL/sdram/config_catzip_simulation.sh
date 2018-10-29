@@ -57,7 +57,7 @@ diff ~/testbuilds/learning_hdl/MyHDL/sdram/Makefile_verilated \
 #modifications 
 #hexbus.cpp hexbus.h Makefile_sw_host Makefile_autodata
 #new files
-#sdramscope.txt sdramscope.cpp scopecls.h flashid.cpp spixscope.cpp
+#sdramscope.txt sdramscope.cpp scopecls.h scopecls.cpp flashid.cpp spixscope.cpp
 #
 
 cp ~/testbuilds/learning_hdl/MyHDL/sdram/sdramscope.txt \
@@ -84,6 +84,12 @@ cp ~/testbuilds/learning_hdl/MyHDL/sdram/scopecls.h \
 
 diff ~/testbuilds/learning_hdl/MyHDL/sdram/scopecls.h \
 ~/testbuilds/catzip_simulation/catzip/sw/host/scopecls.h
+
+cp ~/testbuilds/learning_hdl/MyHDL/sdram/scopecls.cpp \
+~/testbuilds/catzip_simulation/catzip/sw/host/
+
+diff ~/testbuilds/learning_hdl/MyHDL/sdram/scopecls.cpp \
+~/testbuilds/catzip_simulation/catzip/sw/host/scopecls.cpp
 
 cp ~/testbuilds/learning_hdl/MyHDL/sdram/flashid.cpp \
 ~/testbuilds/catzip_simulation/catzip/sw/host/

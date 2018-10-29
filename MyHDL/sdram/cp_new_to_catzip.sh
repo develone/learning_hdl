@@ -17,6 +17,8 @@ cp ../../../../learning_hdl/MyHDL/sdram/sdramscope.cpp .
 cp ../../../../learning_hdl/MyHDL/sdram/scopecls.h .
 cp ../../../../learning_hdl/MyHDL/sdram/flashid.cpp .
 cp ../../../../learning_hdl/MyHDL/sdram/spixscope.cpp .
+cp ../../../../learning_hdl/MyHDL/sdram/scopecls.cpp .
+cp ../../../../learning_hdl/MyHDL/sdram/scopecls.h .
 cp ../../../../learning_hdl/MyHDL/sdram/hexbus.cpp .
 cp ../../../../learning_hdl/MyHDL/sdram/hexbus.h .
 cp ../../../../learning_hdl/MyHDL/sdram/test_sim102218.sh .
@@ -30,5 +32,7 @@ git add sw/host/flashid.cpp
 git add sw/host/scopecls.h
 git add sw/host/sdramscope.cpp
 git add sw/host/spixscope.cpp
+git add sw/host/scopecls.cpp
+git add sw/host/scopecls.h
 git add sw/host/test_sim102218.sh
 

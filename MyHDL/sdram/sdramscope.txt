@@ -69,7 +69,7 @@
 #
 @PREFIX=externalscope
 @TOP.PORTLIST=
-	o_dbgwires
+	//o_dbgwires
 @TOP.IODECL=
 	output	wire	[7:0]	o_dbgwires;
 @TOP.INSERT=

@@ -2,7 +2,7 @@
 ##
 ## Filename:	sw/host/Makefile
 ##
-## Project:	ICO Zip, iCE40 ZipCPU demonsrtation project
+## Project:	CAT Zip, iCE40 ZipCPU demonsrtation project
 ##
 ## Purpose:	
 ## Targets:	
@@ -69,7 +69,8 @@ SOURCES := wbregs.cpp netpport.cpp flashid.cpp flashdrvr.cpp $(BUSSRCS) $(SCOPES
 HEADERS := llcomms.h port.h hexbus.h devbus.h
 OBJECTS := $(addprefix $(OBJDIR)/,$(subst .cpp,.o,$(SOURCES)))
 BUSOBJS := $(addprefix $(OBJDIR)/,$(subst .cpp,.o,$(BUSSRCS)))
-CFLAGS := -g -Wall -I. -I../../rtl/icozip
+CFLAGS := -g -Wall -I. -I../../rtl/catzip
+
 LIBS :=
 SUBMAKE := $(MAKE) --no-print-directory
 
