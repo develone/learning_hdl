@@ -1,2 +1,0 @@
-read_verilog uart_tx.v
-synth_ice40
