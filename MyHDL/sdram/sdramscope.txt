@@ -45,16 +45,16 @@
 	wire	[31:0]	sdram_debug;
 	wire		sdramscope_int;
 
-	assign	sdram_debug = { (!o_ram_ce_n),
+	assign	sdram_debug = { (!o_ram_cs_n),
 			wb_cyc, (wb_stb)&&(sdram_sel), wb_we,
 				sdram_stall,sdram_ack,
-				o_ram_ce_n, o_ram_oe_n, o_ram_we_n, o_ram_sel,
+				o_ram_cs_n, o_ram_ras_n, o_ram_we_n, o_ram_cas_n,
 				o_ram_addr[4:0],
-				(!o_ram_oe_n) ? i_ram_data[15:0]
+				(!o_ram_ras_n) ? i_ram_data[15:0]
 						: o_ram_data[15:0]
 				};
 	wbscope #(.LGMEM(4), .SYNCHRONOUS(1), .HOLDOFFBITS(4))
-		@$(PREFIX)i(i_clk, 1'b1, (!o_ram_ce_n), sdram_debug,
+		@$(PREFIX)i(i_clk, 1'b1, (!o_ram_cs_n), sdram_debug,
 			i_clk, wb_cyc, (wb_stb)&&(@$(PREFIX)_sel),
 			wb_we, wb_addr[0], wb_data,
 			@$(PREFIX)_ack, @$(PREFIX)_stall, @$(PREFIX)_data,
@@ -73,6 +73,6 @@
 @TOP.IODECL=
 	output	wire	[7:0]	o_dbgwires_scope;
 @TOP.INSERT=
-	assign	o_dbgwires_scope[7:3] = { o_ram_ce_n, o_ram_oe_n, o_ram_we_n,
-					o_ram_sel };
+	assign	o_dbgwires_scope[7:3] = { o_ram_cs_n, o_ram_ras_n, o_ram_we_n,
+					o_ram_cas_n };
 	assign	o_dbgwires_scope[2:0] = (o_ram_we_n)? i_ram_data[2:0] : o_ram_data[2:0];
