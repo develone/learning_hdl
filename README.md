@@ -32,15 +32,16 @@
       - ISE
       - Vivado
     - RPi3B+
-      - Software versions as 08/12/18
-      - MyHDL 160719dd
+      - Software versions as 11/13/18
+      - MyHDL 49e90cd21
       - yosys e275692e
       - icestorm 8cac6c58
       - arachne-pnr 5d830dd9
       - icozip 9dcbacfe
       - autofpga 2f443503
       - zipcpu ab82a886
-      - verllator f0ed4346
+      - verllator c8e437c4
+      - wavedrom a867a8df
 	
 
 .
@@ -61,3 +62,6 @@
     - yosys
     - icestorm 
     - arachne-pnr
+* Wavedrom 
+    - Signal Editor 
+
